@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>House & Flats | Backoffice privado</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>.admin-wrap{min-height:100vh;padding:42px clamp(18px,5vw,80px);background:#fffaf6}.admin-login,.admin-dashboard{max-width:1180px;margin:auto}.hidden{display:none}.admin-top{display:flex;justify-content:space-between;gap:18px;align-items:center;margin-bottom:26px}.metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:22px}.metric{background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:0 14px 44px rgba(65,38,24,.08)}.metric strong{font-size:34px;display:block}.lead-table{background:#fff;border:1px solid var(--line);border-radius:26px;overflow:hidden;box-shadow:var(--shadow)}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:16px;border-bottom:1px solid var(--line);font-size:14px}th{background:#fff1e8}.status{background:#fff1e8;color:var(--orange);border-radius:999px;padding:7px 9px;font-weight:900}.login-card{background:#fff;border:1px solid var(--line);border-radius:28px;padding:28px;box-shadow:var(--shadow);max-width:480px;margin:80px auto}@media(max-width:800px){.metric-grid{grid-template-columns:1fr 1fr}.lead-table{overflow-x:auto}.admin-top{flex-direction:column;align-items:flex-start}}@media(max-width:520px){.metric-grid{grid-template-columns:1fr}}</style>
+</head>
+<body>
+  <main class="admin-wrap">
+    <section class="admin-login" id="loginBox">
+      <div class="login-card">
+        <p class="eyebrow">Acceso interno</p>
+        <h1 style="font-size:42px">House & Flats Backoffice</h1>
+        <p class="hero-text">Panel escondido para presentación. En producción debe protegerse con Supabase Auth y roles.</p>
+        <label>Email<input id="email" value="demo@houseandflats.com"></label>
+        <label>Password<input id="password" type="password" value="Demo123!"></label>
+        <button class="btn btn-primary" id="loginBtn" style="width:100%;margin-top:18px">Entrar</button>
+        <p class="meta" id="loginError"></p>
+      </div>
+    </section>
+    <section class="admin-dashboard hidden" id="dashboard">
+      <div class="admin-top">
+        <div><p class="eyebrow">Sistema interno</p><h1 style="font-size:48px">Leads y recomendaciones</h1></div>
+        <a class="btn btn-ghost" href="index.html">Volver a la landing</a>
+      </div>
+      <div class="metric-grid">
+        <div class="metric"><strong id="mLeads">0</strong><span>solicitudes recibidas</span></div>
+        <div class="metric"><strong id="mUrgent">0</strong><span>leads urgentes</span></div>
+        <div class="metric"><strong id="mBudget">0</strong><span>presupuesto promedio</span></div>
+        <div class="metric"><strong>Santiago</strong><span>ciudad con más demanda</span></div>
+      </div>
+      <div class="lead-table">
+        <table>
+          <thead><tr><th>Nombre</th><th>WhatsApp</th><th>Ciudad</th><th>Presupuesto</th><th>Perfil</th><th>Estado</th><th>Acción</th></tr></thead>
+          <tbody id="leadRows"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <script>
+    const loginBtn = document.getElementById('loginBtn');
+    loginBtn.onclick = () => {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      if(email === 'demo@houseandflats.com' && password === 'Demo123!'){
+        document.getElementById('loginBox').classList.add('hidden');
+        document.getElementById('dashboard').classList.remove('hidden');
+        renderAdmin();
+      } else { document.getElementById('loginError').textContent = 'Acceso no autorizado'; }
+    }
+    function renderAdmin(){
+      const leads = JSON.parse(localStorage.getItem('hf_leads')||'[]');
+      document.getElementById('mLeads').textContent = leads.length;
+      document.getElementById('mUrgent').textContent = leads.filter(l=>(l.urgency||'').toLowerCase().includes('urgente')).length;
+      const avg = leads.length ? Math.round(leads.reduce((s,l)=>s+Number(l.budgetMax||0),0)/leads.length) : 0;
+      document.getElementById('mBudget').textContent = avg ? '$'+avg : '$0';
+      document.getElementById('leadRows').innerHTML = leads.length ? leads.map(l=>`<tr><td>${l.fullName||'-'}</td><td>${l.whatsapp||'-'}</td><td>${l.destinationCity||'-'}</td><td>${l.currency||''} ${l.budgetMax||'-'}</td><td>${l.profileType||'-'}</td><td><span class="status">${l.status||'Nuevo'}</span></td><td><a class="btn btn-primary" target="_blank" href="https://wa.me/${(l.whatsapp||'').replace(/\D/g,'')}?text=${encodeURIComponent('Hola '+(l.fullName||'')+', recibimos tu solicitud en House & Flats y tenemos opciones para ti.')}">WhatsApp</a></td></tr>`).join('') : `<tr><td colspan="7">Aún no hay solicitudes. Completa el formulario público para crear un lead demo.</td></tr>`;
+    }
+  </script>
+</body>
+</html>

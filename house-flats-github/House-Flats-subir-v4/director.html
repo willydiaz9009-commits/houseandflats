@@ -1,0 +1,1335 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Panel del Director · House &amp; Flats (interno)</title>
+<!-- Reutilizamos la base de marca del sitio -->
+<link rel="stylesheet" href="styles.css" />
+<style>
+/* ===== Panel del Director — estilos propios (premium, naranja de marca) ===== */
+:root{
+  --hf-orange:#e8642a;          /* acento solicitado */
+  --hf-orange-2:#ff8a3d;        /* naranja del sitio */
+  --hf-green:#15a85f;
+  --wa:#25D366;
+  --hf-ink:#17110f;
+  --hf-mut:#6f625e;
+  --hf-line:#eadbd1;
+  --hf-paper:#fffaf6;
+  --hf-cream:#fff1e8;
+  --ok:#15a85f; --warn:#e8a02a; --bad:#d8442f;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--hf-ink);background:linear-gradient(180deg,#fffaf6 0,#fff 55%,#fff7f0 100%)}
+a{color:inherit;text-decoration:none}
+.dz-hidden{display:none!important}
+
+/* Banda interna superior */
+.dz-banner{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:#17110f;color:#fff;padding:11px clamp(16px,4vw,46px);font-size:13.5px;font-weight:700}
+.dz-banner .dz-dot{width:9px;height:9px;border-radius:50%;background:var(--hf-orange);box-shadow:0 0 0 4px rgba(232,100,42,.25)}
+.dz-banner small{color:#d8c9c0;font-weight:600}
+
+/* Header del panel */
+.dz-head{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;padding:22px clamp(16px,4vw,46px) 6px}
+.dz-brand{display:flex;align-items:center;gap:12px}
+.dz-mark{background:var(--hf-orange);color:#fff;font-weight:900;border-radius:14px;padding:10px 11px;letter-spacing:-.02em}
+.dz-brand h1{font-size:clamp(24px,3.4vw,34px);margin:0;letter-spacing:-.02em}
+.dz-brand p{margin:2px 0 0;color:var(--hf-mut);font-size:13.5px;font-weight:600}
+.dz-head-actions{display:flex;gap:10px;flex-wrap:wrap}
+
+/* Navegación por anclas (pestañas) */
+.dz-nav{position:sticky;top:0;z-index:40;display:flex;gap:8px;flex-wrap:wrap;padding:12px clamp(16px,4vw,46px);background:rgba(255,250,246,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--hf-line)}
+.dz-nav a{font-size:13px;font-weight:800;color:var(--hf-mut);border:1px solid var(--hf-line);background:#fff;border-radius:999px;padding:9px 14px;transition:.18s}
+.dz-nav a:hover{color:var(--hf-orange);border-color:var(--hf-orange)}
+
+.dz-wrap{padding:18px clamp(16px,4vw,46px) 80px;max-width:1320px;margin:0 auto}
+.dz-section{margin:34px 0 0;scroll-margin-top:74px}
+.dz-section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.dz-section-head h2{font-size:clamp(21px,2.6vw,28px);margin:0;letter-spacing:-.01em}
+.dz-section-head .dz-eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:11px;font-weight:900;color:var(--hf-orange);margin:0 0 4px}
+.dz-section-head p.dz-sub{margin:6px 0 0;color:var(--hf-mut);font-size:14px;max-width:680px}
+
+/* KPI cards */
+.dz-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.kpi{background:#fff;border:1px solid var(--hf-line);border-radius:20px;padding:18px 18px 16px;box-shadow:0 14px 40px rgba(65,38,24,.07);position:relative;overflow:hidden}
+.kpi:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--hf-orange)}
+.kpi.k-green:before{background:var(--hf-green)} .kpi.k-warn:before{background:var(--warn)} .kpi.k-bad:before{background:var(--bad)} .kpi.k-ink:before{background:#17110f}
+.kpi .kpi-label{font-size:12.5px;color:var(--hf-mut);font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+.kpi .kpi-num{font-size:34px;font-weight:950;line-height:1.05;margin:8px 0 2px;letter-spacing:-.02em}
+.kpi .kpi-foot{font-size:12.5px;color:var(--hf-mut);font-weight:600}
+.kpi .kpi-foot b{color:var(--hf-ink)}
+
+/* Tarjetas/paneles */
+.dz-panel{background:#fff;border:1px solid var(--hf-line);border-radius:22px;box-shadow:0 14px 44px rgba(65,38,24,.06);overflow:hidden}
+.dz-panel-pad{padding:16px}
+.dz-toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:14px 16px;border-bottom:1px solid var(--hf-line);background:#fffdfb}
+.dz-toolbar .grow{flex:1 1 240px}
+.dz-search{position:relative;flex:1 1 320px;min-width:220px}
+.dz-search input{width:100%;border:1px solid var(--hf-line);border-radius:14px;padding:12px 14px 12px 38px;font:inherit;outline:none;background:#fff}
+.dz-search input:focus{border-color:var(--hf-orange);box-shadow:0 0 0 4px rgba(232,100,42,.12)}
+.dz-search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);opacity:.5}
+
+/* Segmented toggle */
+.dz-seg{display:inline-flex;border:1px solid var(--hf-line);border-radius:999px;background:#fff;overflow:hidden}
+.dz-seg button{border:0;background:transparent;padding:10px 14px;font:inherit;font-weight:800;font-size:13px;color:var(--hf-mut);cursor:pointer}
+.dz-seg button.on{background:var(--hf-orange);color:#fff}
+
+/* Botones */
+.dz-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border-radius:999px;font-weight:800;font-size:13px;padding:10px 15px;border:1px solid transparent;cursor:pointer;transition:.18s;font-family:inherit}
+.dz-btn:hover{transform:translateY(-1px)}
+.dz-btn-primary{background:var(--hf-orange);color:#fff;box-shadow:0 10px 26px rgba(232,100,42,.25)}
+.dz-btn-ghost{background:#fff;color:var(--hf-ink);border-color:var(--hf-line)}
+.dz-btn-ok{background:var(--hf-green);color:#fff}
+.dz-btn-bad{background:#fff;color:var(--bad);border-color:#f0c4ba}
+.dz-btn-bad:hover{background:var(--bad);color:#fff}
+.dz-btn-wa{background:var(--wa)!important;color:#fff!important;border-color:var(--wa)!important}
+.dz-btn-wa:hover{background:#1ebe5d!important}
+.dz-btn-sm{padding:7px 11px;font-size:12px}
+
+/* Tablas */
+.dz-table-scroll{overflow-x:auto}
+table.dz-table{width:100%;border-collapse:collapse;font-size:13.5px}
+.dz-table th,.dz-table td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--hf-line);vertical-align:middle}
+.dz-table th{background:#fff6ef;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:#7a6a62;position:sticky;top:0}
+.dz-table tbody tr:hover{background:#fffaf4}
+.dz-table td b{font-weight:850}
+.dz-cell-sub{display:block;color:var(--hf-mut);font-size:12px;margin-top:2px}
+.row-actions{display:flex;gap:6px;flex-wrap:wrap}
+
+/* Badges de estado */
+.tag{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:900;border-radius:999px;padding:5px 10px;white-space:nowrap}
+.tag-pend{background:#fff3e0;color:#b9740d} .tag-appr{background:#e6f6ee;color:#0f7a44} .tag-rej{background:#fbe7e3;color:#bb3320}
+.tag-ok{background:#e6f6ee;color:#0f7a44} .tag-soon{background:#fff3e0;color:#b9740d} .tag-late{background:#fbe7e3;color:#bb3320}
+.tag-acct{background:#eef0ff;color:#3a44b9} .tag-noacct{background:#f1ece9;color:#7a6a62}
+.tag-dot{width:7px;height:7px;border-radius:50%;background:currentColor;display:inline-block}
+
+/* Filas resaltadas */
+tr.row-pending{background:#fff8ee!important;box-shadow:inset 3px 0 0 var(--warn)}
+tr.row-flag-soon{box-shadow:inset 3px 0 0 var(--warn)}
+tr.row-flag-late{background:#fdf1ee!important;box-shadow:inset 3px 0 0 var(--bad)}
+tr.row-flag-checkin{box-shadow:inset 3px 0 0 var(--hf-orange)}
+tr.row-flag-checkout{background:#fff8ee!important;box-shadow:inset 3px 0 0 var(--hf-orange)}
+
+/* Barras de disponibilidad por área */
+.area-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.area-row{background:#fff;border:1px solid var(--hf-line);border-radius:16px;padding:14px 16px}
+.area-row .area-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:9px}
+.area-row .area-top b{font-size:15px}
+.area-row .area-top span{color:var(--hf-mut);font-size:12.5px;font-weight:700}
+.bar{height:13px;border-radius:999px;background:#f0e6df;overflow:hidden;display:flex}
+.bar .seg-rent{background:var(--hf-orange)} .bar .seg-free{background:var(--hf-green)}
+.area-legend{display:flex;gap:16px;margin-top:9px;font-size:12px;color:var(--hf-mut);font-weight:700}
+.area-legend i{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:5px;vertical-align:middle}
+
+/* Empty states */
+.dz-empty{padding:34px 18px;text-align:center;color:var(--hf-mut)}
+.dz-empty strong{display:block;color:var(--hf-ink);font-size:15px;margin-bottom:6px}
+
+/* Checkbox de selección */
+.dz-check{width:17px;height:17px;accent-color:var(--hf-orange);cursor:pointer}
+
+/* Overlay de contraseña */
+.dz-gate{position:fixed;inset:0;z-index:200;background:#17110f;display:flex;align-items:center;justify-content:center;padding:20px}
+.dz-gate-card{background:#fff;border-radius:26px;padding:30px;max-width:420px;width:100%;box-shadow:0 30px 90px rgba(0,0,0,.4)}
+.dz-gate-card h2{margin:0 0 6px}
+.dz-gate-card p{color:var(--hf-mut);font-size:14px;margin:0 0 16px}
+.dz-gate-card input{width:100%;border:1px solid var(--hf-line);border-radius:14px;padding:13px 14px;font:inherit;outline:none}
+.dz-gate-card input:focus{border-color:var(--hf-orange);box-shadow:0 0 0 4px rgba(232,100,42,.12)}
+.dz-gate-err{color:var(--bad);font-size:13px;font-weight:700;min-height:18px;margin-top:8px}
+
+/* Toast */
+.dz-toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:#17110f;color:#fff;padding:13px 20px;border-radius:14px;font-weight:700;font-size:14px;box-shadow:0 18px 50px rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:.25s;z-index:150}
+.dz-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Modal campaña */
+.dz-modal{position:fixed;inset:0;z-index:180;background:rgba(23,17,15,.55);display:flex;align-items:center;justify-content:center;padding:18px}
+.dz-modal-card{background:#fff;border-radius:24px;max-width:620px;width:100%;max-height:88vh;overflow:auto;box-shadow:0 30px 90px rgba(0,0,0,.35)}
+.dz-modal-card .mh{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;border-bottom:1px solid var(--hf-line)}
+.dz-modal-card .mh h3{margin:0}
+.dz-modal-card .mb{padding:20px 22px}
+.dz-modal-card textarea{width:100%;min-height:130px;border:1px solid var(--hf-line);border-radius:14px;padding:13px;font:inherit;resize:vertical}
+.dz-modal-card label{font-weight:800;font-size:13px;display:block;margin:14px 0 6px}
+.camp-targets{max-height:200px;overflow:auto;border:1px solid var(--hf-line);border-radius:14px;padding:8px;margin-top:6px}
+.camp-targets .ct{display:flex;justify-content:space-between;gap:10px;padding:8px 6px;border-bottom:1px solid #f3ece8;font-size:13px}
+.camp-targets .ct:last-child{border-bottom:0}
+.camp-targets .ct .ctlinks{display:flex;gap:6px}
+
+@media(max-width:1024px){.dz-kpis{grid-template-columns:repeat(2,1fr)}.area-grid{grid-template-columns:1fr}}
+@media(max-width:560px){.dz-kpis{grid-template-columns:1fr}.dz-head{flex-direction:column;align-items:flex-start}.kpi .kpi-num{font-size:30px}}
+</style>
+</head>
+<body>
+
+<!-- ===== Gate de contraseña (oculto salvo que REQUIRE_PASSWORD=true) ===== -->
+<div id="dzGate" class="dz-gate dz-hidden">
+  <div class="dz-gate-card">
+    <span class="dz-mark">H&amp;F</span>
+    <h2 style="margin-top:14px">Panel interno</h2>
+    <p>Este panel es solo para el equipo de House &amp; Flats. Ingresa la clave para continuar.</p>
+    <input id="dzGateInput" type="password" placeholder="Clave de acceso" autocomplete="off" />
+    <div class="dz-gate-err" id="dzGateErr"></div>
+    <button class="dz-btn dz-btn-primary" style="width:100%;margin-top:12px" id="dzGateBtn">Entrar</button>
+  </div>
+</div>
+
+<!-- ===== Banda interna ===== -->
+<div class="dz-banner">
+  <span class="dz-dot"></span>
+  <span>Panel interno · solo para el equipo de House &amp; Flats</span>
+  <small>· En producción se protege con login + roles (Supabase Auth). Esta vista es una demo sin backend.</small>
+</div>
+
+<!-- ===== Header ===== -->
+<header class="dz-head">
+  <div class="dz-brand">
+    <span class="dz-mark">H&amp;F</span>
+    <div>
+      <h1>Panel del Director</h1>
+      <p>Operación, inmuebles, solicitudes, rentas y pagos — todo en un lugar.</p>
+    </div>
+  </div>
+  <div class="dz-head-actions">
+    <button class="dz-btn dz-btn-ghost" id="btnReseed" title="Regenera los datos de demostración">Regenerar demo</button>
+    <a class="dz-btn dz-btn-ghost" href="index.html">Volver al sitio</a>
+  </div>
+</header>
+
+<!-- ===== Navegación por secciones ===== -->
+<nav class="dz-nav">
+  <a href="#resumen">Resumen</a>
+  <a href="#inmuebles">Inmuebles &amp; aprobación</a>
+  <a href="#cambios">Cambios pendientes</a>
+  <a href="#solicitudes">Solicitudes</a>
+  <a href="#disponibilidad">Disponibilidad por área</a>
+  <a href="#clientes">Base de clientes</a>
+  <a href="#rentas">Rentas &amp; pagos</a>
+</nav>
+
+<main class="dz-wrap">
+
+  <!-- 1) RESUMEN / KPIs -->
+  <section class="dz-section" id="resumen">
+    <div class="dz-section-head">
+      <div>
+        <p class="dz-eyebrow">Resumen general</p>
+        <h2>Lo más importante de un vistazo</h2>
+        <p class="dz-sub">Cifras clave de hoy. Las tarjetas se actualizan al aprobar/rechazar inmuebles o registrar avisos.</p>
+      </div>
+    </div>
+    <div class="dz-kpis" id="kpiRow1"></div>
+    <div class="dz-kpis" id="kpiRow2" style="margin-top:14px"></div>
+  </section>
+
+  <!-- 2) INMUEBLES + APROBACIÓN -->
+  <section class="dz-section" id="inmuebles">
+    <div class="dz-section-head">
+      <div>
+        <p class="dz-eyebrow">Inmuebles de arrendadores</p>
+        <h2>Aprobación de publicaciones</h2>
+        <p class="dz-sub">Revisa cada inmueble publicado por un anfitrión y decide si entra al catálogo. Los pendientes están resaltados.</p>
+      </div>
+    </div>
+    <div class="dz-panel">
+      <div class="dz-toolbar">
+        <div class="dz-seg" id="propFilter">
+          <button data-pf="all" class="on">Todos</button>
+          <button data-pf="pending">Pendientes</button>
+          <button data-pf="approved">Aprobados</button>
+          <button data-pf="rejected">Rechazados</button>
+        </div>
+        <div class="dz-search grow">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+          <input id="propSearch" placeholder="Buscar por anfitrión, ciudad, zona o tipo…" />
+        </div>
+      </div>
+      <div class="dz-table-scroll">
+        <table class="dz-table">
+          <thead><tr>
+            <th>Inmueble</th><th>Anfitrión</th><th>Zona / Ciudad</th><th>Tipo</th><th>Precio</th><th>Disponibilidad</th><th>Estado</th><th>Acción</th>
+          </tr></thead>
+          <tbody id="propRows"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2b) CAMBIOS PENDIENTES DE APROBACIÓN -->
+  <section class="dz-section" id="cambios">
+    <div class="dz-section-head">
+      <div>
+        <p class="dz-eyebrow">Cambios de arrendadores</p>
+        <h2>Cambios pendientes de aprobación</h2>
+        <p class="dz-sub">Cuando un anfitrión ajusta su precio, sus días bloqueados o sus fotos desde su cuenta, el cambio espera aquí. Al aprobarlo se aplica al inmueble; al rechazarlo solo se marca.</p>
+      </div>
+    </div>
+    <div class="dz-panel">
+      <div class="dz-toolbar">
+        <div class="dz-seg" id="chgFilter">
+          <button data-cf="pendiente" class="on">Pendientes</button>
+          <button data-cf="aprobado">Aprobados</button>
+          <button data-cf="rechazado">Rechazados</button>
+          <button data-cf="all">Todos</button>
+        </div>
+      </div>
+      <div class="dz-table-scroll">
+        <table class="dz-table">
+          <thead><tr>
+            <th>Anfitrión</th><th>Espacio</th><th>Tipo de cambio</th><th>Detalle</th><th>Fecha</th><th>Estado</th><th>Acción</th>
+          </tr></thead>
+          <tbody id="chgRows"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3) SOLICITUDES -->
+  <section class="dz-section" id="solicitudes">
+    <div class="dz-section-head">
+      <div>
+        <p class="dz-eyebrow">Solicitudes de clientes</p>
+        <h2>Formularios recibidos · buscador inteligente</h2>
+        <p class="dz-sub">Cada fila es un formulario lleno. Busca por nombre, ciudad, país, presupuesto, perfil, fechas, email o WhatsApp — sin acentos, todo junto.</p>
+      </div>
+    </div>
+    <div class="dz-panel">
+      <div class="dz-toolbar">
+        <div class="dz-search grow">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+          <input id="leadSearch" placeholder="Ej: «madrid», «estudiante», «800», «maria», «buenos aires»…" />
+        </div>
+        <div class="dz-seg" id="leadAcctFilter">
+          <button data-af="all" class="on">Todas</button>
+          <button data-af="acct">Con cuenta</button>
+          <button data-af="noacct">Sin cuenta</button>
+        </div>
+      </div>
+      <div class="dz-table-scroll">
+        <table class="dz-table">
+          <thead><tr>
+            <th>Cliente</th><th>Contacto</th><th>Destino</th><th>Presupuesto</th><th>Perfil</th><th>Fechas</th><th>Cuenta</th><th>Acciones</th>
+          </tr></thead>
+          <tbody id="leadRows"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4) DISPONIBILIDAD POR ÁREA -->
+  <section class="dz-section" id="disponibilidad">
+    <div class="dz-section-head">
+      <div>
+        <p class="dz-eyebrow">Inventario por zona</p>
+        <h2>Disponibilidad por área</h2>
+        <p class="dz-sub">Cuántos inmuebles están rentados vs disponibles en cada ciudad. Útil para saber dónde empujar captación o demanda.</p>
+      </div>
+    </div>
+    <div class="dz-panel dz-panel-pad">
+      <div class="area-grid" id="areaGrid"></div>
+    </div>
+  </section>
+
+  <!-- 5) BASE DE CLIENTES (marketing) -->
+  <section class="dz-section" id="clientes">
+    <div class="dz-section-head">
+      <div>
+        <p class="dz-eyebrow">CRM · uso de marketing</p>
+        <h2>Base de datos de clientes</h2>
+        <p class="dz-sub">Contactos derivados de las solicitudes. Selecciona clientes para <b>exportar CSV</b> o <b>crear una campaña</b> (WhatsApp / email). Uso responsable: solo para comunicaciones de marketing de House &amp; Flats.</p>
+      </div>
+    </div>
+    <div class="dz-panel">
+      <div class="dz-toolbar">
+        <label style="display:flex;align-items:center;gap:8px;font-weight:800;font-size:13px"><input type="checkbox" class="dz-check" id="cliSelectAll"> Seleccionar todos</label>
+        <div class="dz-search grow">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+          <input id="cliSearch" placeholder="Buscar cliente, ciudad, interés…" />
+        </div>
+        <span id="cliSelCount" style="font-size:13px;font-weight:800;color:var(--hf-mut)">0 seleccionados</span>
+        <button class="dz-btn dz-btn-ghost dz-btn-sm" id="btnExportCsv">Exportar CSV</button>
+        <button class="dz-btn dz-btn-primary dz-btn-sm" id="btnCampaign">Crear campaña</button>
+      </div>
+      <div class="dz-table-scroll">
+        <table class="dz-table">
+          <thead><tr>
+            <th style="width:34px"></th><th>Cliente</th><th>Email</th><th>WhatsApp</th><th>Origen</th><th>Interés</th><th>Marketing</th>
+          </tr></thead>
+          <tbody id="cliRows"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6) RENTAS ACTIVAS / OPERACIÓN -->
+  <section class="dz-section" id="rentas">
+    <div class="dz-section-head">
+      <div>
+        <p class="dz-eyebrow">El corazón operativo</p>
+        <h2>Rentas activas, pagos y vencimientos</h2>
+        <p class="dz-sub">Inquilino, renta, día de pago, estado de pago y fechas de entrada/salida. Resaltamos pagos próximos/vencidos y contratos cerca de entrada o salida.</p>
+      </div>
+      <button class="dz-btn dz-btn-wa" id="btnNotifyAll">Avisar a todos los que vencen pronto</button>
+    </div>
+    <div class="dz-panel">
+      <div class="dz-toolbar">
+        <div class="dz-seg" id="rentFilter">
+          <button data-rf="all" class="on">Todas</button>
+          <button data-rf="due">Pago próximo/vencido</button>
+          <button data-rf="checkout">Cerca de salida</button>
+          <button data-rf="checkin">Cerca de entrada</button>
+        </div>
+        <div class="dz-search grow">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+          <input id="rentSearch" placeholder="Buscar inquilino, inmueble, ciudad…" />
+        </div>
+      </div>
+      <div class="dz-table-scroll">
+        <table class="dz-table">
+          <thead><tr>
+            <th>Inmueble</th><th>Inquilino</th><th>Renta</th><th>Día de pago</th><th>Estado de pago</th><th>Entrada</th><th>Salida</th><th>Acción</th>
+          </tr></thead>
+          <tbody id="rentRows"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="dz-toast" id="dzToast"></div>
+
+<!-- Reutilizamos los 50 inmuebles aprobados y datos de marca -->
+<script src="app.js"></script>
+<script src="hf-cerebro.js"></script>
+<script>
+/* ============================================================================
+   PANEL DEL DIRECTOR — House & Flats (demo sin backend)
+   Todo el estado vive en localStorage. Datos faltantes se generan de forma
+   determinista (semilla fija) y se persisten en 'hf_ops_demo'.
+   ============================================================================ */
+(function(){
+  "use strict";
+
+  /* ---------- GATE de contraseña (demo) ----------
+     Para el demo está en false; pon true para proteger el panel con una clave.
+     No es un secreto real: es solo una barrera visual para presentaciones. */
+  const REQUIRE_PASSWORD = false;
+  const DEMO_PASSWORD = "houseflats";   // clave de ejemplo (cámbiala si activas el gate)
+
+  /* ---------- Constantes de marca ---------- */
+  const WA_FALLBACK = "13055100028";    // número de respaldo de House & Flats
+  const ORANGE = "#e8642a";
+
+  /* ---------- Helpers seguros de localStorage ---------- */
+  function lsGet(key, fallback){
+    try{
+      const raw = localStorage.getItem(key);
+      if(raw == null) return fallback;
+      const v = JSON.parse(raw);
+      return v == null ? fallback : v;
+    }catch(e){ return fallback; }
+  }
+  function lsSet(key, value){
+    try{ localStorage.setItem(key, JSON.stringify(value)); return true; }
+    catch(e){ return false; }
+  }
+
+  /* ---------- Utilidades ---------- */
+  const $ = sel => document.querySelector(sel);
+  const $$ = sel => Array.prototype.slice.call(document.querySelectorAll(sel));
+  function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+  function norm(s){ return String(s==null?"":s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,""); }
+  function digits(s){ return String(s==null?"":s).replace(/\D/g,""); }
+  function toast(msg){
+    const t = $("#dzToast"); if(!t) return;
+    t.textContent = msg; t.classList.add("show");
+    clearTimeout(toast._t); toast._t = setTimeout(()=>t.classList.remove("show"), 2600);
+  }
+  // Generador pseudo-aleatorio determinista (mulberry32) — semilla fija
+  function makeRng(seed){
+    let a = seed >>> 0;
+    return function(){
+      a |= 0; a = (a + 0x6D2B79F5) | 0;
+      let t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  function pick(rng, arr){ return arr[Math.floor(rng()*arr.length)]; }
+  function pad(n){ return n<10 ? "0"+n : ""+n; }
+  function fmtDate(d){ return d ? d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate()) : ""; }
+  function parseDate(s){ if(!s) return null; const d = new Date(s); return isNaN(d) ? null : d; }
+  function daysBetween(a, b){ return Math.round((a - b)/86400000); }
+  const TODAY = new Date(); TODAY.setHours(0,0,0,0);
+
+  const CUR_SYMBOL = { USD:"$", EUR:"€", GBP:"£", CLP:"$", ARS:"$" };
+  function money(amount, cur){ const s = CUR_SYMBOL[cur]||""; return s + Number(amount||0).toLocaleString("es-ES"); }
+
+  /* ---------- Fuentes de datos reales ---------- */
+  // 50 inmuebles aprobados del inventario (app.js)
+  function getListings(){
+    try{ return Array.isArray(window.__listings) ? window.__listings : []; }catch(e){ return []; }
+  }
+  // Inmuebles publicados por anfitriones (anfitrion.html)
+  function getHostSpaces(){
+    const raw = lsGet("hf_host_spaces", []);
+    return Array.isArray(raw) ? raw : [];
+  }
+  // Solicitudes de clientes (solicitud.html / app.js)
+  function getLeads(){
+    const raw = lsGet("hf_leads", []);
+    return Array.isArray(raw) ? raw : [];
+  }
+  // Usuario logueado (si HFAuth lo expone) — para marcar "con cuenta"
+  function getKnownAccountEmails(){
+    const set = new Set();
+    try{
+      // emails de cuentas demo guardadas localmente, si existieran
+      const accs = lsGet("hf_accounts", []);
+      if(Array.isArray(accs)) accs.forEach(a=>{ if(a && a.email) set.add(norm(a.email)); });
+    }catch(e){}
+    try{
+      const u = lsGet("hf_user", null);
+      if(u && u.email) set.add(norm(u.email));
+    }catch(e){}
+    return set;
+  }
+
+  /* ---------- Listas válidas (nunca inventamos países/ciudades) ---------- */
+  // Solo ciudades/países presentes en el inventario real.
+  function inventoryCities(){
+    const map = {};                 // city -> country
+    getListings().forEach(l=>{ if(l && l.city) map[l.city] = l.country || map[l.city] || ""; });
+    return map;
+  }
+
+  /* ============================================================================
+     GENERACIÓN + PERSISTENCIA DE DATOS DEMO  ('hf_ops_demo')
+     Determinista: misma semilla => mismos datos. Se regenera solo si no existe
+     o si cambia la "firma" del inventario (nº de inmuebles).
+     ============================================================================ */
+  const DEMO_KEY = "hf_ops_demo";
+  const SEED = 20260627;          // semilla fija (estable entre recargas)
+
+  function buildDemo(){
+    const rng = makeRng(SEED);
+    const listings = getListings();
+    const cityMap = inventoryCities();
+    const cities = Object.keys(cityMap);
+    const safeCities = cities.length ? cities : ["Madrid"];
+
+    // --- Estado de aprobación demo para algunos inmuebles del inventario ---
+    // (los inmuebles de anfitriones reales se gestionan aparte con hf_prop_status)
+    // --- Rentas activas: tomamos ~18 inmuebles del inventario como "rentados" ---
+    const firstNames = ["María","Lucas","Sofía","Mateo","Valentina","Diego","Camila","Tomás","Isabela","Joaquín","Antonella","Bruno","Renata","Emilio","Julieta","Andrés","Paula","Nicolás","Florencia","Gabriel"];
+    const lastNames = ["González","Rodríguez","Pérez","Fernández","López","Martín","Sánchez","Romero","Torres","Silva","Castro","Ortega","Núñez","Vega","Rojas","Méndez","Herrera","Aguilar","Ríos","Campos"];
+    const profiles = ["Estudiante","Nómada digital","Profesional reubicado","Pareja","Familia"];
+
+    const rentals = [];
+    const usedTenants = new Set();
+    // ordenar inventario de forma estable
+    const pool = listings.slice().sort((a,b)=> String(a.id).localeCompare(String(b.id)));
+    const rentCount = Math.min(18, pool.length);
+    for(let i=0; i<rentCount; i++){
+      const prop = pool[i];
+      let fn = pick(rng, firstNames), ln = pick(rng, lastNames), tries=0;
+      while(usedTenants.has(fn+ln) && tries<8){ fn = pick(rng, firstNames); ln = pick(rng, lastNames); tries++; }
+      usedTenants.add(fn+ln);
+      const dialOpts = ["54","56","34","44","49","33","39","31","43","351"];
+      const phone = pick(rng, dialOpts) + " " + (600000000 + Math.floor(rng()*399999999));
+      const email = norm(fn)+"."+norm(ln)+"@gmail.com";
+      const payDay = 1 + Math.floor(rng()*27);                 // día de pago 1..28
+      const rent = prop.price || (400 + Math.floor(rng()*900));
+      const cur = prop.currency || "USD";
+
+      // Check-in en el pasado (1..11 meses atrás), contrato de 3..12 meses
+      const monthsAgo = 1 + Math.floor(rng()*11);
+      const lengthMonths = 3 + Math.floor(rng()*10);
+      const ci = new Date(TODAY); ci.setMonth(ci.getMonth() - monthsAgo); ci.setDate(5 + Math.floor(rng()*20));
+      const co = new Date(ci); co.setMonth(co.getMonth() + lengthMonths);
+
+      rentals.push({
+        id: "rent_"+prop.id,
+        propId: prop.id,
+        propTitle: prop.title,
+        city: prop.city, country: prop.country, neighborhood: prop.neighborhood || "",
+        tenantName: fn+" "+ln,
+        tenantPhone: phone,
+        tenantEmail: email,
+        rent: rent, currency: cur,
+        payDay: payDay,
+        checkIn: fmtDate(ci),
+        checkOut: fmtDate(co)
+      });
+    }
+
+    // --- Inmuebles de anfitriones demo (si no hay reales o para llenar) ---
+    // Solo usamos ciudades/países del inventario.
+    const hostFirst = ["Carolina","Martín","Lucía","Pedro","Sofía","Andrés","Elena","Roberto"];
+    const hostTypes = ["Studio / monoambiente","Habitación privada","Departamento 1 dorm.","Departamento 2 dorm.","Loft"];
+    const demoHostProps = [];
+    const cityKeys = safeCities.slice();
+    for(let i=0; i<6; i++){
+      const city = cityKeys[i % cityKeys.length];
+      const country = cityMap[city] || "";
+      // zona: tomamos un neighborhood real de esa ciudad si existe
+      const sameCity = listings.filter(l=>l.city===city);
+      const zone = sameCity.length ? sameCity[Math.floor(rng()*sameCity.length)].neighborhood : "Centro";
+      const cur = pick(rng, ["USD","EUR"]);
+      demoHostProps.push({
+        id: "demo_host_"+i,
+        hostName: pick(rng, hostFirst)+" "+pick(rng, lastNames),
+        title: pick(rng, hostTypes)+" en "+zone,
+        city: city, country: country, zone: zone,
+        type: pick(rng, hostTypes),
+        price: 350 + Math.floor(rng()*950),
+        currency: cur,
+        availability: pick(rng, ["Disponible ahora","Disponible desde el próximo mes","Disponible en 2 semanas"]),
+        source: "demo"
+      });
+    }
+
+    return { seed: SEED, builtAt: new Date().toISOString(), rentals: rentals, demoHostProps: demoHostProps };
+  }
+
+  function loadDemo(force){
+    let demo = lsGet(DEMO_KEY, null);
+    const sig = getListings().length;
+    if(force || !demo || !demo.rentals || demo.__sig !== sig){
+      demo = buildDemo();
+      demo.__sig = sig;
+      lsSet(DEMO_KEY, demo);
+    }
+    return demo;
+  }
+
+  /* ============================================================================
+     ESTADO DE APROBACIÓN DE INMUEBLES  ('hf_prop_status')
+     Mapa propKey -> 'Pendiente' | 'Aprobado' | 'Rechazado'
+     ============================================================================ */
+  const PROP_STATUS_KEY = "hf_prop_status";
+  function getPropStatus(){ const m = lsGet(PROP_STATUS_KEY, {}); return (m && typeof m==="object") ? m : {}; }
+  function setPropStatus(key, status){
+    const m = getPropStatus(); m[key] = status; lsSet(PROP_STATUS_KEY, m);
+  }
+
+  /* ============================================================================
+     ENSAMBLADO DE INMUEBLES PARA APROBACIÓN
+     Combina: (a) inmuebles reales de anfitriones (hf_host_spaces),
+              (b) inmuebles demo de anfitriones (hf_ops_demo.demoHostProps).
+     A cada uno se le aplica su estado de aprobación (hf_prop_status).
+     ============================================================================ */
+  function normalizeHostSpace(sp, idx){
+    // Estructura real anidada de anfitrion.html (defensivo ante campos vacíos)
+    const h = sp.host || {}, loc = sp.location || {}, spc = sp.space || {}, terms = sp.terms || {}, av = sp.availability || {};
+    const phone = [h.dial, h.phone].filter(Boolean).join(" ").trim();
+    let availTxt = "Por definir";
+    if(av.availabilityType) availTxt = av.availabilityType;
+    if(av.availableFrom) availTxt = "Desde "+av.availableFrom + (av.availableTo? " hasta "+av.availableTo : "");
+    return {
+      id: "host_real_"+idx,
+      hostName: h.name || "Anfitrión",
+      hostPhone: phone,
+      hostEmail: h.email || "",
+      title: spc.name || (spc.type||"Inmueble")+" en "+(loc.zone||loc.city||""),
+      city: loc.city || "",
+      country: loc.country || "",
+      zone: loc.zone || "",
+      type: spc.type || "—",
+      price: Number(terms.price)||0,
+      currency: terms.currency || "USD",
+      availability: availTxt,
+      source: "real"
+    };
+  }
+  function getAllHostProps(){
+    const demo = loadDemo();
+    const real = getHostSpaces().map(normalizeHostSpace);
+    const demoProps = (demo.demoHostProps||[]).map(p=>Object.assign({}, p, {hostPhone:"", hostEmail:""}));
+    const all = real.concat(demoProps);
+    const statusMap = getPropStatus();
+    all.forEach(p=>{
+      p.status = statusMap[p.id] || "Pendiente";   // por defecto todo entra como Pendiente
+    });
+    return all;
+  }
+
+  /* ============================================================================
+     ENSAMBLADO DE SOLICITUDES (LEADS)
+     ============================================================================ */
+  function getAllLeads(){
+    const acctEmails = getKnownAccountEmails();
+    return getLeads().map((l, i)=>{
+      const wa = l.whatsapp || [l.dialCode, l.phone].filter(Boolean).join(" ").trim();
+      const email = l.email || "";
+      // Con cuenta si: trae userId/account, o su email coincide con una cuenta conocida.
+      const linked = !!(l.userId || l.account || l.accountId || (email && acctEmails.has(norm(email))));
+      const fechas = [l.arrivalDate, l.departureDate].filter(Boolean).join(" → ");
+      return {
+        idx: i,
+        fullName: l.fullName || "Sin nombre",
+        email: email,
+        whatsapp: wa,
+        city: l.destinationCity || "",
+        country: l.destinationCountry || "",
+        budgetMax: l.budgetMax || "",
+        currency: l.currency || "",
+        profile: l.profileType || l.profile || "",
+        housingType: l.housingType || "",
+        zone: l.preferredZone || "",
+        dates: fechas,
+        origin: l.originCountry || "",
+        marketing: (l.marketingConsent !== false),
+        status: l.status || "Nuevo",
+        account: linked,
+        raw: l
+      };
+    });
+  }
+
+  /* ============================================================================
+     RENDER: 1) KPIs
+     ============================================================================ */
+  function renderKPIs(){
+    const listings = getListings();
+    const demo = loadDemo();
+    const rentals = demo.rentals || [];
+    const hostProps = getAllHostProps();
+    const leads = getAllLeads();
+
+    const totalInmuebles = listings.length + hostProps.length;
+    const approved = hostProps.filter(p=>p.status==="Aprobado").length;
+    const pending = hostProps.filter(p=>p.status==="Pendiente").length;
+    const rejected = hostProps.filter(p=>p.status==="Rechazado").length;
+    const pendingChanges = getHostChanges().filter(c=>(c.status||"pendiente")==="pendiente").length;
+
+    const rentedIds = new Set(rentals.map(r=>r.propId));
+    const rentados = rentedIds.size;
+    const disponibles = Math.max(0, listings.length - rentados);
+
+    // ingreso mensual estimado: suma de rentas activas (en su moneda; mostramos por moneda)
+    const incomeByCur = {};
+    rentals.forEach(r=>{ incomeByCur[r.currency] = (incomeByCur[r.currency]||0) + Number(r.rent||0); });
+    const incomeStr = Object.keys(incomeByCur).length
+      ? Object.keys(incomeByCur).map(c=>money(incomeByCur[c], c)).join(" · ")
+      : "—";
+
+    // contratos por vencer pronto (salida en <= 30 días, futura)
+    const soonOut = rentals.filter(r=>{ const co=parseDate(r.checkOut); if(!co) return false; const d=daysBetween(co,TODAY); return d>=0 && d<=30; }).length;
+
+    // próximos pagos (día de pago dentro de los próximos 7 días)
+    const upcomingPays = rentals.filter(r=> payState(r).key==="soon" || payState(r).key==="late").length;
+
+    const k1 = [
+      {label:"Inmuebles totales", num:totalInmuebles, foot:"<b>"+listings.length+"</b> catálogo · <b>"+hostProps.length+"</b> de anfitriones", cls:"k-ink"},
+      {label:"Pendientes de aprobar", num:pending, foot:approved+" aprobados · "+rejected+" rechazados · <b>"+pendingChanges+"</b> cambios por revisar", cls:"k-warn"},
+      {label:"Rentados", num:rentados, foot:"<b>"+disponibles+"</b> disponibles en catálogo", cls:"k-green"},
+      {label:"Ingreso mensual estimado", num:incomeStr, foot:"suma de rentas activas", cls:""}
+    ];
+    const k2 = [
+      {label:"Solicitudes recibidas", num:leads.length, foot:leads.filter(l=>l.account).length+" con cuenta · "+leads.filter(l=>!l.account).length+" sin cuenta", cls:"k-ink"},
+      {label:"Contratos por vencer", num:soonOut, foot:"salida en ≤ 30 días", cls:"k-warn"},
+      {label:"Próximos pagos", num:upcomingPays, foot:"pago próximo o vencido", cls:"k-bad"},
+      {label:"Clientes en CRM", num:leads.length, foot:leads.filter(l=>l.marketing).length+" aptos para marketing", cls:"k-green"}
+    ];
+    const html = arr => arr.map(k=>(
+      '<div class="kpi '+k.cls+'"><div class="kpi-label">'+esc(k.label)+'</div>'+
+      '<div class="kpi-num">'+(typeof k.num==="number"? k.num : esc(k.num))+'</div>'+
+      '<div class="kpi-foot">'+k.foot+'</div></div>'
+    )).join("");
+    $("#kpiRow1").innerHTML = html(k1);
+    $("#kpiRow2").innerHTML = html(k2);
+  }
+
+  /* ============================================================================
+     RENDER: 2) INMUEBLES + APROBACIÓN
+     ============================================================================ */
+  let propFilter = "all", propQuery = "";
+  function renderProps(){
+    const props = getAllHostProps();
+    const q = norm(propQuery);
+    const filtered = props.filter(p=>{
+      if(propFilter==="pending" && p.status!=="Pendiente") return false;
+      if(propFilter==="approved" && p.status!=="Aprobado") return false;
+      if(propFilter==="rejected" && p.status!=="Rechazado") return false;
+      if(q){
+        const hay = norm([p.hostName,p.title,p.city,p.country,p.zone,p.type].join(" "));
+        if(!hay.includes(q)) return false;
+      }
+      return true;
+    });
+    const tb = $("#propRows");
+    if(!filtered.length){
+      tb.innerHTML = '<tr><td colspan="8"><div class="dz-empty"><strong>Sin inmuebles para este filtro</strong>Cuando un anfitrión publique en anfitrion.html aparecerá aquí para aprobación.</div></td></tr>';
+      return;
+    }
+    tb.innerHTML = filtered.map(p=>{
+      const tagCls = p.status==="Aprobado"?"tag-appr":p.status==="Rechazado"?"tag-rej":"tag-pend";
+      const rowCls = p.status==="Pendiente"?"row-pending":"";
+      const src = p.source==="real"?'<span class="dz-cell-sub">Publicado por anfitrión</span>':'<span class="dz-cell-sub">Demo</span>';
+      let actions = "";
+      if(p.status!=="Aprobado") actions += '<button class="dz-btn dz-btn-ok dz-btn-sm" data-approve="'+esc(p.id)+'">Aprobar</button>';
+      if(p.status!=="Rechazado") actions += '<button class="dz-btn dz-btn-bad dz-btn-sm" data-reject="'+esc(p.id)+'">Rechazar</button>';
+      if(p.status!=="Pendiente") actions += '<button class="dz-btn dz-btn-ghost dz-btn-sm" data-pending="'+esc(p.id)+'">Volver a pendiente</button>';
+      return '<tr class="'+rowCls+'">'+
+        '<td><b>'+esc(p.title)+'</b>'+src+'</td>'+
+        '<td>'+esc(p.hostName)+'</td>'+
+        '<td>'+esc(p.zone||"—")+'<span class="dz-cell-sub">'+esc(p.city)+(p.country?", "+esc(p.country):"")+'</span></td>'+
+        '<td>'+esc(p.type)+'</td>'+
+        '<td><b>'+money(p.price,p.currency)+'</b><span class="dz-cell-sub">/mes</span></td>'+
+        '<td>'+esc(p.availability)+'</td>'+
+        '<td><span class="tag '+tagCls+'"><span class="tag-dot"></span>'+esc(p.status)+'</span></td>'+
+        '<td><div class="row-actions">'+actions+'</div></td>'+
+      '</tr>';
+    }).join("");
+  }
+
+  /* ============================================================================
+     RENDER: 2b) CAMBIOS PENDIENTES DE APROBACIÓN
+     Lee 'hf_host_changes' (escritos por cuenta-anfitrion.html). Al aprobar,
+     aplica el cambio al inmueble correspondiente en 'hf_host_spaces' (soporta
+     la forma plana del esquema compartido y la forma anidada del wizard).
+     ============================================================================ */
+  const HOST_CHANGES_KEY = "hf_host_changes";
+  function getHostChanges(){
+    const raw = lsGet(HOST_CHANGES_KEY, []);
+    return Array.isArray(raw) ? raw : [];
+  }
+  function setHostChanges(list){ lsSet(HOST_CHANGES_KEY, list); }
+
+  function changeDetail(c){
+    const p = c.payload || {};
+    if(c.type==="precio") return money(p.price, p.currency) + " / mes";
+    if(c.type==="dias") return (Array.isArray(p.blocked)?p.blocked.length:0) + " día(s) bloqueado(s)";
+    if(c.type==="fotos") return (Array.isArray(p.photos)?p.photos.length:0) + " foto(s) nuevas";
+    return "—";
+  }
+  function changeTypeName(t){ return t==="precio"?"Precio":t==="dias"?"Días bloqueados":t==="fotos"?"Fotos":"Cambio"; }
+
+  // Aplica un cambio aprobado al espacio coincidente (por id), respetando ambas formas.
+  function applyChangeToSpace(change){
+    const spaces = getHostSpaces();
+    let touched = false;
+    for(let i=0;i<spaces.length;i++){
+      const sp = spaces[i];
+      if(!sp || sp.id !== change.spaceId) continue;
+      const nested = !!(sp.space || sp.location || sp.terms);
+      const p = change.payload || {};
+      if(change.type==="precio"){
+        if(nested){ sp.terms = sp.terms||{}; sp.terms.price = p.price; sp.terms.currency = p.currency; }
+        else { sp.price = p.price; sp.currency = p.currency; sp.availability = sp.availability||{}; sp.availability.price = p.price; }
+      } else if(change.type==="dias"){
+        if(nested){ sp.availability = sp.availability||{}; sp.availability.blockedDates = Array.isArray(p.blocked)?p.blocked.slice():[]; }
+        else { sp.availability = sp.availability||{}; sp.availability.blocked = Array.isArray(p.blocked)?p.blocked.slice():[]; }
+      } else if(change.type==="fotos"){
+        sp.photos = Array.isArray(p.photos)?p.photos.slice():[];
+      }
+      spaces[i] = sp; touched = true; break;
+    }
+    if(touched) lsSet("hf_host_spaces", spaces);
+    return touched;
+  }
+
+  function setChangeStatus(id, status){
+    const list = getHostChanges();
+    const c = list.filter(x=>x && x.id===id)[0];
+    if(!c) return false;
+    if(status==="aprobado"){ applyChangeToSpace(c); }
+    c.status = status;
+    setHostChanges(list);
+    return true;
+  }
+
+  let chgFilter = "pendiente";
+  function renderChanges(){
+    const tb = $("#chgRows");
+    if(!tb) return;
+    let list = getHostChanges().slice().reverse();
+    if(chgFilter!=="all") list = list.filter(c=>(c.status||"pendiente")===chgFilter);
+    if(!list.length){
+      tb.innerHTML = '<tr><td colspan="7"><div class="dz-empty"><strong>Sin cambios para este filtro</strong>Cuando un anfitrión ajuste precio, días o fotos desde su cuenta, aparecerán aquí para aprobar.</div></td></tr>';
+      return;
+    }
+    // anfitrión: lo deducimos del espacio referido (si existe)
+    const spaces = getHostSpaces();
+    function hostFor(spaceId){
+      const sp = spaces.filter(s=>s && s.id===spaceId)[0];
+      if(!sp) return "—";
+      if(sp.host && typeof sp.host==="object") return sp.host.name || "Anfitrión";
+      return sp.host || (sp.space ? "Anfitrión" : "—");
+    }
+    tb.innerHTML = list.map(c=>{
+      const st = c.status || "pendiente";
+      const tagCls = st==="aprobado"?"tag-appr":st==="rechazado"?"tag-rej":"tag-pend";
+      const stTxt = st==="aprobado"?"Aprobado":st==="rechazado"?"Rechazado":"Pendiente";
+      const rowCls = st==="pendiente"?"row-pending":"";
+      const d = parseDate(c.date);
+      const dstr = d ? fmtDate(d) : "";
+      let actions = "";
+      if(st!=="aprobado") actions += '<button class="dz-btn dz-btn-ok dz-btn-sm" data-chg-ap="'+esc(c.id)+'">Aprobar</button>';
+      if(st!=="rechazado") actions += '<button class="dz-btn dz-btn-bad dz-btn-sm" data-chg-rj="'+esc(c.id)+'">Rechazar</button>';
+      return '<tr class="'+rowCls+'">'+
+        '<td>'+esc(hostFor(c.spaceId))+'</td>'+
+        '<td><b>'+esc(c.spaceTitle||"Espacio")+'</b></td>'+
+        '<td>'+esc(changeTypeName(c.type))+'</td>'+
+        '<td>'+esc(changeDetail(c))+'</td>'+
+        '<td>'+esc(dstr)+'</td>'+
+        '<td><span class="tag '+tagCls+'"><span class="tag-dot"></span>'+stTxt+'</span></td>'+
+        '<td><div class="row-actions">'+actions+'</div></td>'+
+      '</tr>';
+    }).join("");
+  }
+
+  /* ============================================================================
+     RENDER: 3) SOLICITUDES con BUSCADOR INTELIGENTE
+     ============================================================================ */
+  let leadAcctFilter = "all", leadQuery = "";
+  function leadMatches(l, q){
+    if(!q) return true;
+    // Construimos un "índice" textual sin acentos por solicitud.
+    const hay = norm([l.fullName,l.email,l.whatsapp,l.city,l.country,l.profile,l.housingType,l.zone,l.dates,l.origin,l.budgetMax,l.currency].join(" "));
+    // intención simple: si q es un número, lo tratamos como presupuesto (>= num)
+    const tokens = q.split(/\s+/).filter(Boolean);
+    return tokens.every(tok=>{
+      if(/^\d+$/.test(tok)){
+        // número: coincide si aparece en el texto O si el presupuesto del lead >= número
+        const n = Number(tok);
+        const bud = Number(String(l.budgetMax).replace(/[^\d.]/g,""))||0;
+        return hay.includes(tok) || (bud && bud >= n);
+      }
+      return hay.includes(tok);
+    });
+  }
+  function waLink(phone, text){
+    const num = digits(phone) || WA_FALLBACK;
+    return "https://wa.me/"+num+"?text="+encodeURIComponent(text);
+  }
+  function mailLink(email, subject, body){
+    const to = email || "";
+    return "mailto:"+encodeURIComponent(to)+"?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
+  }
+  function renderLeads(){
+    const leads = getAllLeads();
+    const q = norm(leadQuery);
+    const filtered = leads.filter(l=>{
+      if(leadAcctFilter==="acct" && !l.account) return false;
+      if(leadAcctFilter==="noacct" && l.account) return false;
+      return leadMatches(l, q);
+    });
+    const tb = $("#leadRows");
+    if(!leads.length){
+      tb.innerHTML = '<tr><td colspan="8"><div class="dz-empty"><strong>Aún no hay solicitudes</strong>Cuando un cliente complete el formulario en solicitud.html, su solicitud aparecerá aquí.</div></td></tr>';
+      return;
+    }
+    if(!filtered.length){
+      tb.innerHTML = '<tr><td colspan="8"><div class="dz-empty"><strong>Sin resultados</strong>Prueba con otra ciudad, perfil o un número de presupuesto.</div></td></tr>';
+      return;
+    }
+    tb.innerHTML = filtered.map(l=>{
+      const waTxt = "Hola "+(l.fullName.split(" ")[0]||"")+", soy del equipo de House & Flats. Recibimos tu solicitud para "+(l.city||l.country||"tu destino")+" y tenemos opciones a tu medida. ¿Te muestro algunas?";
+      const mailBody = "Hola "+(l.fullName||"")+",\n\nGracias por tu solicitud en House & Flats. Estamos preparando opciones para "+(l.city||l.country||"tu destino")+" dentro de tu presupuesto. Te escribimos pronto.\n\nUn abrazo,\nEquipo House & Flats";
+      const acctTag = l.account
+        ? '<span class="tag tag-acct"><span class="tag-dot"></span>Con cuenta</span>'
+        : '<span class="tag tag-noacct"><span class="tag-dot"></span>Sin cuenta</span>';
+      const dest = (l.city||"—") + (l.country? '<span class="dz-cell-sub">'+esc(l.country)+'</span>':"");
+      const bud = (l.budgetMax? money(l.budgetMax, l.currency||"USD") : "—") + '<span class="dz-cell-sub">'+esc(l.currency||"")+'</span>';
+      let actions = '<a class="dz-btn dz-btn-wa dz-btn-sm" target="_blank" rel="noopener" href="'+waLink(l.whatsapp, waTxt)+'">WhatsApp</a>';
+      if(l.email) actions += '<a class="dz-btn dz-btn-ghost dz-btn-sm" href="'+mailLink(l.email, "House & Flats · tus opciones", mailBody)+'">Email</a>';
+      return '<tr>'+
+        '<td><b>'+esc(l.fullName)+'</b>'+(l.origin?'<span class="dz-cell-sub">Origen: '+esc(l.origin)+'</span>':"")+'</td>'+
+        '<td>'+(l.email?esc(l.email):"—")+'<span class="dz-cell-sub">'+esc(l.whatsapp||"sin teléfono")+'</span></td>'+
+        '<td>'+dest+'</td>'+
+        '<td><b>'+bud+'</b></td>'+
+        '<td>'+esc(l.profile||"—")+(l.housingType?'<span class="dz-cell-sub">'+esc(l.housingType)+'</span>':"")+'</td>'+
+        '<td>'+(l.dates?esc(l.dates):"—")+'</td>'+
+        '<td>'+acctTag+'</td>'+
+        '<td><div class="row-actions">'+actions+'</div></td>'+
+      '</tr>';
+    }).join("");
+  }
+
+  /* ============================================================================
+     RENDER: 4) DISPONIBILIDAD POR ÁREA
+     ============================================================================ */
+  function renderAreas(){
+    const listings = getListings();
+    const demo = loadDemo();
+    const rentedIds = new Set((demo.rentals||[]).map(r=>r.propId));
+    // agrupamos por ciudad (solo ciudades reales del inventario)
+    const byCity = {};
+    listings.forEach(l=>{
+      const c = l.city || "—";
+      if(!byCity[c]) byCity[c] = {city:c, country:l.country||"", total:0, rented:0};
+      byCity[c].total++;
+      if(rentedIds.has(l.id)) byCity[c].rented++;
+    });
+    const rows = Object.keys(byCity).map(k=>byCity[k]).sort((a,b)=>b.total-a.total);
+    const grid = $("#areaGrid");
+    if(!rows.length){ grid.innerHTML = '<div class="dz-empty"><strong>Sin inventario</strong>No hay inmuebles cargados.</div>'; return; }
+    grid.innerHTML = rows.map(r=>{
+      const free = r.total - r.rented;
+      const rentPct = r.total? Math.round(r.rented/r.total*100) : 0;
+      const freePct = 100 - rentPct;
+      return '<div class="area-row">'+
+        '<div class="area-top"><b>'+esc(r.city)+'</b><span>'+esc(r.country)+' · '+r.total+' inmuebles</span></div>'+
+        '<div class="bar"><div class="seg-rent" style="width:'+rentPct+'%"></div><div class="seg-free" style="width:'+freePct+'%"></div></div>'+
+        '<div class="area-legend"><span><i style="background:'+ORANGE+'"></i>'+r.rented+' rentados</span><span><i style="background:var(--hf-green)"></i>'+free+' disponibles</span></div>'+
+      '</div>';
+    }).join("");
+  }
+
+  /* ============================================================================
+     RENDER: 5) BASE DE CLIENTES (CRM marketing) + selección + CSV + campaña
+     ============================================================================ */
+  let cliQuery = "";
+  const cliSelected = new Set();   // claves = idx del lead
+  function getClients(){
+    // Derivados de las solicitudes; agrupados por email (o por nombre+whatsapp si no hay email)
+    const leads = getAllLeads();
+    const map = {};
+    leads.forEach(l=>{
+      const key = norm(l.email) || (norm(l.fullName)+"|"+digits(l.whatsapp));
+      if(!map[key]){
+        map[key] = {
+          key: key, idx: l.idx, name: l.fullName, email: l.email, whatsapp: l.whatsapp,
+          origin: l.origin || "—", interestCity: l.city, interestProfile: l.profile,
+          marketing: l.marketing, account: l.account, requests: 0
+        };
+      }
+      map[key].requests++;
+      if(l.marketing) map[key].marketing = true;
+    });
+    return Object.keys(map).map(k=>map[k]);
+  }
+  function renderClients(){
+    const clients = getClients();
+    const q = norm(cliQuery);
+    const filtered = clients.filter(c=>{
+      if(!q) return true;
+      return norm([c.name,c.email,c.whatsapp,c.origin,c.interestCity,c.interestProfile].join(" ")).includes(q);
+    });
+    const tb = $("#cliRows");
+    if(!clients.length){
+      tb.innerHTML = '<tr><td colspan="7"><div class="dz-empty"><strong>Sin clientes todavía</strong>La base se llena automáticamente con cada solicitud recibida.</div></td></tr>';
+      updateCliCount(); return;
+    }
+    if(!filtered.length){
+      tb.innerHTML = '<tr><td colspan="7"><div class="dz-empty"><strong>Sin resultados</strong>Ajusta la búsqueda.</div></td></tr>';
+      return;
+    }
+    tb.innerHTML = filtered.map(c=>{
+      const checked = cliSelected.has(c.key)?"checked":"";
+      const mk = c.marketing
+        ? '<span class="tag tag-ok"><span class="tag-dot"></span>Apto</span>'
+        : '<span class="tag tag-noacct"><span class="tag-dot"></span>No optó</span>';
+      const interes = (c.interestCity||"—") + (c.interestProfile? " · "+esc(c.interestProfile):"");
+      return '<tr>'+
+        '<td><input type="checkbox" class="dz-check cli-cb" data-key="'+esc(c.key)+'" '+checked+'></td>'+
+        '<td><b>'+esc(c.name)+'</b>'+(c.requests>1?'<span class="dz-cell-sub">'+c.requests+' solicitudes</span>':"")+'</td>'+
+        '<td>'+(c.email?esc(c.email):"—")+'</td>'+
+        '<td>'+(c.whatsapp?esc(c.whatsapp):"—")+'</td>'+
+        '<td>'+esc(c.origin)+'</td>'+
+        '<td>'+interes+'</td>'+
+        '<td>'+mk+'</td>'+
+      '</tr>';
+    }).join("");
+    updateCliCount();
+  }
+  function updateCliCount(){ $("#cliSelCount").textContent = cliSelected.size + " seleccionados"; }
+
+  function selectedClients(){
+    return getClients().filter(c=>cliSelected.has(c.key));
+  }
+  function exportCsv(){
+    let targets = selectedClients();
+    if(!targets.length) targets = getClients();   // si no hay selección, exporta todos
+    if(!targets.length){ toast("No hay clientes para exportar"); return; }
+    const head = ["Nombre","Email","WhatsApp","Origen","Ciudad de interés","Perfil","Marketing","Solicitudes"];
+    const rows = targets.map(c=>[
+      c.name, c.email, c.whatsapp, c.origin, c.interestCity, c.interestProfile,
+      c.marketing?"Sí":"No", c.requests
+    ]);
+    const csvEsc = v => { const s = String(v==null?"":v); return /[",\n;]/.test(s) ? '"'+s.replace(/"/g,'""')+'"' : s; };
+    const csv = [head].concat(rows).map(r=>r.map(csvEsc).join(",")).join("\r\n");
+    const blob = new Blob(["﻿"+csv], {type:"text/csv;charset=utf-8;"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = "clientes_houseandflats_"+fmtDate(new Date())+".csv";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url), 1500);
+    toast("CSV generado ("+targets.length+" clientes)");
+  }
+
+  /* ---------- Modal de campaña de marketing ---------- */
+  function openCampaign(){
+    let targets = selectedClients();
+    if(!targets.length){ toast("Selecciona al menos un cliente para la campaña"); return; }
+    const defaultMsg = "¡Hola {nombre}! En House & Flats abrimos nuevas opciones en {ciudad} a tu medida. Si sigues buscando, te ayudamos a encontrar tu lugar con acompañamiento real. ¿Te muestro algunas? — Equipo House & Flats";
+    const modal = document.createElement("div");
+    modal.className = "dz-modal"; modal.id = "campModal";
+    modal.innerHTML =
+      '<div class="dz-modal-card">'+
+        '<div class="mh"><h3>Crear campaña de marketing</h3><button class="dz-btn dz-btn-ghost dz-btn-sm" id="campClose">Cerrar</button></div>'+
+        '<div class="mb">'+
+          '<p style="color:var(--hf-mut);font-size:13.5px;margin-top:0">Uso de marketing. Usa <b>{nombre}</b> y <b>{ciudad}</b> y se personalizan por cliente. No se envía nada automáticamente: generamos los enlaces para que tú los abras.</p>'+
+          '<label>Mensaje</label>'+
+          '<textarea id="campMsg">'+esc(defaultMsg)+'</textarea>'+
+          '<label>Asunto (para email)</label>'+
+          '<input id="campSubj" style="width:100%;border:1px solid var(--hf-line);border-radius:14px;padding:11px 13px;font:inherit" value="Nuevas opciones en House & Flats para ti">'+
+          '<label>'+targets.length+' destinatarios</label>'+
+          '<div class="camp-targets" id="campTargets"></div>'+
+          '<div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">'+
+            '<button class="dz-btn dz-btn-primary" id="campBuild">Generar enlaces</button>'+
+          '</div>'+
+        '</div>'+
+      '</div>';
+    document.body.appendChild(modal);
+    function personalize(tpl, c){
+      return tpl.replace(/\{nombre\}/g, (c.name||"").split(" ")[0]||"").replace(/\{ciudad\}/g, c.interestCity||"tu destino");
+    }
+    function buildLinks(){
+      const tpl = $("#campMsg").value;
+      const subj = $("#campSubj").value;
+      $("#campTargets").innerHTML = targets.map(c=>{
+        const msg = personalize(tpl, c);
+        const wa = '<a class="dz-btn dz-btn-wa dz-btn-sm" target="_blank" rel="noopener" href="'+waLink(c.whatsapp, msg)+'">WhatsApp</a>';
+        const em = c.email ? '<a class="dz-btn dz-btn-ghost dz-btn-sm" href="'+mailLink(c.email, subj, msg)+'">Email</a>' : '';
+        return '<div class="ct"><span><b>'+esc(c.name)+'</b><br><small style="color:var(--hf-mut)">'+esc(c.whatsapp||c.email||"sin contacto")+'</small></span><span class="ctlinks">'+wa+em+'</span></div>';
+      }).join("");
+      toast("Enlaces de campaña listos");
+    }
+    $("#campTargets").innerHTML = targets.map(c=>'<div class="ct"><span><b>'+esc(c.name)+'</b><br><small style="color:var(--hf-mut)">'+esc(c.whatsapp||c.email||"sin contacto")+'</small></span><span style="color:var(--hf-mut);font-size:12px">pulsa «Generar enlaces»</span></div>').join("");
+    $("#campBuild").onclick = buildLinks;
+    $("#campClose").onclick = ()=>modal.remove();
+    modal.addEventListener("click", e=>{ if(e.target===modal) modal.remove(); });
+  }
+
+  /* ============================================================================
+     RENDER: 6) RENTAS ACTIVAS / PAGOS / VENCIMIENTOS
+     ============================================================================ */
+  // Estado de pago según el día de pago del mes:
+  //  - vencido: el día de pago de este mes ya pasó hace > 0 días y < ~5 (demo)
+  //  - próximo: el día de pago llega en <= 5 días
+  //  - al día: el resto
+  function payState(r){
+    const day = Number(r.payDay)||1;
+    const now = new Date(TODAY);
+    const thisMonthDue = new Date(now.getFullYear(), now.getMonth(), Math.min(day,28));
+    let diff = daysBetween(thisMonthDue, now); // positivo = en el futuro
+    if(diff < 0){
+      // ya pasó este mes; si pasó hace poco lo marcamos vencido, si no, al día (ya cobrado)
+      if(diff >= -4) return {key:"late", label:"Vencido", cls:"tag-late"};
+      // el próximo será el mes que viene
+      const nextDue = new Date(now.getFullYear(), now.getMonth()+1, Math.min(day,28));
+      diff = daysBetween(nextDue, now);
+    }
+    if(diff <= 5) return {key:"soon", label:"Próximo ("+diff+"d)", cls:"tag-soon"};
+    return {key:"ok", label:"Al día", cls:"tag-ok"};
+  }
+  function checkoutFlag(r){
+    const co = parseDate(r.checkOut); if(!co) return 0;
+    const d = daysBetween(co, TODAY);
+    return (d>=0 && d<=30) ? d : -1;   // >=0 y <=30 días para salir
+  }
+  function checkinFlag(r){
+    const ci = parseDate(r.checkIn); if(!ci) return 0;
+    const d = daysBetween(ci, TODAY);
+    return (d>=0 && d<=14) ? d : -1;   // entrada futura cercana
+  }
+  let rentFilter = "all", rentQuery = "";
+  function extendMessage(r){
+    const first = (r.tenantName||"").split(" ")[0]||"";
+    return "¡Hola "+first+"! Soy del equipo de House & Flats. Tu estancia en "+r.propTitle+" ("+r.city+") termina el "+r.checkOut+". Ha sido un gusto tenerte y nos encantaría que te quedes más tiempo. ¿Te gustaría extender tu estancia? Te ayudamos con todo y te cuidamos las mismas condiciones. Cuéntame y lo coordinamos.";
+  }
+  function rentalsForNotify(){
+    return (loadDemo().rentals||[]).filter(r=>checkoutFlag(r)>=0);
+  }
+  function renderRentals(){
+    const rentals = (loadDemo().rentals||[]).slice();
+    const q = norm(rentQuery);
+    const filtered = rentals.filter(r=>{
+      const ps = payState(r), co = checkoutFlag(r), ci = checkinFlag(r);
+      if(rentFilter==="due" && !(ps.key==="soon"||ps.key==="late")) return false;
+      if(rentFilter==="checkout" && co<0) return false;
+      if(rentFilter==="checkin" && ci<0) return false;
+      if(q && !norm([r.propTitle,r.tenantName,r.city,r.country,r.neighborhood].join(" ")).includes(q)) return false;
+      return true;
+    }).sort((a,b)=> (checkoutFlag(a)<0?999:checkoutFlag(a)) - (checkoutFlag(b)<0?999:checkoutFlag(b)));
+    const tb = $("#rentRows");
+    if(!rentals.length){
+      tb.innerHTML = '<tr><td colspan="8"><div class="dz-empty"><strong>Sin rentas activas</strong>Pulsa «Regenerar demo» para crear datos de ejemplo.</div></td></tr>';
+      return;
+    }
+    if(!filtered.length){
+      tb.innerHTML = '<tr><td colspan="8"><div class="dz-empty"><strong>Sin resultados para este filtro</strong></div></td></tr>';
+      return;
+    }
+    tb.innerHTML = filtered.map(r=>{
+      const ps = payState(r);
+      const co = checkoutFlag(r), ci = checkinFlag(r);
+      let rowCls = "";
+      if(ps.key==="late") rowCls="row-flag-late";
+      else if(co>=0) rowCls="row-flag-checkout";
+      else if(ps.key==="soon") rowCls="row-flag-soon";
+      else if(ci>=0) rowCls="row-flag-checkin";
+      const coTxt = esc(r.checkOut)+(co>=0?'<span class="dz-cell-sub" style="color:var(--hf-orange);font-weight:800">en '+co+' días</span>':"");
+      const ciTxt = esc(r.checkIn)+(ci>=0?'<span class="dz-cell-sub" style="color:var(--hf-orange);font-weight:800">entra en '+ci+'d</span>':"");
+      let action = "";
+      if(co>=0){
+        const msg = extendMessage(r);
+        action = '<a class="dz-btn dz-btn-wa dz-btn-sm" target="_blank" rel="noopener" href="'+waLink(r.tenantPhone, msg)+'">WhatsApp</a>'+
+                 '<a class="dz-btn dz-btn-ghost dz-btn-sm" href="'+mailLink(r.tenantEmail, "¿Extendemos tu estancia en House & Flats?", msg)+'">Email</a>';
+      } else {
+        action = '<span style="color:var(--hf-mut);font-size:12px">—</span>';
+      }
+      return '<tr class="'+rowCls+'">'+
+        '<td><b>'+esc(r.propTitle)+'</b><span class="dz-cell-sub">'+esc(r.neighborhood?r.neighborhood+", ":"")+esc(r.city)+'</span></td>'+
+        '<td>'+esc(r.tenantName)+'<span class="dz-cell-sub">'+esc(r.tenantPhone)+'</span></td>'+
+        '<td><b>'+money(r.rent,r.currency)+'</b><span class="dz-cell-sub">/mes</span></td>'+
+        '<td>día '+esc(r.payDay)+'</td>'+
+        '<td><span class="tag '+ps.cls+'"><span class="tag-dot"></span>'+esc(ps.label)+'</span></td>'+
+        '<td>'+ciTxt+'</td>'+
+        '<td>'+coTxt+'</td>'+
+        '<td><div class="row-actions">'+(co>=0?'<span class="dz-cell-sub" style="margin-bottom:4px;width:100%">Avisar para extender:</span>':"")+action+'</div></td>'+
+      '</tr>';
+    }).join("");
+  }
+
+  /* ---------- Aviso masivo (los que vencen pronto) ---------- */
+  function notifyAll(){
+    const list = rentalsForNotify();
+    if(!list.length){ toast("No hay contratos por vencer en los próximos 30 días"); return; }
+    const modal = document.createElement("div");
+    modal.className = "dz-modal"; modal.id = "notifyModal";
+    modal.innerHTML =
+      '<div class="dz-modal-card">'+
+        '<div class="mh"><h3>Avisar a los que vencen pronto ('+list.length+')</h3><button class="dz-btn dz-btn-ghost dz-btn-sm" id="ntClose">Cerrar</button></div>'+
+        '<div class="mb">'+
+          '<p style="color:var(--hf-mut);font-size:13.5px;margin-top:0">Cada inquilino con salida en ≤ 30 días. Abre el enlace de WhatsApp o email — el mensaje ya viene escrito ofreciendo extender la estancia.</p>'+
+          '<div class="camp-targets">'+ list.map(r=>{
+            const msg = extendMessage(r);
+            const wa = '<a class="dz-btn dz-btn-wa dz-btn-sm" target="_blank" rel="noopener" href="'+waLink(r.tenantPhone, msg)+'">WhatsApp</a>';
+            const em = '<a class="dz-btn dz-btn-ghost dz-btn-sm" href="'+mailLink(r.tenantEmail, "¿Extendemos tu estancia en House & Flats?", msg)+'">Email</a>';
+            return '<div class="ct"><span><b>'+esc(r.tenantName)+'</b><br><small style="color:var(--hf-mut)">'+esc(r.propTitle)+' · sale '+esc(r.checkOut)+'</small></span><span class="ctlinks">'+wa+em+'</span></div>';
+          }).join("") +'</div>'+
+        '</div>'+
+      '</div>';
+    document.body.appendChild(modal);
+    $("#ntClose").onclick = ()=>modal.remove();
+    modal.addEventListener("click", e=>{ if(e.target===modal) modal.remove(); });
+  }
+
+  /* ============================================================================
+     RENDER GLOBAL + EVENTOS
+     ============================================================================ */
+  function renderAll(){
+    renderKPIs();
+    renderProps();
+    renderChanges();
+    renderLeads();
+    renderAreas();
+    renderClients();
+    renderRentals();
+  }
+
+  function wireEvents(){
+    // Inmuebles: filtros + búsqueda + aprobar/rechazar (delegación)
+    $("#propFilter").addEventListener("click", e=>{
+      const b = e.target.closest("button[data-pf]"); if(!b) return;
+      $$("#propFilter button").forEach(x=>x.classList.remove("on")); b.classList.add("on");
+      propFilter = b.getAttribute("data-pf"); renderProps();
+    });
+    $("#propSearch").addEventListener("input", e=>{ propQuery = e.target.value; renderProps(); });
+    $("#propRows").addEventListener("click", e=>{
+      const ap = e.target.closest("[data-approve]"), rj = e.target.closest("[data-reject]"), pd = e.target.closest("[data-pending]");
+      if(ap){ setPropStatus(ap.getAttribute("data-approve"), "Aprobado"); toast("Inmueble aprobado"); renderProps(); renderKPIs(); }
+      else if(rj){ setPropStatus(rj.getAttribute("data-reject"), "Rechazado"); toast("Inmueble rechazado"); renderProps(); renderKPIs(); }
+      else if(pd){ setPropStatus(pd.getAttribute("data-pending"), "Pendiente"); toast("Vuelto a pendiente"); renderProps(); renderKPIs(); }
+    });
+
+    // Cambios pendientes: filtro + aprobar/rechazar (delegación)
+    const chgFilterEl = $("#chgFilter");
+    if(chgFilterEl){
+      chgFilterEl.addEventListener("click", e=>{
+        const b = e.target.closest("button[data-cf]"); if(!b) return;
+        $$("#chgFilter button").forEach(x=>x.classList.remove("on")); b.classList.add("on");
+        chgFilter = b.getAttribute("data-cf"); renderChanges();
+      });
+    }
+    const chgRowsEl = $("#chgRows");
+    if(chgRowsEl){
+      chgRowsEl.addEventListener("click", e=>{
+        const ap = e.target.closest("[data-chg-ap]"), rj = e.target.closest("[data-chg-rj]");
+        if(ap){ setChangeStatus(ap.getAttribute("data-chg-ap"), "aprobado"); toast("Cambio aprobado y aplicado al inmueble"); renderChanges(); renderProps(); renderKPIs(); }
+        else if(rj){ setChangeStatus(rj.getAttribute("data-chg-rj"), "rechazado"); toast("Cambio rechazado"); renderChanges(); renderKPIs(); }
+      });
+    }
+
+    // Solicitudes: búsqueda inteligente + filtro cuenta
+    $("#leadSearch").addEventListener("input", e=>{ leadQuery = e.target.value; renderLeads(); });
+    $("#leadAcctFilter").addEventListener("click", e=>{
+      const b = e.target.closest("button[data-af]"); if(!b) return;
+      $$("#leadAcctFilter button").forEach(x=>x.classList.remove("on")); b.classList.add("on");
+      leadAcctFilter = b.getAttribute("data-af"); renderLeads();
+    });
+
+    // Clientes: búsqueda, selección, CSV, campaña
+    $("#cliSearch").addEventListener("input", e=>{ cliQuery = e.target.value; renderClients(); });
+    $("#cliRows").addEventListener("change", e=>{
+      const cb = e.target.closest(".cli-cb"); if(!cb) return;
+      const key = cb.getAttribute("data-key");
+      if(cb.checked) cliSelected.add(key); else cliSelected.delete(key);
+      updateCliCount();
+    });
+    $("#cliSelectAll").addEventListener("change", e=>{
+      const on = e.target.checked;
+      const visible = getClients().filter(c=>{ const q=norm(cliQuery); return !q || norm([c.name,c.email,c.whatsapp,c.origin,c.interestCity,c.interestProfile].join(" ")).includes(q); });
+      visible.forEach(c=>{ if(on) cliSelected.add(c.key); else cliSelected.delete(c.key); });
+      renderClients();
+    });
+    $("#btnExportCsv").addEventListener("click", exportCsv);
+    $("#btnCampaign").addEventListener("click", openCampaign);
+
+    // Rentas: filtros + búsqueda + aviso masivo
+    $("#rentFilter").addEventListener("click", e=>{
+      const b = e.target.closest("button[data-rf]"); if(!b) return;
+      $$("#rentFilter button").forEach(x=>x.classList.remove("on")); b.classList.add("on");
+      rentFilter = b.getAttribute("data-rf"); renderRentals();
+    });
+    $("#rentSearch").addEventListener("input", e=>{ rentQuery = e.target.value; renderRentals(); });
+    $("#btnNotifyAll").addEventListener("click", notifyAll);
+
+    // Regenerar demo
+    $("#btnReseed").addEventListener("click", ()=>{
+      loadDemo(true); cliSelected.clear(); renderAll(); toast("Datos de demostración regenerados");
+    });
+  }
+
+  /* ---------- Gate de contraseña (opcional) ---------- */
+  function initGate(onOk){
+    if(!REQUIRE_PASSWORD){ onOk(); return; }
+    const gate = $("#dzGate"); gate.classList.remove("dz-hidden");
+    const input = $("#dzGateInput"), err = $("#dzGateErr"), btn = $("#dzGateBtn");
+    function tryEnter(){
+      if(input.value === DEMO_PASSWORD){ gate.classList.add("dz-hidden"); onOk(); }
+      else { err.textContent = "Clave incorrecta."; input.value=""; input.focus(); }
+    }
+    btn.onclick = tryEnter;
+    input.addEventListener("keydown", e=>{ if(e.key==="Enter") tryEnter(); });
+    input.focus();
+  }
+
+  /* ---------- Init ---------- */
+  function boot(){
+    try{ loadDemo(); }catch(e){}
+    try{ wireEvents(); }catch(e){}
+    try{ renderAll(); }catch(e){ console.error("Panel del Director:", e); }
+  }
+  document.addEventListener("DOMContentLoaded", function(){
+    initGate(boot);
+  });
+})();
+</script>
+</body>
+</html>

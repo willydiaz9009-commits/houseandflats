@@ -1,0 +1,709 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mi cuenta · House &amp; Flats</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- ===========================================================
+       CONFIG (opcional): los mismos valores que login.html. Lo más
+       cómodo es crear auth/config.js (copia de auth/config.example.js)
+       y se carga abajo en todas las páginas. La anon key es pública y
+       segura. NUNCA pongas aquí la service_role key.
+       =========================================================== -->
+  <!-- Config compartida opcional (si no existe, el 404 es inofensivo: modo demo). -->
+  <script src="config.js" onerror="this.remove()"></script>
+
+  <style>
+    :root{
+      --o:#e8642a;--o-dark:#cf531c;--ink:#1a1714;--mut:#6f655e;
+      --line:#efe6dd;--cream:#fff8f1;--card:#fff;--wa:#25D366;--wa-dark:#1da851;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--ink);
+      background:linear-gradient(180deg,#fff8f1,#fff 60%);min-height:100vh;
+    }
+    a{color:inherit;text-decoration:none}
+    .dsp{font-family:'Plus Jakarta Sans',sans-serif}
+    .top{
+      display:flex;align-items:center;gap:14px;padding:18px clamp(20px,5vw,48px);
+      border-bottom:1px solid var(--line);background:rgba(255,255,255,.96);
+      position:sticky;top:0;z-index:10;backdrop-filter:blur(12px)
+    }
+    .lg{display:flex;align-items:center;gap:10px;font-family:'Plus Jakarta Sans';font-weight:800;font-size:19px}
+    .lg .mk{width:36px;height:36px;border-radius:11px;background:var(--o);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:800}
+    .top .spacer{margin-left:auto}
+    .top a.link{font-size:14px;font-weight:600;color:var(--mut)}
+    .top a.link:hover{color:var(--o)}
+    .btn-out{
+      border:1px solid var(--line);background:#fff;border-radius:12px;padding:9px 15px;
+      font:inherit;font-weight:700;font-size:14px;cursor:pointer;color:var(--ink);font-family:'Plus Jakarta Sans'
+    }
+    .btn-out:hover{background:var(--cream)}
+
+    .wrap{max-width:940px;margin:0 auto;padding:38px clamp(18px,5vw,40px) 72px}
+    .loading{color:var(--mut);font-size:15px;padding:40px 0;text-align:center}
+
+    .hello{margin:0 0 26px}
+    .hello h1{font-family:'Plus Jakarta Sans';font-weight:800;font-size:30px;margin:0 0 6px;letter-spacing:-.01em}
+    .hello p{color:var(--mut);margin:0;font-size:15px}
+
+    /* KPI cards */
+    .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:0 0 26px}
+    @media(max-width:720px){.kpis{grid-template-columns:repeat(2,1fr)}}
+    .kpi{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 12px 34px rgba(65,38,24,.06)}
+    .kpi .kic{width:38px;height:38px;border-radius:11px;background:var(--cream);display:grid;place-items:center;font-size:18px;color:var(--o);margin:0 0 11px}
+    .kpi b{display:block;font-family:'Plus Jakarta Sans';font-weight:800;font-size:24px;line-height:1;letter-spacing:-.01em}
+    .kpi small{display:block;color:var(--mut);font-size:12.5px;margin-top:5px;font-weight:600}
+
+    .panel{
+      background:var(--card);border:1px solid var(--line);border-radius:22px;
+      padding:24px;box-shadow:0 16px 48px rgba(65,38,24,.07);margin-bottom:22px
+    }
+    .panel h2{font-family:'Plus Jakarta Sans';font-weight:700;font-size:19px;margin:0 0 4px}
+    .panel .hint{color:var(--mut);font-size:13.5px;margin:0 0 18px}
+
+    .id-row{display:flex;flex-wrap:wrap;gap:18px}
+    .id-item{flex:1;min-width:200px}
+    .id-item small{display:block;text-transform:uppercase;letter-spacing:.05em;font-size:11px;font-weight:700;color:var(--mut);margin-bottom:5px}
+    .id-item b{font-weight:600;font-size:15.5px;word-break:break-word}
+
+    .saved-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px}
+    .saved-item{
+      display:flex;align-items:center;gap:13px;border:1px solid var(--line);
+      border-radius:15px;padding:14px 16px;background:#fff
+    }
+    .saved-item .pin{width:34px;height:34px;border-radius:10px;background:var(--cream);display:grid;place-items:center;color:var(--o);font-size:16px;flex:0 0 auto}
+    .saved-item .info{flex:1;min-width:0}
+    .saved-item .info b{display:block;font-weight:700;font-size:15px;font-family:'Plus Jakarta Sans'}
+    .saved-item .info small{color:var(--mut);font-size:12.5px;display:block}
+    .saved-item .open{border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 12px;font-size:13px;font-weight:700;color:var(--o);text-decoration:none}
+    .saved-item .open:hover{background:var(--cream)}
+    .saved-item .rm{
+      border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 12px;
+      font:inherit;font-size:13px;font-weight:600;cursor:pointer;color:#b03a2e
+    }
+    .saved-item .rm:hover{background:#fdecec;border-color:#f5c2c2}
+
+    /* booking rows */
+    .bk{display:flex;align-items:flex-start;gap:13px;border:1px solid var(--line);border-radius:15px;padding:15px 16px;background:#fff}
+    .bk .pin{width:34px;height:34px;border-radius:10px;background:var(--cream);display:grid;place-items:center;color:var(--o);font-size:16px;flex:0 0 auto}
+    .bk .info{flex:1;min-width:0}
+    .bk .info b{display:block;font-weight:700;font-size:15px;font-family:'Plus Jakarta Sans'}
+    .bk .info small{color:var(--mut);font-size:12.5px;display:block;margin-top:2px;line-height:1.5}
+    .bk .acts{display:flex;flex-direction:column;gap:7px;flex:0 0 auto}
+    .bk .acts button,.bk .acts a{border:1px solid var(--line);background:#fff;border-radius:10px;padding:7px 11px;font:inherit;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap;text-align:center;font-family:'Plus Jakarta Sans'}
+    .bk .acts .ext{color:var(--o)} .bk .acts .ext:hover{background:var(--cream)}
+    .bk .acts .can{color:#b03a2e} .bk .acts .can:hover{background:#fdecec;border-color:#f5c2c2}
+    .bk .acts .wa{color:#fff;background:var(--wa);border-color:var(--wa);display:inline-flex;align-items:center;gap:6px;justify-content:center}
+    .bk .acts .wa:hover{background:var(--wa-dark)}
+    .tag{display:inline-block;font-family:'Plus Jakarta Sans';font-weight:800;font-size:10px;text-transform:uppercase;letter-spacing:.05em;border-radius:100px;padding:3px 10px;margin-top:6px}
+    .tag.activa{background:#eafaf1;color:#1c7a47}
+    .tag.finalizada{background:#eef1f5;color:#566173}
+    .tag.cancelada{background:#fdecec;color:#9b2c2c}
+
+    /* next payment */
+    .pay{display:flex;align-items:center;gap:16px;background:linear-gradient(135deg,#fff3ea,#fff8f1);border:1px solid #ffd9bf;border-radius:18px;padding:20px}
+    .pay .pic{width:54px;height:54px;border-radius:14px;background:var(--o);color:#fff;display:grid;place-items:center;font-size:24px;flex:0 0 auto}
+    .pay .pd b{display:block;font-family:'Plus Jakarta Sans';font-weight:800;font-size:22px;letter-spacing:-.01em}
+    .pay .pd span{display:block;color:#7a4a25;font-size:13.5px;margin-top:3px;line-height:1.5}
+
+    .tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-top:6px}
+    .tcard{position:relative;display:flex;flex-direction:column;border-radius:16px;overflow:hidden;background:#fff;border:1px solid var(--line);box-shadow:0 8px 22px rgba(60,40,25,.08);cursor:pointer;transition:.18s}
+    .tcard:hover{transform:translateY(-4px);box-shadow:0 16px 38px rgba(232,100,42,.18)}
+    .tcard.rec{border:2px solid var(--o);box-shadow:0 14px 38px rgba(232,100,42,.2)}
+    .tcard .timg{height:130px;background:#f3ede7 center/cover no-repeat;position:relative}
+    .tcard .ttag{position:absolute;bottom:9px;left:9px;background:rgba(33,27,22,.82);color:#fff;font:800 10px/1 'Plus Jakarta Sans';letter-spacing:.06em;padding:5px 9px;border-radius:7px;text-transform:uppercase}
+    .tcard .rbadge{position:absolute;top:9px;left:9px;background:var(--o);color:#fff;font:800 10px/1 'Plus Jakarta Sans';letter-spacing:.04em;padding:5px 9px;border-radius:100px}
+    .tcard .tbd{padding:13px 14px 15px;display:flex;flex-direction:column;gap:4px}
+    .tcard .tbd h5{margin:0;font:700 14.5px/1.25 'Plus Jakarta Sans';color:var(--ink)}
+    .tcard .tbd .loc{font-size:12.5px;color:var(--mut)}
+    .tcard .tbd .pr{font:800 18px/1 'Plus Jakarta Sans';margin:4px 0 0}
+    .tcard .tbd .pr small{font-size:12px;color:var(--mut);font-weight:600}
+
+    .empty{color:var(--mut);font-size:14.5px;line-height:1.5;text-align:center;padding:26px 10px}
+    .empty a{color:var(--o);font-weight:600}
+
+    .btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--o);color:#fff;border:0;border-radius:13px;padding:12px 20px;font-family:'Plus Jakarta Sans';font-weight:700;font-size:14.5px;cursor:pointer;box-shadow:0 10px 24px rgba(232,100,42,.26);transition:.18s;text-decoration:none}
+    .btn-primary:hover{background:var(--o-dark);transform:translateY(-1px)}
+    .btn-danger{display:inline-flex;align-items:center;gap:8px;border:1px solid #f5c2c2;background:#fff;color:#b03a2e;border-radius:13px;padding:11px 18px;font-family:'Plus Jakarta Sans';font-weight:700;font-size:14px;cursor:pointer;transition:.18s}
+    .btn-danger:hover{background:#fdecec}
+
+    .demo-note{
+      display:none;align-items:flex-start;gap:9px;background:#fff3ea;border:1px solid #ffd9bf;
+      color:#9a4a16;border-radius:13px;padding:12px 14px;font-size:13.5px;line-height:1.45;margin:0 0 22px
+    }
+    .demo-note.show{display:flex}
+
+    /* small modal for extender estancia */
+    .ov{position:fixed;inset:0;background:rgba(26,18,12,.5);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+    .ov.open{display:flex}
+    .modal{background:#fff;border-radius:22px;max-width:420px;width:100%;padding:26px;box-shadow:0 30px 80px rgba(40,20,10,.3)}
+    .modal h3{font-family:'Plus Jakarta Sans';font-weight:800;font-size:20px;margin:0 0 6px}
+    .modal p{color:var(--mut);font-size:13.5px;margin:0 0 16px;line-height:1.5}
+    .modal label{display:block;font-weight:600;font-size:13px;margin:0 0 7px}
+    .modal input{width:100%;border:1px solid #e4d5cc;border-radius:12px;padding:12px 13px;font:inherit;outline:none}
+    .modal input:focus{border-color:var(--o);box-shadow:0 0 0 4px rgba(232,100,42,.12)}
+    .modal .mrow{display:flex;gap:10px;margin-top:20px}
+    .modal .mrow .btn-primary{flex:1;justify-content:center}
+    .modal .mrow .btn-out{flex:0 0 auto}
+  </style>
+</head>
+<body>
+  <header class="top">
+    <a class="lg" href="../index.html"><span class="mk">H&amp;F</span><span class="dsp">House &amp; Flats</span></a>
+    <span class="spacer"></span>
+    <a class="link" href="../alojamientos.html">Explorar alojamientos</a>
+    <button class="btn-out" id="logoutBtn" type="button">Cerrar sesión</button>
+  </header>
+
+  <main class="wrap">
+    <div class="demo-note" id="demoNote">
+      <span>✨</span>
+      <span><b>Modo demostración:</b> esta es tu cuenta de prueba en House &amp; Flats. Todo lo que ves se guarda en tu navegador para que puedas explorar cómo se sentiría tu espacio.</span>
+    </div>
+
+    <div class="loading" id="loading">Preparando tu espacio…</div>
+
+    <div id="content" hidden>
+      <div class="hello">
+        <h1 class="dsp" id="greeting">Hola</h1>
+        <p>Qué bueno tenerte de vuelta. Aquí está tu espacio en House &amp; Flats: te acompañamos en todo tu viaje.</p>
+      </div>
+
+      <!-- KPI CARDS -->
+      <div class="kpis" id="kpis"></div>
+
+      <!-- 1) MATCHES / GUARDADOS -->
+      <section class="panel">
+        <h2>Tus posibles matches y guardados</h2>
+        <p class="hint">Los lugares que te enamoraron, y los caminos que Sophi preparó para tu última solicitud.</p>
+
+        <div id="matchBox"></div>
+
+        <h3 style="font-family:'Plus Jakarta Sans';font-weight:700;font-size:15px;margin:22px 0 12px">Alojamientos guardados</h3>
+        <ul class="saved-list" id="savedList"></ul>
+        <div class="empty" id="savedEmpty" hidden>
+          Todavía no has guardado ningún alojamiento.<br>
+          Cuando uno te robe el corazón, toca el ♡ y lo guardamos aquí para ti.<br>
+          <a href="../alojamientos.html">Empieza a explorar destinos →</a>
+        </div>
+      </section>
+
+      <!-- 2) HISTORIAL DE RESERVAS -->
+      <section class="panel">
+        <h2>Historial de reservas</h2>
+        <p class="hint">Todas tus estancias con House &amp; Flats: las que están en marcha y las que ya forman parte de tu historia.</p>
+        <div class="saved-list" id="bookingList"></div>
+        <div class="empty" id="bookingEmpty" hidden>
+          Todavía no tienes reservas.<br>
+          Cuando confirmes tu próximo hogar, aparecerá aquí con todos sus detalles.<br>
+          <a href="../alojamientos.html">Buscar mi próximo hogar →</a>
+        </div>
+      </section>
+
+      <!-- 3) PRÓXIMO DÍA DE PAGO -->
+      <section class="panel" id="paySection" hidden>
+        <h2>Próximo día de pago</h2>
+        <p class="hint">Un recordatorio amable para que vivas tranquilo, sin sorpresas.</p>
+        <div class="pay" id="payCard"></div>
+      </section>
+
+      <!-- 4) OPERACIÓN -->
+      <section class="panel">
+        <h2>Operación</h2>
+        <p class="hint">Lo que necesites hacer con tus reservas, en un solo lugar. Estamos contigo en cada paso.</p>
+        <div id="opsBox"></div>
+      </section>
+
+      <!-- 5) MI CUENTA -->
+      <section class="panel">
+        <h2>Mi cuenta</h2>
+        <p class="hint">Los datos con los que te conocemos.</p>
+        <div class="id-row">
+          <div class="id-item">
+            <small>Nombre</small>
+            <b id="userName">—</b>
+          </div>
+          <div class="id-item">
+            <small>Correo</small>
+            <b id="userEmail">—</b>
+          </div>
+          <div class="id-item">
+            <small>Tipo de cuenta</small>
+            <b id="userRole">Huésped</b>
+          </div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:22px">
+          <button class="btn-out" id="logoutBtn2" type="button">Cerrar sesión</button>
+          <button class="btn-danger" id="deleteBtn" type="button">Borrar cuenta</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Modal extender estancia -->
+  <div class="ov" id="extOv">
+    <div class="modal">
+      <h3>Extender tu estancia</h3>
+      <p id="extDesc">Elige hasta cuándo quieres quedarte. Lo dejamos listo y, si quieres, lo confirmamos contigo por WhatsApp.</p>
+      <label for="extDate">Nueva fecha de salida</label>
+      <input id="extDate" type="date" />
+      <div class="mrow">
+        <button class="btn-primary" id="extSave" type="button">Guardar nueva fecha</button>
+        <button class="btn-out" id="extCancel" type="button">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="supabase-client.js"></script>
+  <script src="../app.js"></script>
+  <script>
+    (function () {
+      'use strict';
+      var WA = 'https://wa.me/13055100028';
+      var configured = !!(window.HFAuth && window.HFAuth.configured);
+
+      var el = {
+        loading: document.getElementById('loading'),
+        content: document.getElementById('content'),
+        demoNote: document.getElementById('demoNote'),
+        greeting: document.getElementById('greeting'),
+        userName: document.getElementById('userName'),
+        userEmail: document.getElementById('userEmail'),
+        userRole: document.getElementById('userRole'),
+        kpis: document.getElementById('kpis'),
+        matchBox: document.getElementById('matchBox'),
+        savedList: document.getElementById('savedList'),
+        savedEmpty: document.getElementById('savedEmpty'),
+        bookingList: document.getElementById('bookingList'),
+        bookingEmpty: document.getElementById('bookingEmpty'),
+        paySection: document.getElementById('paySection'),
+        payCard: document.getElementById('payCard'),
+        opsBox: document.getElementById('opsBox'),
+        logoutBtn: document.getElementById('logoutBtn'),
+        logoutBtn2: document.getElementById('logoutBtn2'),
+        deleteBtn: document.getElementById('deleteBtn'),
+        extOv: document.getElementById('extOv'),
+        extDate: document.getElementById('extDate'),
+        extDesc: document.getElementById('extDesc'),
+        extSave: document.getElementById('extSave'),
+        extCancel: document.getElementById('extCancel')
+      };
+
+      function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){
+        return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]; }); }
+
+      // ---- localStorage helpers (always try/catch) -------------------------
+      function lsGet(key, fallback){
+        try{ var raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; }
+        catch(e){ return fallback; }
+      }
+      function lsSet(key, val){
+        try{ localStorage.setItem(key, JSON.stringify(val)); }catch(e){}
+      }
+      function lsGetStr(key){ try{ return localStorage.getItem(key); }catch(e){ return null; } }
+
+      // ---- currency formatting (reuse app.js if present) -------------------
+      function fmtMoney(amount, currency){
+        var cur = currency || 'EUR';
+        try{
+          return new Intl.NumberFormat('es-ES', { style:'currency', currency: cur, maximumFractionDigits: 0 }).format(Number(amount)||0);
+        }catch(e){
+          return (cur + ' ' + (Number(amount)||0).toLocaleString('es-ES'));
+        }
+      }
+      function fmtDate(iso){
+        if(!iso) return '';
+        try{ return new Date(iso + 'T00:00:00').toLocaleDateString('es-ES', { day:'numeric', month:'long', year:'numeric' }); }
+        catch(e){ return iso; }
+      }
+      function addMonths(iso, n){
+        try{
+          var d = new Date(iso + 'T00:00:00');
+          d.setMonth(d.getMonth() + n);
+          return d.toISOString().slice(0,10);
+        }catch(e){ return iso; }
+      }
+
+      // ---- demo data generation (from real listings cities only) ----------
+      function genDemoBookings(){
+        var listings = (window.__listings || []).filter(function(l){ return l && l.city; });
+        if(!listings.length){
+          // No listings available: keep it minimal but real-shaped.
+          return [];
+        }
+        // Deterministic pick: first two distinct listings.
+        var a = listings[0];
+        var b = listings.find(function(l){ return l.city !== a.city; }) || listings[1] || a;
+
+        var today = new Date();
+        var y = today.getFullYear();
+        function ymd(d){ return d.toISOString().slice(0,10); }
+
+        // Active booking: started ~1 month ago, ends in ~4 months.
+        var inA = new Date(today); inA.setMonth(inA.getMonth() - 1);
+        var outA = new Date(today); outA.setMonth(outA.getMonth() + 4);
+        // Finished booking: last year.
+        var inB = new Date(y - 1, 2, 1);
+        var outB = new Date(y - 1, 7, 1);
+
+        return [
+          {
+            id: 'bk-' + a.id,
+            role: 'huesped',
+            title: a.title, city: a.city, country: a.country,
+            checkIn: ymd(inA), checkOut: ymd(outA),
+            monthlyPrice: a.price, currency: a.currency || 'EUR',
+            payDay: 5, status: 'activa'
+          },
+          {
+            id: 'bk-' + b.id,
+            role: 'huesped',
+            title: b.title, city: b.city, country: b.country,
+            checkIn: ymd(inB), checkOut: ymd(outB),
+            monthlyPrice: b.price, currency: b.currency || 'EUR',
+            payDay: 1, status: 'finalizada'
+          }
+        ];
+      }
+
+      function loadBookings(){
+        var all = lsGet('hf_bookings', null);
+        if(!Array.isArray(all) || !all.length){
+          all = genDemoBookings();
+          if(all.length) lsSet('hf_bookings', all);
+        }
+        return Array.isArray(all) ? all : [];
+      }
+      function saveBookings(all){ lsSet('hf_bookings', all); }
+      function myBookings(){ return loadBookings().filter(function(b){ return b && b.role === 'huesped'; }); }
+
+      // ---- saved listings (reuse HFFav store: 'hf_saved') -----------------
+      function listingById(id){
+        var ls = window.__listings || [];
+        for(var i=0;i<ls.length;i++){ if(String(ls[i].id) === String(id)) return ls[i]; }
+        return null;
+      }
+      function loadSavedIds(){
+        // Prefer HFFav (canonical) but fall back to raw 'hf_saved'.
+        if(window.HFFav && typeof window.HFFav.getAll === 'function'){
+          try{ return window.HFFav.getAll(); }catch(e){}
+        }
+        var raw = lsGet('hf_saved', []);
+        return Array.isArray(raw) ? raw : [];
+      }
+
+      // ---- leads (last solicitud) -----------------------------------------
+      function lastLead(){
+        var leads = lsGet('hf_leads', []);
+        return (Array.isArray(leads) && leads.length) ? leads[0] : null;
+      }
+
+      // ===================================================================
+      // RENDERERS
+      // ===================================================================
+      function renderKpis(bookings, savedCount, lead){
+        var active = bookings.filter(function(b){ return b.status === 'activa'; }).length;
+        var total = bookings.length;
+        el.kpis.innerHTML =
+          '<div class="kpi"><div class="kic">🏡</div><b>' + active + '</b><small>Reservas activas</small></div>' +
+          '<div class="kpi"><div class="kic">📅</div><b>' + total + '</b><small>Reservas en total</small></div>' +
+          '<div class="kpi"><div class="kic">♡</div><b>' + savedCount + '</b><small>Guardados</small></div>' +
+          '<div class="kpi"><div class="kic">✨</div><b>' + (lead ? '1' : '0') + '</b><small>Solicitud activa</small></div>';
+      }
+
+      function renderSaved(){
+        var ids = loadSavedIds();
+        el.savedList.innerHTML = '';
+        if(!ids.length){ el.savedEmpty.hidden = false; return ids.length; }
+        el.savedEmpty.hidden = true;
+        ids.forEach(function(id){
+          var l = listingById(id);
+          var li = document.createElement('li');
+          li.className = 'saved-item';
+          var title = l ? l.title : ('Alojamiento ' + id);
+          var loc = l ? (l.neighborhood ? l.neighborhood + ' · ' + l.city : l.city) : '';
+          var price = l ? (fmtMoney(l.price, l.currency) + ' /mes') : '';
+          li.innerHTML =
+            '<span class="pin">🏡</span>' +
+            '<span class="info"><b>' + esc(title) + '</b>' +
+              (loc ? '<small>' + esc(loc) + (price ? ' · ' + esc(price) : '') + '</small>' : '') +
+            '</span>' +
+            '<a class="open" href="../alojamientos.html#alojamientos">Ver</a>' +
+            '<button class="rm" type="button" data-id="' + esc(id) + '">Quitar</button>';
+          li.querySelector('.rm').addEventListener('click', function(){
+            var rid = this.getAttribute('data-id');
+            if(window.HFFav && typeof window.HFFav.remove === 'function'){
+              try{ window.HFFav.remove(rid); }catch(e){}
+            } else {
+              var raw = lsGet('hf_saved', []);
+              raw = (raw||[]).filter(function(x){ return String(x) !== String(rid); });
+              lsSet('hf_saved', raw);
+            }
+            li.remove();
+            if(!el.savedList.children.length) el.savedEmpty.hidden = false;
+            refreshKpis();
+          });
+          el.savedList.appendChild(li);
+        });
+        return ids.length;
+      }
+
+      function renderMatches(lead){
+        el.matchBox.innerHTML = '';
+        if(!lead){
+          el.matchBox.innerHTML =
+            '<div class="empty">Todavía no nos has contado qué buscas.<br>' +
+            'Cuéntanos tu destino, fechas y presupuesto y Sophi te prepara tus posibles matches.<br>' +
+            '<a href="../solicitud.html">Crear mi solicitud →</a></div>';
+          return;
+        }
+        var dest = lead.destinationCity || lead.destinationCountry || 'tu destino';
+        var wrap = document.createElement('div');
+        wrap.innerHTML =
+          '<div style="background:linear-gradient(135deg,#fff3ea,#fff8f1);border:1px solid #ffd9bf;border-radius:16px;padding:16px 18px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px">' +
+            '<div style="flex:1;min-width:200px"><b style="font-family:\'Plus Jakarta Sans\';font-weight:800;font-size:15px;display:block">Tu última solicitud · ' + esc(dest) + '</b>' +
+            '<small style="color:#7a6a5c;font-size:13px">Sophi puede preparar 3 caminos comparables para ti, según lo que nos contaste.</small></div>' +
+            '<button class="btn-primary" id="seeMatches" type="button">Ver mis posibles matches</button>' +
+          '</div>' +
+          '<div id="tiersBox" style="margin-top:16px"></div>';
+        el.matchBox.appendChild(wrap);
+
+        document.getElementById('seeMatches').addEventListener('click', function(){
+          showTiers(lead);
+        });
+      }
+
+      function showTiers(lead){
+        var box = document.getElementById('tiersBox');
+        if(!box) return;
+        // Use the real match engine if available.
+        var matches = [];
+        if(typeof window.findMatchingListings === 'function'){
+          try{ matches = window.findMatchingListings(lead) || []; }catch(e){ matches = []; }
+        }
+        var tiers = [];
+        if(typeof window.buildWizTiers === 'function'){
+          try{ tiers = (window.buildWizTiers(matches) || {}).tiers || []; }catch(e){ tiers = []; }
+        }
+        if(!tiers.length && matches.length){
+          // Minimal fallback: treat the top matches as tiers.
+          tiers = matches.slice(0,3).map(function(m, i){
+            return { tier: ['economica','equilibrada','premium'][i] || 'equilibrada', recommended: i===1, item: m };
+          });
+        }
+
+        if(!tiers.length){
+          var dest = lead.destinationCity || lead.destinationCountry || '';
+          var waText = 'Hola House & Flats, completé mi solicitud para ' + dest + ' y me encantaría ver opciones a mi medida.';
+          box.innerHTML =
+            '<div class="empty">Por ahora no tenemos una coincidencia exacta, pero Sophi y el equipo siguen buscando.<br>' +
+            '<a href="' + WA + '?text=' + encodeURIComponent(waText) + '" target="_blank" rel="noopener">Hablar por WhatsApp →</a></div>';
+          return;
+        }
+
+        var TAG = { economica:'Económica', equilibrada:'Equilibrada', premium:'Premium' };
+        box.innerHTML =
+          '<p style="font-family:\'Plus Jakarta Sans\';font-weight:800;font-size:15px;margin:0 0 12px">Sophi te preparó ' + tiers.length + ' camino' + (tiers.length>1?'s':'') + ' comparable' + (tiers.length>1?'s':'') + '</p>' +
+          '<div class="tiers">' + tiers.map(function(t){
+            var r = t.item || {};
+            return '<article class="tcard' + (t.recommended ? ' rec' : '') + '" data-id="' + esc(r.id) + '">' +
+              '<div class="timg" style="background-image:url(\'' + esc(r.image) + '\')">' +
+                (t.recommended ? '<span class="rbadge">★ Recomendada</span>' : '') +
+                '<span class="ttag">' + esc(TAG[t.tier] || '') + '</span>' +
+              '</div>' +
+              '<div class="tbd">' +
+                '<h5>' + esc(r.title) + '</h5>' +
+                '<span class="loc">' + esc((r.neighborhood ? r.neighborhood + ' · ' : '') + (r.city||'')) + '</span>' +
+                '<span class="pr">' + (typeof window.__money === 'function' ? window.__money(r) : fmtMoney(r.price, r.currency)) + '<small> /mes</small></span>' +
+              '</div>' +
+            '</article>';
+          }).join('') + '</div>';
+
+        Array.prototype.forEach.call(box.querySelectorAll('.tcard'), function(card){
+          card.addEventListener('click', function(){
+            window.location.href = '../alojamientos.html#alojamientos';
+          });
+        });
+      }
+
+      function renderBookings(bookings){
+        el.bookingList.innerHTML = '';
+        if(!bookings.length){ el.bookingEmpty.hidden = false; return; }
+        el.bookingEmpty.hidden = true;
+        // Active first, then finished, then cancelled.
+        var order = { activa:0, finalizada:1, cancelada:2 };
+        bookings.slice().sort(function(a,b){ return (order[a.status]||9) - (order[b.status]||9); })
+          .forEach(function(b){
+            var div = document.createElement('div');
+            div.className = 'bk';
+            div.innerHTML =
+              '<span class="pin">🏡</span>' +
+              '<div class="info">' +
+                '<b>' + esc(b.title) + '</b>' +
+                '<small>📍 ' + esc((b.city||'') + (b.country ? ', ' + b.country : '')) + '</small>' +
+                '<small>📅 ' + esc(fmtDate(b.checkIn)) + ' → ' + esc(fmtDate(b.checkOut)) + '</small>' +
+                '<small>💶 ' + fmtMoney(b.monthlyPrice, b.currency) + ' /mes</small>' +
+                '<span class="tag ' + esc(b.status) + '">' + esc(b.status) + '</span>' +
+              '</div>';
+            el.bookingList.appendChild(div);
+          });
+      }
+
+      function renderPayment(bookings){
+        var active = bookings.filter(function(b){ return b.status === 'activa'; })[0];
+        if(!active){ el.paySection.hidden = true; return; }
+        el.paySection.hidden = false;
+        var day = active.payDay || 1;
+        // Next month label.
+        var now = new Date();
+        var next = new Date(now.getFullYear(), now.getMonth() + (now.getDate() <= day ? 0 : 1), 1);
+        var monthName = next.toLocaleDateString('es-ES', { month:'long' });
+        el.payCard.innerHTML =
+          '<div class="pic">💶</div>' +
+          '<div class="pd"><b>' + fmtMoney(active.monthlyPrice, active.currency) + '</b>' +
+          '<span>Tu próximo pago es el día <b>' + day + '</b> de ' + esc(monthName) + ', por tu estancia en <b>' + esc(active.title) + '</b>. ' +
+          'Te avisaremos con tiempo: queremos que vivas tranquilo.</span></div>';
+      }
+
+      function renderOps(bookings){
+        var active = bookings.filter(function(b){ return b.status === 'activa'; });
+        el.opsBox.innerHTML = '';
+        if(!active.length){
+          el.opsBox.innerHTML = '<div class="empty">No tienes reservas activas para gestionar ahora mismo.<br>Cuando tengas una estancia en marcha, aquí podrás extenderla o cancelarla.</div>';
+          return;
+        }
+        active.forEach(function(b){
+          var waText = 'Hola House & Flats, tengo una reserva en ' + b.title + ' (' + b.city + '). Me gustaría extender mi estancia más allá del ' + fmtDate(b.checkOut) + '. ¿Me ayudan?';
+          var div = document.createElement('div');
+          div.className = 'bk';
+          div.style.marginBottom = '11px';
+          div.innerHTML =
+            '<span class="pin">🛠️</span>' +
+            '<div class="info">' +
+              '<b>' + esc(b.title) + '</b>' +
+              '<small>📍 ' + esc(b.city) + ' · sale el ' + esc(fmtDate(b.checkOut)) + '</small>' +
+            '</div>' +
+            '<div class="acts">' +
+              '<button class="ext" type="button" data-id="' + esc(b.id) + '">Extender estancia</button>' +
+              '<a class="wa" href="' + WA + '?text=' + encodeURIComponent(waText) + '" target="_blank" rel="noopener">💬 WhatsApp</a>' +
+              '<button class="can" type="button" data-id="' + esc(b.id) + '">Cancelar reserva</button>' +
+            '</div>';
+          div.querySelector('.ext').addEventListener('click', function(){ openExtend(b.id); });
+          div.querySelector('.can').addEventListener('click', function(){ cancelBooking(b.id); });
+          el.opsBox.appendChild(div);
+        });
+      }
+
+      // ---- operations ------------------------------------------------------
+      var _extId = null;
+      function openExtend(id){
+        var b = myBookings().filter(function(x){ return x.id === id; })[0];
+        if(!b) return;
+        _extId = id;
+        el.extDesc.textContent = 'Tu estancia en ' + b.title + ' termina el ' + fmtDate(b.checkOut) + '. Elige una nueva fecha de salida.';
+        el.extDate.value = addMonths(b.checkOut, 1);
+        try{ el.extDate.min = b.checkOut; }catch(e){}
+        el.extOv.classList.add('open');
+      }
+      function closeExtend(){ el.extOv.classList.remove('open'); _extId = null; }
+      el.extCancel.addEventListener('click', closeExtend);
+      el.extOv.addEventListener('click', function(e){ if(e.target === el.extOv) closeExtend(); });
+      el.extSave.addEventListener('click', function(){
+        if(!_extId) return;
+        var newDate = el.extDate.value;
+        if(!newDate){ return; }
+        var all = loadBookings();
+        all.forEach(function(b){ if(b.id === _extId){ b.checkOut = newDate; b.status = 'activa'; } });
+        saveBookings(all);
+        closeExtend();
+        rerender();
+      });
+
+      function cancelBooking(id){
+        var b = myBookings().filter(function(x){ return x.id === id; })[0];
+        if(!b) return;
+        if(!window.confirm('¿Seguro que quieres cancelar tu reserva en ' + b.title + '? Esto la marcará como cancelada.')) return;
+        var all = loadBookings();
+        all.forEach(function(x){ if(x.id === id){ x.status = 'cancelada'; } });
+        saveBookings(all);
+        rerender();
+      }
+
+      // ---- delete account --------------------------------------------------
+      function deleteAccount(){
+        if(!window.confirm('¿Seguro que quieres borrar tu cuenta? Se borrarán tus datos guardados en este navegador (guardados, reservas y solicitudes). Esta acción no se puede deshacer.')) return;
+        ['hf_saved','hf_bookings','hf_leads','hf_role'].forEach(function(k){ try{ localStorage.removeItem(k); }catch(e){} });
+        // If a real session exists, sign out too.
+        if(configured && window.HFAuth && typeof window.HFAuth.signOut === 'function'){
+          window.HFAuth.signOut().then(goLogin).catch(goLogin);
+        } else {
+          goLogin();
+        }
+      }
+
+      function goLogin(){ window.location.href = 'login.html?role=huesped'; }
+
+      // ---- full re-render --------------------------------------------------
+      function rerender(){
+        var bookings = myBookings();
+        var lead = lastLead();
+        var savedCount = renderSaved();
+        renderKpis(bookings, savedCount, lead);
+        renderMatches(lead);
+        renderBookings(bookings);
+        renderPayment(bookings);
+        renderOps(bookings);
+      }
+      function refreshKpis(){
+        renderKpis(myBookings(), loadSavedIds().length, lastLead());
+      }
+
+      // ---- sign out / delete wiring ---------------------------------------
+      function doLogout(){
+        if(configured && window.HFAuth && typeof window.HFAuth.signOut === 'function'){
+          window.HFAuth.signOut().then(goLogin).catch(goLogin);
+        } else { goLogin(); }
+      }
+      el.logoutBtn.addEventListener('click', doLogout);
+      el.logoutBtn2.addEventListener('click', doLogout);
+      el.deleteBtn.addEventListener('click', deleteAccount);
+
+      // ---- boot ------------------------------------------------------------
+      function showContent(name, email, role){
+        el.userName.textContent = name || 'Huésped';
+        el.userEmail.textContent = email || '—';
+        el.userRole.textContent = (role === 'anfitrion') ? 'Anfitrión' : 'Huésped';
+        el.greeting.textContent = name ? ('Hola, ' + String(name).split(' ')[0]) : 'Hola';
+        el.loading.hidden = true;
+        el.content.hidden = false;
+        rerender();
+      }
+
+      var role = lsGetStr('hf_role') || 'huesped';
+
+      if(!configured){
+        // Demo mode: no real backend. Render the whole dashboard from localStorage.
+        el.demoNote.classList.add('show');
+        showContent('Huésped', '', role);
+        return;
+      }
+
+      // Real auth available.
+      window.HFAuth.getUser().then(function(user){
+        if(!user){ goLogin(); return; }
+        var meta = user.user_metadata || {};
+        var name = meta.full_name || meta.name || '';
+        showContent(name, user.email || '', role);
+        // If the cloud also has saved listings, HFFav merges them; our renderSaved
+        // reads HFFav which already mirrors local+cloud.
+      }).catch(function(){ goLogin(); });
+    })();
+  </script>
+</body>
+</html>
