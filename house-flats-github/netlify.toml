@@ -1,0 +1,7 @@
+# Netlify config for House & Flats demo
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+# Sophi AI endpoint -> /.netlify/functions/sophi
+# Set the key in: Site settings -> Environment variables -> ANTHROPIC_API_KEY

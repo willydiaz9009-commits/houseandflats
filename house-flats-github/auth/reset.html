@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Restablecer contraseña · House &amp; Flats</title>
+  <meta name="description" content="Crea una nueva contraseña para tu cuenta de House & Flats." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Config compartida opcional (si no existe, el 404 es inofensivo: modo demo). -->
+  <script src="config.js" onerror="this.remove()"></script>
+
+  <style>
+    :root{
+      --o:#e8642a;--o2:#ff8a3d;--o-dark:#cf531c;--ink:#1a1714;--mut:#6f655e;
+      --line:#efe6dd;--cream:#fff8f1;--card:#fff;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--ink);
+      background:radial-gradient(circle at 85% 12%,rgba(232,100,42,.14),transparent 38%),
+                 radial-gradient(circle at 8% 92%,rgba(255,170,92,.13),transparent 30%),
+                 linear-gradient(180deg,#fff8f1,#fff 60%);
+      min-height:100vh;display:flex;flex-direction:column;
+    }
+    a{color:inherit;text-decoration:none}
+    .dsp{font-family:'Plus Jakarta Sans',sans-serif}
+    .top{display:flex;align-items:center;gap:10px;padding:22px clamp(20px,5vw,48px)}
+    .lg{display:flex;align-items:center;gap:10px;font-family:'Plus Jakarta Sans';font-weight:800;font-size:19px}
+    .lg .mk{width:38px;height:38px;border-radius:11px;background:var(--o);color:#fff;display:grid;place-items:center;font-size:13px;font-weight:800}
+    .back{margin-left:auto;font-size:14px;font-weight:600;color:var(--mut)}
+    .back:hover{color:var(--o)}
+
+    .wrap{flex:1;display:grid;place-items:center;padding:18px clamp(16px,5vw,40px) 56px}
+    .card{
+      width:100%;max-width:430px;background:var(--card);border:1px solid var(--line);
+      border-radius:26px;padding:34px 30px;box-shadow:0 28px 70px rgba(77,43,28,.13);
+    }
+    .head h1{font-family:'Plus Jakarta Sans';font-weight:800;font-size:27px;line-height:1.15;margin:0 0 6px;letter-spacing:-.01em}
+    .head p{color:var(--mut);font-size:14.5px;margin:0 0 22px;line-height:1.5}
+
+    .demo-note{
+      display:none;align-items:flex-start;gap:9px;background:#fff3ea;border:1px solid #ffd9bf;
+      color:#9a4a16;border-radius:13px;padding:11px 13px;font-size:13px;line-height:1.45;margin:0 0 20px;
+    }
+    .demo-note.show{display:flex}
+    .demo-note b{font-weight:700}
+
+    label{display:block;font-weight:600;font-size:13.5px;margin:14px 0 7px;color:#352a23}
+    input{
+      width:100%;border:1px solid #e4d5cc;border-radius:14px;padding:13px 14px;font:inherit;
+      background:#fff;color:var(--ink);outline:none;transition:.18s
+    }
+    input:focus{border-color:var(--o);box-shadow:0 0 0 4px rgba(232,100,42,.12)}
+
+    .pw-wrap{position:relative}
+    .pw-wrap input{padding-right:46px}
+    .pw-toggle{
+      position:absolute;top:50%;right:8px;transform:translateY(-50%);
+      width:32px;height:32px;border:0;background:none;cursor:pointer;
+      display:grid;place-items:center;border-radius:9px;font-size:17px;line-height:1;
+      padding:0;color:var(--mut);transition:.18s
+    }
+    .pw-toggle:hover{background:var(--cream);color:var(--o)}
+    .pw-toggle:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(232,100,42,.22)}
+
+    .btn{
+      width:100%;display:inline-flex;align-items:center;justify-content:center;gap:9px;
+      border-radius:14px;font-family:'Plus Jakarta Sans';font-weight:700;font-size:15px;padding:14px;
+      border:1px solid transparent;cursor:pointer;transition:.18s;margin-top:20px
+    }
+    .btn-primary{background:var(--o);color:#fff;box-shadow:0 12px 26px rgba(232,100,42,.28)}
+    .btn-primary:hover{background:var(--o-dark);transform:translateY(-1px)}
+    .btn-primary:disabled{opacity:.6;cursor:not-allowed;transform:none}
+
+    .msg{margin-top:16px;font-size:13.5px;line-height:1.45;padding:11px 13px;border-radius:12px;display:none}
+    .msg.show{display:block}
+    .msg.err{background:#fdecec;border:1px solid #f5c2c2;color:#9b2c2c}
+    .msg.ok{background:#eafaf1;border:1px solid #b9e8cd;color:#1c7a47}
+
+    .foot{text-align:center;margin-top:22px;font-size:12.5px;color:var(--mut);line-height:1.5}
+    .foot a{color:var(--o);font-weight:600}
+
+    .success{display:none}
+    .success.show{display:block}
+    .success .tick{
+      width:54px;height:54px;border-radius:16px;background:#eafaf1;color:#1c7a47;
+      display:grid;place-items:center;font-size:26px;margin:0 auto 16px
+    }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <a class="lg" href="../index.html"><span class="mk">H&amp;F</span><span class="dsp">House &amp; Flats</span></a>
+    <a class="back" href="../index.html">&larr; Volver al sitio</a>
+  </header>
+
+  <main class="wrap">
+    <section class="card">
+      <div class="demo-note" id="demoNote">
+        <span>⚠️</span>
+        <span><b>Modo demo:</b> Supabase no está configurado, así que no se puede restablecer la contraseña. Configura <code>HF_SUPABASE</code> para activarlo.</span>
+      </div>
+
+      <!-- Formulario de nueva contraseña -->
+      <div id="formView">
+        <div class="head">
+          <h1 class="dsp">Crea tu nueva contraseña</h1>
+          <p>Estás a un paso de volver a tu espacio. Elige una contraseña con la que te sientas cómodo y seguro: estamos contigo.</p>
+        </div>
+
+        <form id="form" novalidate>
+          <label for="password">Nueva contraseña</label>
+          <div class="pw-wrap">
+            <input id="password" type="password" autocomplete="new-password" placeholder="••••••••" minlength="6" required />
+            <button class="pw-toggle" type="button" data-pw-toggle="password" aria-label="Mostrar contraseña" aria-pressed="false" title="Mostrar contraseña">👁</button>
+          </div>
+
+          <label for="password2">Repite la contraseña</label>
+          <div class="pw-wrap">
+            <input id="password2" type="password" autocomplete="new-password" placeholder="••••••••" minlength="6" required />
+            <button class="pw-toggle" type="button" data-pw-toggle="password2" aria-label="Mostrar contraseña" aria-pressed="false" title="Mostrar contraseña">👁</button>
+          </div>
+
+          <button class="btn btn-primary" id="submitBtn" type="submit">Guardar nueva contraseña</button>
+        </form>
+
+        <div class="msg" id="msg"></div>
+      </div>
+
+      <!-- Confirmación de éxito -->
+      <div class="success" id="successView">
+        <div class="tick">✓</div>
+        <div class="head" style="text-align:center">
+          <h1 class="dsp">¡Listo! Tu contraseña está actualizada</h1>
+          <p>Ya puedes entrar con tu nueva contraseña. Nos alegra tenerte de vuelta: tu próximo hogar te sigue esperando.</p>
+        </div>
+        <a class="btn btn-primary" href="login.html">Ir a iniciar sesión</a>
+      </div>
+
+      <p class="foot">
+        <a href="login.html">← Volver a iniciar sesión</a> &nbsp;·&nbsp;
+        <a href="../index.html">Seguir explorando</a>
+      </p>
+    </section>
+  </main>
+
+  <script src="supabase-client.js"></script>
+  <script>
+    // Mostrar/ocultar contraseña. Independiente de la lógica de auth.
+    (function () {
+      var toggles = document.querySelectorAll('.pw-toggle[data-pw-toggle]');
+      Array.prototype.forEach.call(toggles, function (btn) {
+        btn.addEventListener('click', function () {
+          var input = document.getElementById(btn.getAttribute('data-pw-toggle'));
+          if (!input) return;
+          var show = input.type === 'password';
+          input.type = show ? 'text' : 'password';
+          btn.setAttribute('aria-pressed', show ? 'true' : 'false');
+          var lbl = show ? 'Ocultar contraseña' : 'Mostrar contraseña';
+          btn.setAttribute('aria-label', lbl);
+          btn.setAttribute('title', lbl);
+          btn.textContent = show ? '🙈' : '👁';
+        });
+      });
+    })();
+  </script>
+  <script>
+    (function () {
+      var configured = !!(window.HFAuth && window.HFAuth.configured);
+      var el = {
+        formView: document.getElementById('formView'),
+        successView: document.getElementById('successView'),
+        form: document.getElementById('form'),
+        password: document.getElementById('password'),
+        password2: document.getElementById('password2'),
+        submitBtn: document.getElementById('submitBtn'),
+        msg: document.getElementById('msg'),
+        demoNote: document.getElementById('demoNote')
+      };
+
+      function showMsg(text, kind) {
+        el.msg.textContent = text;
+        el.msg.className = 'msg show ' + (kind || 'err');
+      }
+      function clearMsg() { el.msg.className = 'msg'; }
+
+      if (!configured) {
+        el.demoNote.classList.add('show');
+        el.submitBtn.disabled = true;
+        return;
+      }
+
+      // Al cargar, Supabase detecta el token de recuperación en la URL
+      // (detectSessionInUrl) y crea una sesión temporal de tipo "recovery".
+      // Con esa sesión activa, updateUser({ password }) funciona.
+
+      el.form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        clearMsg();
+
+        var p1 = el.password.value;
+        var p2 = el.password2.value;
+        if (!p1 || p1.length < 6) { showMsg('La contraseña debe tener al menos 6 caracteres.', 'err'); return; }
+        if (p1 !== p2) { showMsg('Las contraseñas no coinciden. Inténtalo de nuevo.', 'err'); return; }
+
+        el.submitBtn.disabled = true;
+        el.submitBtn.textContent = 'Guardando…';
+
+        window.HFAuth.updatePassword(p1).then(function (res) {
+          el.submitBtn.disabled = false;
+          el.submitBtn.textContent = 'Guardar nueva contraseña';
+          if (res && res.error) {
+            var m = res.error.message || '';
+            if (/session|auth|expired|invalid/i.test(m)) {
+              showMsg('El enlace de recuperación expiró o no es válido. Pide uno nuevo desde la pantalla de inicio de sesión.', 'err');
+            } else {
+              showMsg(m || 'No pudimos actualizar tu contraseña. Inténtalo de nuevo.', 'err');
+            }
+            return;
+          }
+          // Éxito: mostramos la confirmación.
+          el.formView.style.display = 'none';
+          el.successView.classList.add('show');
+        }).catch(function (err) {
+          el.submitBtn.disabled = false;
+          el.submitBtn.textContent = 'Guardar nueva contraseña';
+          showMsg((err && err.message) || 'Error inesperado.', 'err');
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

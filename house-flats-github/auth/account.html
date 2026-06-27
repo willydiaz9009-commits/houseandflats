@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mi cuenta · House &amp; Flats</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- ===========================================================
+       CONFIG (opcional): los mismos valores que login.html. Lo más
+       cómodo es crear auth/config.js (copia de auth/config.example.js)
+       y se carga abajo en todas las páginas. La anon key es pública y
+       segura. NUNCA pongas aquí la service_role key.
+       Descomenta para configurar en esta página directamente:
+       =========================================================== -->
+  <!--
+  <script>
+    window.HF_SUPABASE = {
+      url: 'https://YOUR-PROJECT.supabase.co',
+      anonKey: 'YOUR-ANON-KEY'
+    };
+  </script>
+  -->
+  <!-- Config compartida opcional (si no existe, el 404 es inofensivo: modo demo). -->
+  <script src="config.js" onerror="this.remove()"></script>
+
+  <style>
+    :root{
+      --o:#e8642a;--o-dark:#cf531c;--ink:#1a1714;--mut:#6f655e;
+      --line:#efe6dd;--cream:#fff8f1;--card:#fff;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--ink);
+      background:linear-gradient(180deg,#fff8f1,#fff 60%);min-height:100vh;
+    }
+    a{color:inherit;text-decoration:none}
+    .dsp{font-family:'Plus Jakarta Sans',sans-serif}
+    .top{
+      display:flex;align-items:center;gap:14px;padding:18px clamp(20px,5vw,48px);
+      border-bottom:1px solid var(--line);background:rgba(255,255,255,.96);
+      position:sticky;top:0;z-index:10;backdrop-filter:blur(12px)
+    }
+    .lg{display:flex;align-items:center;gap:10px;font-family:'Plus Jakarta Sans';font-weight:800;font-size:19px}
+    .lg .mk{width:36px;height:36px;border-radius:11px;background:var(--o);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:800}
+    .top .spacer{margin-left:auto}
+    .top a.link{font-size:14px;font-weight:600;color:var(--mut)}
+    .top a.link:hover{color:var(--o)}
+    .btn-out{
+      border:1px solid var(--line);background:#fff;border-radius:12px;padding:9px 15px;
+      font:inherit;font-weight:700;font-size:14px;cursor:pointer;color:var(--ink);font-family:'Plus Jakarta Sans'
+    }
+    .btn-out:hover{background:var(--cream)}
+
+    .wrap{max-width:880px;margin:0 auto;padding:38px clamp(18px,5vw,40px) 64px}
+    .loading{color:var(--mut);font-size:15px;padding:40px 0;text-align:center}
+
+    .hello{margin:0 0 26px}
+    .hello h1{font-family:'Plus Jakarta Sans';font-weight:800;font-size:30px;margin:0 0 6px;letter-spacing:-.01em}
+    .hello p{color:var(--mut);margin:0;font-size:15px}
+
+    .panel{
+      background:var(--card);border:1px solid var(--line);border-radius:22px;
+      padding:24px;box-shadow:0 16px 48px rgba(65,38,24,.07);margin-bottom:22px
+    }
+    .panel h2{font-family:'Plus Jakarta Sans';font-weight:700;font-size:19px;margin:0 0 4px}
+    .panel .hint{color:var(--mut);font-size:13.5px;margin:0 0 18px}
+
+    .id-row{display:flex;flex-wrap:wrap;gap:18px}
+    .id-item{flex:1;min-width:200px}
+    .id-item small{display:block;text-transform:uppercase;letter-spacing:.05em;font-size:11px;font-weight:700;color:var(--mut);margin-bottom:5px}
+    .id-item b{font-weight:600;font-size:15.5px;word-break:break-word}
+
+    .saved-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px}
+    .saved-item{
+      display:flex;align-items:center;gap:13px;border:1px solid var(--line);
+      border-radius:15px;padding:14px 16px;background:#fff
+    }
+    .saved-item .pin{width:34px;height:34px;border-radius:10px;background:var(--cream);display:grid;place-items:center;color:var(--o);font-size:16px;flex:0 0 auto}
+    .saved-item .info{flex:1;min-width:0}
+    .saved-item .info b{display:block;font-weight:700;font-size:15px;font-family:'Plus Jakarta Sans'}
+    .saved-item .info small{color:var(--mut);font-size:12.5px}
+    .saved-item button{
+      border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 12px;
+      font:inherit;font-size:13px;font-weight:600;cursor:pointer;color:#b03a2e
+    }
+    .saved-item button:hover{background:#fdecec;border-color:#f5c2c2}
+
+    .empty{color:var(--mut);font-size:14.5px;line-height:1.5;text-align:center;padding:26px 10px}
+    .empty a{color:var(--o);font-weight:600}
+
+    .demo-note{
+      display:none;align-items:flex-start;gap:9px;background:#fff3ea;border:1px solid #ffd9bf;
+      color:#9a4a16;border-radius:13px;padding:12px 14px;font-size:13.5px;line-height:1.45;margin:0 0 22px
+    }
+    .demo-note.show{display:flex}
+  </style>
+</head>
+<body>
+  <header class="top">
+    <a class="lg" href="../index.html"><span class="mk">H&amp;F</span><span class="dsp">House &amp; Flats</span></a>
+    <span class="spacer"></span>
+    <a class="link" href="../index.html">Explorar alojamientos</a>
+    <button class="btn-out" id="logoutBtn" type="button">Cerrar sesión</button>
+  </header>
+
+  <main class="wrap">
+    <div class="demo-note" id="demoNote">
+      <span>⚠️</span>
+      <span><b>Modo demo:</b> Supabase no está configurado, así que no hay sesión real. Configura <code>HF_SUPABASE</code> para usar esta página.</span>
+    </div>
+
+    <div class="loading" id="loading">Preparando tu espacio…</div>
+
+    <div id="content" hidden>
+      <div class="hello">
+        <h1 class="dsp" id="greeting">Hola</h1>
+        <p>Qué bueno tenerte de vuelta. Aquí está tu espacio en House &amp; Flats: te acompañamos en todo tu viaje.</p>
+      </div>
+
+      <section class="panel">
+        <h2>Tu cuenta</h2>
+        <p class="hint">Los datos con los que te conocemos.</p>
+        <div class="id-row">
+          <div class="id-item">
+            <small>Nombre</small>
+            <b id="userName">—</b>
+          </div>
+          <div class="id-item">
+            <small>Correo</small>
+            <b id="userEmail">—</b>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Tus alojamientos guardados</h2>
+        <p class="hint">Los lugares que te enamoraron, listos para cuando quieras volver a ellos.</p>
+        <ul class="saved-list" id="savedList"></ul>
+        <div class="empty" id="savedEmpty" hidden>
+          Todavía no has guardado ningún alojamiento.<br>
+          Cuando uno te robe el corazón, toca el ♡ y lo guardamos aquí para ti.<br>
+          <a href="../index.html">Empieza a explorar destinos →</a>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Mis solicitudes</h2>
+        <p class="hint">Cada vez que nos cuentas qué buscas, lo guardamos aquí para acompañarte mejor.</p>
+        <ul class="saved-list" id="reqList"></ul>
+        <div class="empty" id="reqEmpty" hidden>
+          Todavía no nos has enviado ninguna solicitud.<br>
+          Cuéntanos qué buscas y prepararemos una selección a tu medida.<br>
+          <a href="../index.html#buscador">Crear mi primera solicitud →</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="supabase-client.js"></script>
+  <script>
+    (function () {
+      var configured = !!(window.HFAuth && window.HFAuth.configured);
+      var el = {
+        loading: document.getElementById('loading'),
+        content: document.getElementById('content'),
+        demoNote: document.getElementById('demoNote'),
+        greeting: document.getElementById('greeting'),
+        userName: document.getElementById('userName'),
+        userEmail: document.getElementById('userEmail'),
+        savedList: document.getElementById('savedList'),
+        savedEmpty: document.getElementById('savedEmpty'),
+        reqList: document.getElementById('reqList'),
+        reqEmpty: document.getElementById('reqEmpty'),
+        logoutBtn: document.getElementById('logoutBtn')
+      };
+
+      function goLogin() { window.location.href = 'login.html'; }
+
+      el.logoutBtn.addEventListener('click', function () {
+        if (!configured || !window.HFAuth) { goLogin(); return; }
+        window.HFAuth.signOut().then(goLogin).catch(goLogin);
+      });
+
+      if (!configured) {
+        // No real auth available: show a demo notice instead of bouncing to login.
+        el.loading.hidden = true;
+        el.demoNote.classList.add('show');
+        return;
+      }
+
+      function esc(s) {
+        return String(s).replace(/[&<>"']/g, function (c) {
+          return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c];
+        });
+      }
+
+      function renderSaved(rows) {
+        el.savedList.innerHTML = '';
+        if (!rows || !rows.length) { el.savedEmpty.hidden = false; return; }
+        el.savedEmpty.hidden = true;
+        rows.forEach(function (row) {
+          var li = document.createElement('li');
+          li.className = 'saved-item';
+          var when = row.created_at ? new Date(row.created_at).toLocaleDateString('es-ES') : '';
+          var openHref = '../index.html#alojamientos';
+          li.innerHTML =
+            '<span class="pin">🏡</span>' +
+            '<span class="info"><b>' + esc(row.title || ('Alojamiento ' + row.listing_id)) + '</b>' +
+            (when ? '<small>Guardado el ' + esc(when) + '</small>' : '') + '</span>' +
+            '<a class="open" href="' + openHref + '" style="border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 12px;font-size:13px;font-weight:600;color:var(--o);margin-right:8px;text-decoration:none">Ver</a>' +
+            '<button type="button" data-id="' + esc(row.listing_id) + '">Quitar</button>';
+          li.querySelector('button').addEventListener('click', function () {
+            var id = this.getAttribute('data-id');
+            this.disabled = true;
+            window.HFAuth.unsaveListing(id).then(function () {
+              li.remove();
+              if (!el.savedList.children.length) el.savedEmpty.hidden = false;
+            });
+          });
+          el.savedList.appendChild(li);
+        });
+      }
+
+      function renderRequests(rows) {
+        el.reqList.innerHTML = '';
+        if (!rows || !rows.length) { el.reqEmpty.hidden = false; return; }
+        el.reqEmpty.hidden = true;
+        rows.forEach(function (row) {
+          var li = document.createElement('li');
+          li.className = 'saved-item';
+          var when = row.created_at ? new Date(row.created_at).toLocaleDateString('es-ES') : '';
+          var destino = row.ciudad || row.destino || 'Solicitud';
+          var bits = [];
+          if (row.fechas) bits.push('📅 ' + esc(row.fechas));
+          if (row.presupuesto) bits.push('💶 ' + esc(row.presupuesto));
+          if (row.tipo) bits.push('🏠 ' + esc(row.tipo));
+          var meta = bits.length ? bits.join(' · ') : '';
+          li.innerHTML =
+            '<span class="pin">📨</span>' +
+            '<span class="info"><b>' + esc(destino) + '</b>' +
+            (meta ? '<small>' + meta + '</small>' : '') +
+            (when ? '<small>Enviada el ' + esc(when) + '</small>' : '') +
+            '</span>';
+          el.reqList.appendChild(li);
+        });
+      }
+
+      window.HFAuth.getUser().then(function (user) {
+        if (!user) { goLogin(); return; }
+
+        var meta = user.user_metadata || {};
+        var name = meta.full_name || meta.name || '';
+        el.greeting.textContent = name ? ('Hola, ' + name.split(' ')[0]) : 'Hola';
+        el.userName.textContent = name || '—';
+        el.userEmail.textContent = user.email || '—';
+
+        el.loading.hidden = true;
+        el.content.hidden = false;
+
+        return window.HFAuth.listSaved().then(renderSaved).then(function () {
+          if (typeof window.HFAuth.listRequests === 'function') {
+            return window.HFAuth.listRequests().then(renderRequests).catch(function () {
+              renderRequests([]);
+            });
+          }
+          renderRequests([]);
+        });
+      }).catch(function () {
+        goLogin();
+      });
+    })();
+  </script>
+</body>
+</html>

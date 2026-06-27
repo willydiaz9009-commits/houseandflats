@@ -1,0 +1,11 @@
+name = "emilia-houseandflats"
+main = "src/index.js"
+compatibility_date = "2025-06-01"
+
+# Workers AI binding -> available as env.AI inside the Worker.
+[ai]
+binding = "AI"
+
+# Default text model (overridable without redeploying logic).
+[vars]
+EMILIA_MODELO = "@cf/meta/llama-3.1-8b-instruct"

@@ -1,0 +1,21 @@
+name = "sophi-whatsapp"
+main = "src/index.js"
+compatibility_date = "2025-06-01"
+
+# Cloudflare Workers AI binding — available in code as env.AI
+[ai]
+binding = "AI"
+
+# Non-secret config. Override the text model here if you want a different one.
+[vars]
+EMILIA_MODELO = "@cf/meta/llama-3.1-8b-instruct"
+
+# -----------------------------------------------------------------------------
+# SECRETS — do NOT put these in this file. Set them with `wrangler secret put`
+# (or in the Cloudflare dashboard → Worker → Settings → Variables → Secrets):
+#
+#   npx wrangler secret put WHATSAPP_TOKEN          # permanent Meta access token
+#   npx wrangler secret put WHATSAPP_PHONE_ID       # WhatsApp Phone Number ID
+#   npx wrangler secret put WHATSAPP_VERIFY_TOKEN   # any string you invent; must
+#                                                   # match the one you type in Meta
+# -----------------------------------------------------------------------------

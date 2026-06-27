@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sé anfitrión · House &amp; Flats</title>
+  <meta name="description" content="Convierte tu espacio en el próximo hogar de alguien. Publica tu alojamiento temporal en House &amp; Flats y conecta con estudiantes, nómadas digitales y viajeros que buscan llegar y sentirse en casa.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* ============================================================
+       PÁGINA: Sé anfitrión (anfitrion.html) — House & Flats
+       Marca cálida y premium. Naranja #e8642a. Plus Jakarta Sans
+       para títulos, Inter para cuerpo. Tarjetas redondeadas, sombras
+       suaves. Self-contained: wizard + calendario en vanilla JS.
+       ============================================================ */
+    :root{ --o:#e8642a; --o2:#ff8a3d; --o-dark:#cf5119; --ink:#17110f; --mut:#6f625e; --cream:#fff6ef; --line:#eadbd1; --green:#15a85f; --card:#fff }
+    *{box-sizing:border-box}
+    body{font-family:'Inter',system-ui,sans-serif;color:var(--ink);margin:0;background:linear-gradient(180deg,#fffaf6 0,#fff 56%,#fff7f0 100%)}
+    a{color:inherit;text-decoration:none}
+    .dsp{font-family:'Plus Jakarta Sans',sans-serif}
+    .wrap{max-width:1180px;margin:0 auto;padding:0 clamp(18px,5vw,40px)}
+
+    /* ===== HEADER ===== */
+    .hf-hdr{position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:18px;padding:14px clamp(18px,4vw,48px);background:rgba(255,250,246,.92);backdrop-filter:blur(18px);border-bottom:1px solid rgba(234,219,209,.7)}
+    .hf-lg{display:flex;align-items:center;gap:11px;font-family:'Plus Jakarta Sans';font-weight:800;font-size:19px;color:var(--ink);letter-spacing:-.01em;flex:0 0 auto}
+    .hf-mk{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--o);color:#fff;font-family:'Plus Jakarta Sans';font-weight:800;font-size:13px}
+    .hf-nav{display:flex;align-items:center;gap:20px;font-size:14px;font-weight:600;color:var(--mut);margin:0 auto}
+    .hf-nav a{transition:.18s;white-space:nowrap}
+    .hf-nav a:hover{color:var(--o)}
+    .hf-nav a.active{color:var(--o);font-weight:700}
+    .hf-cta{display:inline-flex;align-items:center;gap:9px;background:var(--o);color:#fff;border:0;border-radius:13px;padding:12px 18px;font-family:'Plus Jakarta Sans';font-weight:700;font-size:14px;box-shadow:0 10px 24px rgba(232,100,42,.3);transition:.2s;white-space:nowrap;cursor:pointer;flex:0 0 auto}
+    .hf-cta:hover{transform:translateY(-2px);background:var(--o-dark)}
+    @media(max-width:1180px){.hf-nav{gap:14px;font-size:13px}}
+    @media(max-width:1040px){.hf-nav{display:none}.hf-cta{margin-left:auto}}
+
+    .back-home{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--mut);padding:8px 0;margin-top:6px;transition:.16s}
+    .back-home:hover{color:var(--o)}
+
+    /* ===== Section scaffolding ===== */
+    .sec{padding:clamp(50px,7vw,90px) 0}
+    .sec-head{max-width:760px;margin:0 0 42px}
+    .sec-head.center{margin-left:auto;margin-right:auto;text-align:center}
+    .sec-eyebrow{font-family:'Plus Jakarta Sans';font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--o);margin:0 0 12px}
+    .sec h2{font-family:'Plus Jakarta Sans';font-weight:800;font-size:clamp(28px,3.6vw,44px);line-height:1.12;letter-spacing:-.015em;margin:0 0 14px}
+    .sec-head p{font-size:17px;line-height:1.62;color:var(--mut);margin:0}
+
+    /* ===== HERO ===== */
+    .hero{padding:clamp(48px,7vw,90px) 0 clamp(40px,6vw,70px)}
+    .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(30px,5vw,60px);align-items:center}
+    @media(max-width:920px){.hero-grid{grid-template-columns:1fr;gap:36px}}
+    .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Plus Jakarta Sans';font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--o);background:#fff;border:1px solid var(--line);border-radius:100px;padding:8px 15px}
+    .hero h1{font-family:'Plus Jakarta Sans';font-weight:800;font-size:clamp(34px,5.1vw,58px);line-height:1.06;letter-spacing:-.02em;margin:18px 0 18px;max-width:15ch}
+    .hero h1 .o{color:var(--o)}
+    .hero .lede{font-size:clamp(16px,1.5vw,18.5px);line-height:1.65;color:var(--mut);max-width:54ch;margin:0 0 28px}
+    .hero-actions{display:flex;gap:13px;flex-wrap:wrap;align-items:center}
+    .btn-p{display:inline-flex;align-items:center;gap:9px;background:var(--o);color:#fff;border:0;border-radius:13px;padding:15px 25px;font-family:'Plus Jakarta Sans';font-weight:700;font-size:15.5px;box-shadow:0 12px 28px rgba(232,100,42,.3);transition:.2s;cursor:pointer}
+    .btn-p:hover{transform:translateY(-2px);background:var(--o-dark)}
+    .btn-ghost{display:inline-flex;align-items:center;gap:9px;background:#fff;color:var(--ink);border:1.5px solid var(--line);border-radius:13px;padding:15px 23px;font-family:'Plus Jakarta Sans';font-weight:700;font-size:15.5px;transition:.2s;cursor:pointer}
+    .btn-ghost:hover{border-color:var(--o);color:var(--o)}
+    .btn-wa{display:inline-flex;align-items:center;gap:9px;background:var(--green);color:#fff;border:0;border-radius:13px;padding:15px 23px;font-family:'Plus Jakarta Sans';font-weight:700;font-size:15.5px;box-shadow:0 12px 28px rgba(21,168,95,.28);transition:.2s;cursor:pointer}
+    .btn-wa:hover{transform:translateY(-2px);background:#11904f}
+    .hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+    .hbadge{display:inline-flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);border-radius:100px;padding:8px 14px;font-size:12.5px;font-weight:600;color:#5a4d47;box-shadow:0 4px 12px rgba(89,54,35,.05)}
+    .hbadge .dot{width:7px;height:7px;border-radius:50%;background:var(--o)}
+    /* hero visual */
+    .hero-vis{position:relative;border-radius:28px;padding:14px;background:radial-gradient(circle at 30% 20%,rgba(232,100,42,.22),transparent 60%),radial-gradient(circle at 80% 90%,rgba(255,170,92,.22),transparent 55%)}
+    .hero-img{position:relative;border-radius:24px;overflow:hidden;aspect-ratio:5/4;box-shadow:0 30px 70px rgba(89,54,35,.22)}
+    .hero-img img{width:100%;height:100%;object-fit:cover;display:block}
+    .hero-float{position:absolute;left:-6px;bottom:-14px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:13px 16px;box-shadow:0 18px 44px rgba(89,54,35,.16);display:flex;align-items:center;gap:11px;max-width:240px}
+    .hero-float .hf-ico{width:40px;height:40px;border-radius:11px;background:#fff3ea;color:var(--o);display:grid;place-items:center;flex:0 0 auto}
+    .hero-float b{display:block;font-family:'Plus Jakarta Sans';font-weight:800;font-size:13.5px;color:var(--ink)}
+    .hero-float span{display:block;font-size:12px;color:var(--mut);line-height:1.35}
+
+    /* ===== BENEFITS ===== */
+    .benefits{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+    .bcard{background:#fff;border:1px solid var(--line);border-radius:24px;padding:28px 24px;box-shadow:0 16px 48px rgba(89,54,35,.06);transition:.22s}
+    .bcard:hover{transform:translateY(-4px);box-shadow:0 24px 60px rgba(89,54,35,.12);border-color:var(--o2)}
+    .bicon{display:grid;place-items:center;width:54px;height:54px;border-radius:16px;background:#fff3ea;color:var(--o);margin-bottom:18px}
+    .bcard h3{font-family:'Plus Jakarta Sans';font-weight:700;font-size:18px;line-height:1.25;margin:0 0 8px}
+    .bcard p{font-size:14.5px;line-height:1.6;color:var(--mut);margin:0}
+    @media(max-width:980px){.benefits{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:560px){.benefits{grid-template-columns:1fr}}
+
+    /* ===== STEPS ===== */
+    .steps-sec{background:var(--cream);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+    .step{background:#fff;border:1px solid var(--line);border-radius:24px;padding:26px 24px;position:relative}
+    .step .num{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--o);color:#fff;font-family:'Plus Jakarta Sans';font-weight:800;font-size:16px;margin-bottom:16px}
+    .step h3{font-family:'Plus Jakarta Sans';font-weight:700;font-size:17px;line-height:1.3;margin:0 0 8px}
+    .step p{font-size:14.5px;line-height:1.6;color:var(--mut);margin:0}
+    @media(max-width:980px){.steps{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:560px){.steps{grid-template-columns:1fr}}
+
+    /* ============================================================
+       WIZARD (formulario multi-paso)
+       ============================================================ */
+    #form{scroll-margin-top:90px}
+    .wiz-head{max-width:680px;margin:0 auto 26px;text-align:center}
+    .wiz-head h2{font-family:'Plus Jakarta Sans';font-weight:800;font-size:clamp(28px,3.6vw,42px);letter-spacing:-.02em;line-height:1.1;margin:0 0 12px}
+    .wiz-head p{color:var(--mut);font-size:16.5px;line-height:1.62;margin:0}
+    .wiz{background:#fff;border:1px solid var(--line);border-radius:26px;padding:34px 34px 30px;box-shadow:0 24px 64px rgba(89,54,35,.10);max-width:720px;margin:0 auto}
+    @media(max-width:560px){.wiz{padding:24px 20px 22px;border-radius:22px}}
+    .wiz-top{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 0 8px}
+    .wiz-eyebrow{font-family:'Plus Jakarta Sans';font-weight:800;font-size:11.5px;color:var(--o);text-transform:uppercase;letter-spacing:.08em}
+    .wiz-count{font-family:'Plus Jakarta Sans';font-weight:700;font-size:13px;color:var(--mut)}
+    .wiz-bar{height:7px;border-radius:100px;background:var(--cream);overflow:hidden;margin:0 0 24px;box-shadow:inset 0 1px 2px rgba(89,54,35,.06)}
+    .wiz-bar span{display:block;height:100%;border-radius:100px;background:linear-gradient(90deg,#e8642a,#ff8a3d);box-shadow:0 1px 6px rgba(232,100,42,.4);transition:width .4s cubic-bezier(.16,1,.3,1);width:12.5%}
+    .wiz-step{display:none;animation:wizIn .35s cubic-bezier(.16,1,.3,1)}
+    .wiz-step.active{display:block}
+    @keyframes wizIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+    .wiz-step h3{font-family:'Plus Jakarta Sans';font-weight:800;font-size:22px;margin:0 0 5px;letter-spacing:-.01em}
+    .wiz-step .wsub{color:var(--mut);font-size:14px;line-height:1.5;margin:0 0 20px}
+    .wiz-field{margin:0 0 16px}
+    .wiz-field>label,.wiz-lbl{display:block;font-family:'Plus Jakarta Sans';font-weight:700;font-size:13px;color:#3a322c;margin:0 0 7px}
+    .wiz-field .req{color:var(--o)}
+    .wiz-field input,.wiz-field select,.wiz-field textarea{width:100%;border:1px solid var(--line);border-radius:13px;padding:13px 14px;font:inherit;font-size:14.5px;background:#fff;color:var(--ink);transition:border-color .16s,box-shadow .16s}
+    .wiz-field input:focus,.wiz-field select:focus,.wiz-field textarea:focus{outline:none;border-color:var(--o);box-shadow:0 0 0 3px rgba(232,100,42,.12)}
+    .wiz-field textarea{min-height:96px;resize:vertical;line-height:1.55}
+    .wiz-field .whelp{font-size:12px;color:var(--mut);margin:7px 0 0;line-height:1.45}
+    .wiz-2{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+    .wiz-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:13px}
+    .wiz-phone{display:grid;grid-template-columns:140px 1fr;gap:10px}
+    @media(max-width:520px){.wiz-2,.wiz-3{grid-template-columns:1fr}.wiz-phone{grid-template-columns:1fr}}
+    /* pills */
+    .wiz-pills{display:flex;flex-wrap:wrap;gap:9px}
+    .wiz-pill{display:inline-flex;align-items:center;gap:7px;border:1.5px solid var(--line);background:#fff;border-radius:100px;padding:10px 16px;font-family:'Inter',sans-serif;font-weight:600;font-size:13.5px;color:#4a423c;cursor:pointer;transition:.16s;user-select:none}
+    .wiz-pill:hover{border-color:var(--o2);color:var(--o);transform:translateY(-1px)}
+    .wiz-pill.sel{background:#fff3ea;border-color:var(--o);color:var(--o);box-shadow:0 0 0 3px rgba(232,100,42,.12)}
+    /* option cards */
+    .wiz-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media(max-width:520px){.wiz-cards{grid-template-columns:1fr}}
+    .wiz-card{position:relative;display:flex;gap:13px;align-items:flex-start;text-align:left;border:1.5px solid var(--line);background:#fff;border-radius:16px;padding:15px;cursor:pointer;transition:.18s;font-family:'Inter',sans-serif}
+    .wiz-card:hover{border-color:var(--o2);box-shadow:0 10px 26px rgba(89,54,35,.08);transform:translateY(-2px)}
+    .wiz-card.sel{border-color:var(--o);background:#fff8f3;box-shadow:0 10px 26px rgba(232,100,42,.12),0 0 0 3px rgba(232,100,42,.14)}
+    .wiz-card .wc-ic{flex:0 0 42px;height:42px;border-radius:12px;background:var(--cream);color:var(--o);display:grid;place-items:center;transition:.18s}
+    .wiz-card.sel .wc-ic{background:var(--o);color:#fff}
+    .wiz-card .wc-tx b{display:block;font-family:'Plus Jakarta Sans';font-weight:700;font-size:14.5px;color:var(--ink);line-height:1.25}
+    .wiz-card .wc-tx small{display:block;font-size:12.5px;color:var(--mut);line-height:1.4;margin-top:3px}
+    /* toggles / checkbox grid */
+    .wiz-toggles,.wiz-checks{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+    @media(max-width:520px){.wiz-toggles,.wiz-checks{grid-template-columns:1fr}}
+    .wiz-check{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:11px 13px;font-size:13.5px;font-weight:600;color:#4a423c;cursor:pointer;transition:.16s;background:#fff}
+    .wiz-check:hover{border-color:var(--o2)}
+    .wiz-check input{width:auto!important;margin:0;accent-color:var(--o)}
+    .wiz-check.on{border-color:var(--o);background:#fff8f3}
+    /* money */
+    .wiz-money{display:flex;align-items:stretch;border:1px solid var(--line);border-radius:13px;overflow:hidden;transition:border-color .16s,box-shadow .16s}
+    .wiz-money:focus-within{border-color:var(--o);box-shadow:0 0 0 3px rgba(232,100,42,.12)}
+    .wiz-money select.wm-cur{border:0!important;border-right:1px solid var(--line)!important;border-radius:0!important;background:var(--cream);font-family:'Plus Jakarta Sans';font-weight:800;color:var(--o);max-width:96px;box-shadow:none!important}
+    .wiz-money input{border:0!important;box-shadow:none!important;border-radius:0!important}
+    /* nav */
+    .wiz-nav{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:26px;padding-top:20px;border-top:1px solid var(--line)}
+    .wiz-back{display:inline-flex;align-items:center;gap:7px;background:none;border:0;color:var(--mut);font-family:'Plus Jakarta Sans';font-weight:700;font-size:14px;cursor:pointer;padding:8px 4px;transition:.16s}
+    .wiz-back:hover{color:var(--o)}
+    .wiz-back[hidden]{visibility:hidden}
+    .wiz-next{display:inline-flex;align-items:center;gap:9px;background:var(--o);color:#fff;border:0;border-radius:13px;padding:13px 26px;font-family:'Plus Jakarta Sans';font-weight:700;font-size:15px;cursor:pointer;box-shadow:0 10px 24px rgba(232,100,42,.3);transition:.2s}
+    .wiz-next:hover{background:var(--o-dark);transform:translateY(-1px)}
+    @media(max-width:560px){.wiz-nav{flex-direction:row-reverse;gap:10px}.wiz-next{flex:1;justify-content:center;padding:14px 18px}.wiz-back{padding:14px 8px}}
+    .wiz-err{color:#c0392b;font-size:12.5px;font-weight:600;margin:14px 0 0;display:none}
+    .wiz-err.show{display:block}
+
+    /* ===== CALENDAR ===== */
+    .cal{border:1px solid var(--line);border-radius:18px;padding:16px;background:#fff;box-shadow:0 8px 24px rgba(89,54,35,.05)}
+    .cal-top{display:flex;align-items:center;justify-content:space-between;margin:0 0 12px}
+    .cal-title{font-family:'Plus Jakarta Sans';font-weight:800;font-size:15.5px}
+    .cal-nav{display:inline-flex;gap:6px}
+    .cal-nav button{width:32px;height:32px;border:1px solid var(--line);background:#fff;border-radius:9px;cursor:pointer;display:grid;place-items:center;color:var(--ink);transition:.16s}
+    .cal-nav button:hover{border-color:var(--o);color:var(--o)}
+    .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+    .cal-dow{text-align:center;font-size:11px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.04em;padding:4px 0}
+    .cal-day{aspect-ratio:1/1;border:1px solid var(--line);border-radius:10px;display:grid;place-items:center;font-size:13px;font-weight:600;cursor:pointer;background:#fff;color:#3a322c;transition:.12s;user-select:none}
+    .cal-day:hover{border-color:var(--o2)}
+    .cal-day.empty{border:0;background:transparent;cursor:default}
+    .cal-day.disponible{background:#e8f7ef;border-color:#bfe9d2;color:#0f7a45}
+    .cal-day.ocupado{background:#fdecec;border-color:#f6c9c9;color:#c0392b}
+    .cal-day.bloqueado{background:#f1ece8;border-color:#ddd0c7;color:#8a7a70;text-decoration:line-through}
+    .cal-day.pendiente{background:#fff3e6;border-color:#ffd8ab;color:#c46314}
+    .cal-day.rangestart,.cal-day.rangeend{box-shadow:0 0 0 2px var(--o)}
+    .cal-legend{display:flex;flex-wrap:wrap;gap:14px;margin:14px 0 0}
+    .cal-leg{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:#5a4d47}
+    .cal-leg i{width:14px;height:14px;border-radius:4px;display:inline-block}
+    .cal-leg.disponible i{background:#e8f7ef;border:1px solid #bfe9d2}
+    .cal-leg.ocupado i{background:#fdecec;border:1px solid #f6c9c9}
+    .cal-leg.bloqueado i{background:#f1ece8;border:1px solid #ddd0c7}
+    .cal-leg.pendiente i{background:#fff3e6;border:1px solid #ffd8ab}
+    .cal-tools{display:flex;flex-wrap:wrap;gap:9px;margin:14px 0 0}
+    .cal-tool{border:1.5px solid var(--line);background:#fff;border-radius:100px;padding:8px 14px;font-size:12.5px;font-weight:600;color:#4a423c;cursor:pointer;transition:.16s}
+    .cal-tool:hover{border-color:var(--o2);color:var(--o)}
+    .cal-tool.on{background:#fff3ea;border-color:var(--o);color:var(--o)}
+    .cal-help{font-size:12.5px;color:var(--mut);line-height:1.5;margin:12px 0 0;background:var(--cream);border:1px solid var(--line);border-radius:12px;padding:11px 13px}
+    .month-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+
+    /* ===== THANK-YOU ===== */
+    .wiz-done{display:none;max-width:720px;margin:0 auto;text-align:center;background:linear-gradient(180deg,#fff6ef,#fff 60%);border:1px solid var(--line);border-radius:26px;padding:44px 38px 38px;box-shadow:0 24px 64px rgba(89,54,35,.10)}
+    .wiz-done.show{display:block;animation:wizIn .4s cubic-bezier(.16,1,.3,1)}
+    @media(max-width:560px){.wiz-done{padding:32px 20px 28px;border-radius:22px}}
+    .wiz-done .wd-ic{width:64px;height:64px;border-radius:50%;background:var(--o);color:#fff;display:grid;place-items:center;margin:0 auto 16px;box-shadow:0 12px 28px rgba(232,100,42,.32)}
+    .wiz-done .wd-brand{font-family:'Plus Jakarta Sans';font-weight:800;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--o);margin:0 0 8px}
+    .wiz-done h3{font-family:'Plus Jakarta Sans';font-weight:800;font-size:clamp(24px,3vw,30px);letter-spacing:-.01em;margin:0 0 10px}
+    .wiz-done .wd-lead{color:#4a423c;font-size:15.5px;line-height:1.6;margin:0 auto 20px;max-width:52ch}
+    .wiz-done .wd-box{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 18px;font-size:13.5px;color:var(--mut);line-height:1.6;max-width:52ch;margin:0 auto 22px;text-align:left}
+    .wiz-done .wd-box b{color:var(--ink)}
+
+    /* ===== summary box ===== */
+    .sumbox{background:var(--cream);border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin:6px 0 0}
+    .sumrow{display:flex;gap:12px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:13.5px}
+    .sumrow:last-child{border-bottom:0}
+    .sumrow .k{flex:0 0 130px;font-family:'Plus Jakarta Sans';font-weight:700;color:#3a322c}
+    .sumrow .v{color:var(--mut);line-height:1.5}
+
+    /* ===== LISTING PREVIEW ===== */
+    .preview-wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}
+    @media(max-width:920px){.preview-wrap{grid-template-columns:1fr;gap:28px}}
+    .lcard{background:#fff;border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:0 22px 60px rgba(89,54,35,.12);max-width:420px}
+    .lcard-img{position:relative;height:230px;background-size:cover;background-position:center}
+    .lcard-verif{position:absolute;top:14px;left:14px;display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.95);border-radius:100px;padding:6px 12px;font-family:'Plus Jakarta Sans';font-weight:800;font-size:11.5px;color:var(--o);box-shadow:0 6px 16px rgba(89,54,35,.14)}
+    .lcard-avail{position:absolute;bottom:14px;left:14px;display:inline-flex;align-items:center;gap:6px;background:rgba(21,168,95,.95);color:#fff;border-radius:100px;padding:6px 12px;font-family:'Plus Jakarta Sans';font-weight:700;font-size:11.5px;box-shadow:0 6px 16px rgba(21,168,95,.3)}
+    .lcard-bd{padding:18px 20px 20px}
+    .lcard-bd .lc-name{font-family:'Plus Jakarta Sans';font-weight:800;font-size:18px;margin:0 0 4px}
+    .lcard-bd .lc-loc{font-size:13.5px;color:var(--mut);margin:0 0 4px}
+    .lcard-bd .lc-type{font-size:12.5px;color:var(--o);font-weight:700;margin:0 0 12px}
+    .lcard-bd .lc-price{font-family:'Plus Jakarta Sans';font-weight:800;font-size:22px;margin:0 0 4px}
+    .lcard-bd .lc-price small{font-size:13px;color:var(--mut);font-weight:600}
+    .lcard-min{font-size:12.5px;color:var(--mut);margin:0 0 14px}
+    .lc-chips{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 16px}
+    .lc-chip{font-size:11.5px;font-weight:600;color:#5a4d47;background:var(--cream);border:1px solid var(--line);border-radius:100px;padding:5px 11px}
+    .lc-actions{display:flex;gap:9px}
+    .lc-actions .lc-b{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:7px;border-radius:11px;padding:11px 12px;font-family:'Plus Jakarta Sans';font-weight:700;font-size:13px;cursor:pointer;border:0;transition:.16s}
+    .lc-b-primary{background:var(--o);color:#fff}
+    .lc-b-primary:hover{background:var(--o-dark)}
+    .lc-b-wa{background:var(--green);color:#fff}
+    .lc-b-wa:hover{background:#11904f}
+    .preview-tx h2{font-family:'Plus Jakarta Sans';font-weight:800;font-size:clamp(26px,3.4vw,40px);line-height:1.12;letter-spacing:-.015em;margin:0 0 14px}
+    .preview-tx p{font-size:16.5px;line-height:1.62;color:var(--mut);margin:0}
+
+    /* ===== WIN-WIN ===== */
+    .winwin{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+    @media(max-width:760px){.winwin{grid-template-columns:1fr}}
+    .wwcol{background:#fff;border:1px solid var(--line);border-radius:24px;padding:30px 28px;box-shadow:0 16px 48px rgba(89,54,35,.06)}
+    .wwcol h3{font-family:'Plus Jakarta Sans';font-weight:800;font-size:20px;margin:0 0 18px;display:flex;align-items:center;gap:11px}
+    .wwcol h3 .ww-ic{width:42px;height:42px;border-radius:12px;background:#fff3ea;color:var(--o);display:grid;place-items:center;flex:0 0 auto}
+    .wwlist{list-style:none;margin:0;padding:0}
+    .wwlist li{display:flex;gap:11px;align-items:flex-start;padding:9px 0;font-size:14.5px;line-height:1.55;color:#4a423c}
+    .wwlist li svg{flex:0 0 20px;color:var(--green);margin-top:1px}
+
+    /* ===== SOPHI ===== */
+    .sophi-sec{background:var(--cream);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .sophi-wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:44px;align-items:center}
+    @media(max-width:860px){.sophi-wrap{grid-template-columns:1fr;gap:32px;text-align:center}}
+    .sophi-portrait{justify-self:center;position:relative;width:100%;max-width:280px}
+    .sophi-frame{border-radius:24px;overflow:hidden;aspect-ratio:1/1;border:5px solid #fff;box-shadow:0 24px 60px rgba(232,100,42,.26)}
+    .sophi-frame img{width:100%;height:100%;object-fit:cover;display:block}
+    .sophi-bubble{margin-top:16px;background:#fff;border:1px solid var(--line);border-radius:18px;border-top-left-radius:6px;padding:15px 17px;font-size:14px;line-height:1.55;color:#4a423c;box-shadow:0 12px 30px rgba(89,54,35,.08);text-align:left}
+    .sophi-bubble .sname{display:flex;align-items:center;gap:8px;font-family:'Plus Jakarta Sans';font-weight:800;font-size:13px;color:var(--o);margin:0 0 6px}
+    .sophi-fns{list-style:none;margin:18px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:11px}
+    @media(max-width:560px){.sophi-fns{grid-template-columns:1fr}}
+    .sophi-fns li{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.5;color:#4a423c;text-align:left;background:#fff;border:1px solid var(--line);border-radius:14px;padding:13px 15px}
+    .sophi-fns li svg{flex:0 0 20px;color:var(--o);margin-top:1px}
+
+    /* ===== FINAL CTA ===== */
+    .final{margin:clamp(40px,6vw,72px) 0;padding:clamp(44px,7vw,82px) clamp(24px,5vw,60px);border-radius:36px;background:radial-gradient(circle at 16% 18%,rgba(232,100,42,.26),transparent 38%),radial-gradient(circle at 86% 90%,rgba(255,138,61,.2),transparent 42%),#17110f;color:#fff;text-align:center}
+    .final h2{font-family:'Plus Jakarta Sans';font-weight:800;font-size:clamp(28px,3.8vw,46px);line-height:1.1;letter-spacing:-.015em;margin:0 auto 16px;max-width:18ch}
+    .final p{max-width:58ch;margin:0 auto 28px;color:rgba(255,255,255,.84);font-size:17px;line-height:1.6}
+    .final-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+    /* ===== FOOTER ===== */
+    .hf-ft{background:var(--ink);color:rgba(255,255,255,.62)}
+    .hf-ft-in{max-width:1180px;margin:0 auto;padding:30px clamp(18px,5vw,40px);display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;font-size:13.5px}
+    .hf-ft .hf-lg{color:#fff}
+    .hf-ft a{color:#fff;font-weight:600}
+    .hf-ft a:hover{color:var(--o)}
+    .hf-ft .ig{display:inline-flex;align-items:center;gap:7px}
+    @media(max-width:560px){.hf-ft-in{flex-direction:column;align-items:flex-start}}
+
+    /* ===== FLOATING SOPHI HELPER ===== */
+    .sophi-fab{position:fixed;right:20px;bottom:20px;z-index:80;display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:100px;padding:8px 16px 8px 8px;box-shadow:0 16px 40px rgba(89,54,35,.2);cursor:pointer;transition:.2s;font-family:'Plus Jakarta Sans';font-weight:700;font-size:13.5px;color:var(--ink)}
+    .sophi-fab:hover{transform:translateY(-2px);box-shadow:0 22px 50px rgba(232,100,42,.26)}
+    .sophi-fab img{width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid #fff;box-shadow:0 4px 12px rgba(89,54,35,.18)}
+    .sophi-fab small{display:block;font-family:'Inter';font-weight:600;font-size:11px;color:var(--mut)}
+    @media(max-width:560px){.sophi-fab span.fab-tx{display:none}.sophi-fab{padding:7px}}
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="hf-hdr">
+    <a class="hf-lg" href="index.html"><span class="hf-mk">H&amp;F</span> House &amp; Flats</a>
+    <nav class="hf-nav">
+      <a href="index.html">Inicio</a>
+      <a href="alojamientos.html">Alojamientos</a>
+      <a href="index.html#como">Cómo funciona</a>
+      <a href="para-estudiantes.html">Para estudiantes</a>
+      <a href="nomadas-digitales.html">Nómadas digitales</a>
+      <a href="anfitrion.html" class="active" aria-current="page">Sé anfitrión</a>
+      <a href="blog.html">Blog</a>
+      <a href="ayuda.html">Ayuda</a>
+    </nav>
+    <button class="hf-cta" type="button" onclick="goForm()">Publicar mi espacio</button>
+  </header>
+
+  <main>
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+      <div class="wrap">
+        <a class="back-home" href="index.html">← Volver al inicio</a>
+        <div class="hero-grid">
+          <div>
+            <span class="hero-eyebrow">Sé anfitrión</span>
+            <h1>Convierte tu espacio en el <span class="o">próximo hogar</span> de alguien.</h1>
+            <p class="lede">Publica tu alojamiento temporal en House &amp; Flats y conecta con estudiantes, nómadas digitales y viajeros que buscan llegar y sentirse en casa.</p>
+            <div class="hero-actions">
+              <button class="btn-p" type="button" onclick="goForm()">Publicar mi espacio →</button>
+              <a class="btn-ghost" href="#como-funciona">Ver cómo funciona</a>
+            </div>
+            <div class="hero-badges">
+              <span class="hbadge"><span class="dot"></span>Solicitudes más claras</span>
+              <span class="hbadge"><span class="dot"></span>Personas compatibles</span>
+              <span class="hbadge"><span class="dot"></span>Estancias temporales</span>
+              <span class="hbadge"><span class="dot"></span>Acompañamiento House &amp; Flats</span>
+            </div>
+          </div>
+          <div class="hero-vis">
+            <div class="hero-img">
+              <img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1100&q=80" alt="Interior cálido de un alojamiento listo para vivir" loading="lazy">
+            </div>
+            <div class="hero-float">
+              <span class="hf-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M9 21v-6h6v6"/></svg></span>
+              <div>
+                <b>Tu espacio, un hogar</b>
+                <span>Listo para llegar y vivir, no un anuncio frío.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BENEFICIOS ===== -->
+    <section class="sec">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="sec-eyebrow">Por qué publicar con nosotros</p>
+          <h2>Recibe personas compatibles, no mensajes desordenados.</h2>
+          <p>House &amp; Flats acompaña el proceso para que tu espacio se presente bien y llegue a quienes de verdad encajan con lo que ofreces.</p>
+        </div>
+        <div class="benefits">
+          <article class="bcard">
+            <div class="bicon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h4"/></svg></div>
+            <h3>Perfil más claro</h3>
+            <p>Conoces fechas, presupuesto, motivo y tipo de estancia antes de responder. Sabes a quién recibes.</p>
+          </article>
+          <article class="bcard">
+            <div class="bicon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+            <h3>Menos pérdida de tiempo</h3>
+            <p>Evita conversaciones con quien no encaja. Solo hablas con personas que buscan justo tu tipo de alojamiento.</p>
+          </article>
+          <article class="bcard">
+            <div class="bicon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="m21 17-5-5-4 4-2-2-5 5"/></svg></div>
+            <h3>Mejor presentación</h3>
+            <p>Tu alojamiento se muestra con fotos, servicios, reglas, zona y precio. Se ve como un hogar, no como un anuncio.</p>
+          </article>
+          <article class="bcard">
+            <div class="bicon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v5c0 5 3.4 8.2 8 10 4.6-1.8 8-5 8-10V6l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg></div>
+            <h3>Más confianza</h3>
+            <p>House &amp; Flats acompaña el proceso: revisamos tu espacio y te ayudamos a conectarlo con la comunidad correcta.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CÓMO FUNCIONA ===== -->
+    <section class="sec steps-sec" id="como-funciona">
+      <div class="wrap">
+        <div class="sec-head center">
+          <p class="sec-eyebrow">Cómo funciona</p>
+          <h2>Así funciona para anfitriones.</h2>
+          <p>Cuatro pasos sencillos, con nuestro equipo acompañándote en cada uno.</p>
+        </div>
+        <div class="steps">
+          <article class="step"><div class="num">1</div><h3>Cuéntanos sobre ti</h3><p>Nos dices quién eres y cómo contactarte. Así sabemos cómo acompañarte mejor.</p></article>
+          <article class="step"><div class="num">2</div><h3>Describe tu alojamiento</h3><p>Ubicación, tipo de espacio, precio, servicios y disponibilidad. Sin tecnicismos.</p></article>
+          <article class="step"><div class="num">3</div><h3>House &amp; Flats revisa tu espacio</h3><p>Revisamos la información, pulimos la presentación y validamos detalles contigo.</p></article>
+          <article class="step"><div class="num">4</div><h3>Recibe solicitudes compatibles</h3><p>Te conectamos con personas que encajan con lo que ofreces: perfil, fechas y forma de vivir.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== HOST FORM (WIZARD) ===== -->
+    <section class="sec" id="form">
+      <div class="wrap">
+        <div class="wiz-head">
+          <h2>Cuéntanos qué estás ofreciendo.</h2>
+          <p>Completa esta información para que House &amp; Flats pueda revisar tu espacio y conectarlo con personas compatibles.</p>
+        </div>
+
+        <form class="wiz" id="hostWiz" autocomplete="off" novalidate>
+          <div class="wiz-top">
+            <span class="wiz-eyebrow">Publicar mi espacio</span>
+            <span class="wiz-count"><span id="wizCur">1</span> / 8</span>
+          </div>
+          <div class="wiz-bar"><span id="wizBar"></span></div>
+
+          <!-- STEP 1 — Datos del anfitrión -->
+          <div class="wiz-step active" data-step="1">
+            <h3>Datos del anfitrión</h3>
+            <p class="wsub">Cuéntanos un poco sobre ti para saber cómo acompañarte.</p>
+            <div class="wiz-field"><label>Nombre completo <span class="req">*</span></label><input type="text" name="hostName" placeholder="Tu nombre"></div>
+            <div class="wiz-field">
+              <label class="wiz-lbl">WhatsApp <span class="req">*</span></label>
+              <div class="wiz-phone">
+                <select name="hostDial">
+                  <option value="+34">🇪🇸 +34</option><option value="+54">🇦🇷 +54</option><option value="+56">🇨🇱 +56</option>
+                  <option value="+351">🇵🇹 +351</option><option value="+44">🇬🇧 +44</option><option value="+49">🇩🇪 +49</option>
+                  <option value="+33">🇫🇷 +33</option><option value="+31">🇳🇱 +31</option><option value="+43">🇦🇹 +43</option>
+                  <option value="+39">🇮🇹 +39</option><option value="+1">🇺🇸 +1</option><option value="+52">🇲🇽 +52</option>
+                </select>
+                <input type="tel" name="hostPhone" placeholder="Número de WhatsApp">
+              </div>
+            </div>
+            <div class="wiz-field"><label>Email <span class="req">*</span></label><input type="email" name="hostEmail" placeholder="tucorreo@ejemplo.com"></div>
+            <div class="wiz-2">
+              <div class="wiz-field"><label>País donde vives</label>
+                <select name="hostCountry"><option value="">—</option><option>España</option><option>Argentina</option><option>Chile</option><option>Portugal</option><option>Reino Unido</option><option>Alemania</option><option>Francia</option><option>Países Bajos</option><option>Austria</option><option>Italia</option><option>Otro</option></select>
+              </div>
+              <div class="wiz-field"><label>Idioma preferido</label>
+                <select name="hostLang"><option value="">—</option><option>Español</option><option>Inglés</option><option>Portugués</option><option>Francés</option><option>Alemán</option><option>Italiano</option><option>Otro</option></select>
+              </div>
+            </div>
+            <div class="wiz-field"><label class="wiz-lbl">Tipo de anfitrión</label>
+              <div class="wiz-pills" data-single="hostType">
+                <span class="wiz-pill" data-v="Propietario">Propietario</span>
+                <span class="wiz-pill" data-v="Administrador">Administrador</span>
+                <span class="wiz-pill" data-v="Residencia estudiantil">Residencia estudiantil</span>
+                <span class="wiz-pill" data-v="Coliving">Coliving</span>
+                <span class="wiz-pill" data-v="Agencia / operador">Agencia / operador</span>
+                <span class="wiz-pill" data-v="Otro">Otro</span>
+              </div>
+            </div>
+            <div class="wiz-field"><label class="wiz-lbl">¿Tienes más de un alojamiento?</label>
+              <div class="wiz-pills" data-single="hostMulti">
+                <span class="wiz-pill" data-v="Sí">Sí</span>
+                <span class="wiz-pill" data-v="No">No</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 2 — Ubicación -->
+          <div class="wiz-step" data-step="2">
+            <h3>Ubicación</h3>
+            <p class="wsub">¿Dónde está tu espacio? Esto nos ayuda a conectarlo con la zona correcta.</p>
+            <div class="wiz-2">
+              <div class="wiz-field"><label>País del alojamiento <span class="req">*</span></label>
+                <select name="locCountry" id="locCountry"><option value="">—</option></select>
+              </div>
+              <div class="wiz-field"><label>Ciudad <span class="req">*</span></label>
+                <select name="locCity" id="locCity"><option value="">— Elige país primero —</option></select>
+              </div>
+            </div>
+            <div class="wiz-field"><label>Barrio / zona</label><input type="text" name="locZone" placeholder="Ej.: Malasaña, Palermo, Providencia…"></div>
+            <div class="wiz-field"><label>Dirección exacta</label><input type="text" name="locAddress" placeholder="Calle y número"><p class="whelp">Solo para revisión interna, no se muestra públicamente.</p></div>
+            <div class="wiz-field"><label>Referencias cercanas</label><input type="text" name="locRefs" placeholder="Ej.: a 2 cuadras del metro, frente al parque…"></div>
+            <div class="wiz-field"><label class="wiz-lbl">¿Cómo es la zona?</label>
+              <div class="wiz-checks" data-multi="locTags">
+                <label class="wiz-check"><input type="checkbox" value="Cerca de universidad"> Cerca de universidad</label>
+                <label class="wiz-check"><input type="checkbox" value="Cerca de transporte"> Cerca de transporte</label>
+                <label class="wiz-check"><input type="checkbox" value="Zona segura"> Zona segura</label>
+                <label class="wiz-check"><input type="checkbox" value="Zona para estudiantes y nómadas"> Zona para estudiantes / nómadas</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 3 — Qué ofreces -->
+          <div class="wiz-step" data-step="3">
+            <h3>Qué ofreces</h3>
+            <p class="wsub">Describe el espacio para que se entienda a primera vista.</p>
+            <div class="wiz-field"><label>Nombre del alojamiento <span class="req">*</span></label><input type="text" name="spaceName" placeholder="Ej.: Studio luminoso en el centro"></div>
+            <div class="wiz-field"><label class="wiz-lbl">Tipo de alojamiento</label>
+              <div class="wiz-pills" data-single="spaceType">
+                <span class="wiz-pill" data-v="Habitación privada">Habitación privada</span>
+                <span class="wiz-pill" data-v="Habitación compartida">Habitación compartida</span>
+                <span class="wiz-pill" data-v="Studio">Studio</span>
+                <span class="wiz-pill" data-v="Departamento completo">Departamento completo</span>
+                <span class="wiz-pill" data-v="Departamento compartido">Departamento compartido</span>
+                <span class="wiz-pill" data-v="Coliving">Coliving</span>
+                <span class="wiz-pill" data-v="Residencia">Residencia</span>
+                <span class="wiz-pill" data-v="Casa">Casa</span>
+                <span class="wiz-pill" data-v="Otro">Otro</span>
+              </div>
+            </div>
+            <div class="wiz-3">
+              <div class="wiz-field"><label>N° habitaciones</label><input type="number" min="0" name="rooms" placeholder="0"></div>
+              <div class="wiz-field"><label>N° baños</label><input type="number" min="0" name="baths" placeholder="0"></div>
+              <div class="wiz-field"><label>Capacidad</label><input type="number" min="1" name="capacity" placeholder="1"></div>
+            </div>
+            <div class="wiz-field"><label class="wiz-lbl">¿Acepta…?</label>
+              <div class="wiz-checks" data-multi="accepts">
+                <label class="wiz-check"><input type="checkbox" value="Pareja"> Pareja</label>
+                <label class="wiz-check"><input type="checkbox" value="Grupos"> Grupos</label>
+                <label class="wiz-check"><input type="checkbox" value="Mascotas"> Mascotas</label>
+              </div>
+            </div>
+            <div class="wiz-2">
+              <div class="wiz-field"><label class="wiz-lbl">¿Amoblado?</label>
+                <div class="wiz-pills" data-single="furnished"><span class="wiz-pill" data-v="Sí">Sí</span><span class="wiz-pill" data-v="Parcialmente">Parcialmente</span><span class="wiz-pill" data-v="No">No</span></div>
+              </div>
+              <div class="wiz-field"><label class="wiz-lbl">¿Listo para entrar a vivir?</label>
+                <div class="wiz-pills" data-single="moveReady"><span class="wiz-pill" data-v="Sí">Sí</span><span class="wiz-pill" data-v="Casi listo">Casi listo</span><span class="wiz-pill" data-v="No">No</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 4 — Precio y condiciones -->
+          <div class="wiz-step" data-step="4">
+            <h3>Precio y condiciones</h3>
+            <p class="wsub">Tú defines las condiciones. Esto se muestra de forma clara a los interesados.</p>
+            <div class="wiz-2">
+              <div class="wiz-field"><label>Precio mensual <span class="req">*</span></label>
+                <div class="wiz-money">
+                  <select class="wm-cur" name="currency"><option>EUR</option><option>USD</option><option>GBP</option><option>CLP</option><option>ARS</option></select>
+                  <input type="number" min="0" name="price" placeholder="0">
+                </div>
+              </div>
+              <div class="wiz-field"><label>Depósito / garantía</label><input type="text" name="deposit" placeholder="Ej.: 1 mes de renta"></div>
+            </div>
+            <div class="wiz-field"><label>Comisión (si aplica)</label><input type="text" name="commission" placeholder="Ej.: media renta, no aplica…"></div>
+            <div class="wiz-field"><label class="wiz-lbl">Servicios incluidos</label>
+              <div class="wiz-checks" data-multi="services">
+                <label class="wiz-check"><input type="checkbox" value="WiFi"> WiFi</label>
+                <label class="wiz-check"><input type="checkbox" value="Agua"> Agua</label>
+                <label class="wiz-check"><input type="checkbox" value="Luz"> Luz</label>
+                <label class="wiz-check"><input type="checkbox" value="Gas"> Gas</label>
+                <label class="wiz-check"><input type="checkbox" value="Calefacción"> Calefacción</label>
+                <label class="wiz-check"><input type="checkbox" value="Aire acondicionado"> Aire acondicionado</label>
+                <label class="wiz-check"><input type="checkbox" value="Limpieza"> Limpieza</label>
+                <label class="wiz-check"><input type="checkbox" value="Lavandería"> Lavandería</label>
+                <label class="wiz-check"><input type="checkbox" value="Cocina equipada"> Cocina equipada</label>
+                <label class="wiz-check"><input type="checkbox" value="Seguridad"> Seguridad</label>
+                <label class="wiz-check"><input type="checkbox" value="Escritorio / zona de estudio"> Escritorio / zona de estudio</label>
+                <label class="wiz-check"><input type="checkbox" value="Ropa de cama"> Ropa de cama</label>
+                <label class="wiz-check"><input type="checkbox" value="Toallas"> Toallas</label>
+              </div>
+            </div>
+            <div class="wiz-field"><label class="wiz-lbl">Reglas del espacio</label>
+              <div class="wiz-checks" data-multi="rules">
+                <label class="wiz-check"><input type="checkbox" value="Permite visitas"> Permite visitas</label>
+                <label class="wiz-check"><input type="checkbox" value="No fumar"> No fumar</label>
+                <label class="wiz-check"><input type="checkbox" value="Mascotas permitidas"> Mascotas permitidas</label>
+                <label class="wiz-check"><input type="checkbox" value="Horarios"> Horarios</label>
+                <label class="wiz-check"><input type="checkbox" value="Cuidar el ruido"> Cuidar el ruido</label>
+                <label class="wiz-check"><input type="checkbox" value="Mantener la limpieza"> Mantener la limpieza</label>
+                <label class="wiz-check"><input type="checkbox" value="Cuidar espacios comunes"> Cuidar espacios comunes</label>
+              </div>
+            </div>
+            <div class="wiz-2">
+              <div class="wiz-field"><label>Estancia mínima</label><input type="text" name="condMin" placeholder="Ej.: 1 mes"></div>
+              <div class="wiz-field"><label>Estancia máxima</label><input type="text" name="condMax" placeholder="Ej.: 12 meses"></div>
+            </div>
+          </div>
+
+          <!-- STEP 5 — Disponibilidad + calendario -->
+          <div class="wiz-step" data-step="5">
+            <h3>¿Cuándo está disponible tu espacio?</h3>
+            <p class="wsub">La disponibilidad clara mejora el match: conectamos tu espacio con fechas que encajan.</p>
+            <div class="wiz-field"><label class="wiz-lbl">Disponibilidad general</label>
+              <div class="wiz-pills" data-single="availabilityType">
+                <span class="wiz-pill" data-v="Todo el año">Todo el año</span>
+                <span class="wiz-pill" data-v="Por fechas específicas">Por fechas específicas</span>
+                <span class="wiz-pill" data-v="Solo algunos meses">Solo algunos meses</span>
+                <span class="wiz-pill" data-v="Por temporada">Por temporada</span>
+                <span class="wiz-pill" data-v="No estoy seguro">No estoy seguro</span>
+              </div>
+            </div>
+            <div class="wiz-2">
+              <div class="wiz-field"><label>Fecha desde</label><input type="date" name="availableFrom"></div>
+              <div class="wiz-field"><label>Fecha hasta</label><input type="date" name="availableTo"></div>
+            </div>
+            <div class="wiz-2">
+              <div class="wiz-field"><label>Estancia mínima</label>
+                <select name="minStay"><option value="">—</option><option>1 semana</option><option>15 días</option><option>1 mes</option><option>3 meses</option><option>6 meses</option><option>12 meses</option><option>Otro</option></select>
+              </div>
+              <div class="wiz-field"><label>Estancia máxima</label>
+                <select name="maxStay"><option value="">—</option><option>1 mes</option><option>3 meses</option><option>6 meses</option><option>12 meses</option><option>Sin máximo</option><option>Otro</option></select>
+              </div>
+            </div>
+            <div class="wiz-2">
+              <div class="wiz-field"><label>Aviso previo</label>
+                <select name="noticeRequired"><option value="">—</option><option>24 horas</option><option>3 días</option><option>1 semana</option><option>15 días</option><option>1 mes</option></select>
+              </div>
+              <div class="wiz-field"><label>Preferencia de duración</label>
+                <select name="preferredStayLength"><option value="">—</option><option>Estancias cortas</option><option>Estancias medianas</option><option>Estancias largas</option><option>Me da igual</option></select>
+              </div>
+            </div>
+            <div class="wiz-field"><label class="wiz-lbl">¿Se repite por temporadas?</label>
+              <div class="wiz-pills" data-single="recurrent">
+                <span class="wiz-pill" data-v="Sí">Sí</span>
+                <span class="wiz-pill" data-v="No">No</span>
+              </div>
+            </div>
+            <div class="wiz-field" id="monthsWrap" style="display:none"><label class="wiz-lbl">Meses disponibles</label>
+              <div class="month-chips" data-multi="availableMonths" id="monthChips"></div>
+            </div>
+
+            <div class="wiz-field">
+              <label class="wiz-lbl">Calendario de disponibilidad</label>
+              <div class="cal" id="cal">
+                <div class="cal-top">
+                  <span class="cal-title" id="calTitle">Mes</span>
+                  <span class="cal-nav">
+                    <button type="button" id="calPrev" aria-label="Mes anterior">‹</button>
+                    <button type="button" id="calNext" aria-label="Mes siguiente">›</button>
+                  </span>
+                </div>
+                <div class="cal-grid" id="calDow"></div>
+                <div class="cal-grid" id="calDays"></div>
+                <div class="cal-tools">
+                  <button type="button" class="cal-tool on" id="toolCycle">Clic: cambiar estado</button>
+                  <button type="button" class="cal-tool" id="toolRange">Bloquear un rango</button>
+                  <button type="button" class="cal-tool" id="toolClear">Limpiar mes</button>
+                </div>
+                <div class="cal-legend">
+                  <span class="cal-leg disponible"><i></i>Disponible</span>
+                  <span class="cal-leg ocupado"><i></i>Ocupado</span>
+                  <span class="cal-leg bloqueado"><i></i>Bloqueado</span>
+                  <span class="cal-leg pendiente"><i></i>Pendiente</span>
+                </div>
+                <p class="cal-help">Marca tus días para que el match sea más preciso: conectamos tu espacio con las fechas que encajan. Haz clic en un día para alternar entre Disponible → Ocupado → Bloqueado → Pendiente, o usa "Bloquear un rango" para seleccionar varios días seguidos.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 6 — Fotos y contenido -->
+          <div class="wiz-step" data-step="6">
+            <h3>Fotos y contenido</h3>
+            <p class="wsub">Las buenas fotos hacen que tu espacio se sienta como un hogar.</p>
+            <div class="wiz-2">
+              <div class="wiz-field"><label>Foto principal</label><input type="file" name="photoMain" accept="image/*" class="photo-in"></div>
+              <div class="wiz-field"><label>Habitación</label><input type="file" name="photoRoom" accept="image/*" class="photo-in"></div>
+              <div class="wiz-field"><label>Baño</label><input type="file" name="photoBath" accept="image/*" class="photo-in"></div>
+              <div class="wiz-field"><label>Cocina</label><input type="file" name="photoKitchen" accept="image/*" class="photo-in"></div>
+              <div class="wiz-field"><label>Sala</label><input type="file" name="photoLiving" accept="image/*" class="photo-in"></div>
+              <div class="wiz-field"><label>Edificio / entrada</label><input type="file" name="photoBuilding" accept="image/*" class="photo-in"></div>
+            </div>
+            <div class="wiz-field"><label>Video opcional</label><input type="file" name="video" accept="video/*"></div>
+            <div class="wiz-2">
+              <div class="wiz-field"><label>Link a video</label><input type="url" name="videoLink" placeholder="https://…"></div>
+              <div class="wiz-field"><label>Link a tour</label><input type="url" name="tourLink" placeholder="https://…"></div>
+            </div>
+            <p class="whelp">Sube fotos claras, con buena luz y orden. Una imagen que muestra el espacio real genera más confianza y mejores solicitudes.</p>
+          </div>
+
+          <!-- STEP 7 — Perfil ideal del huésped -->
+          <div class="wiz-step" data-step="7">
+            <h3>Perfil ideal del huésped</h3>
+            <p class="wsub">¿A quién te gustaría recibir? Esto nos ayuda a afinar el match.</p>
+            <div class="wiz-field"><label class="wiz-lbl">¿A quién te gustaría recibir?</label>
+              <div class="wiz-pills" data-multi="idealGuest">
+                <span class="wiz-pill" data-v="Estudiantes">Estudiantes</span>
+                <span class="wiz-pill" data-v="Nómadas digitales">Nómadas digitales</span>
+                <span class="wiz-pill" data-v="Profesionales">Profesionales</span>
+                <span class="wiz-pill" data-v="Parejas">Parejas</span>
+                <span class="wiz-pill" data-v="Grupos pequeños">Grupos pequeños</span>
+                <span class="wiz-pill" data-v="Intercambistas">Intercambistas</span>
+                <span class="wiz-pill" data-v="Estancias cortas">Estancias cortas</span>
+                <span class="wiz-pill" data-v="Estancias largas">Estancias largas</span>
+              </div>
+            </div>
+            <div class="wiz-field"><label>Duración ideal</label>
+              <select name="idealDuration"><option value="">—</option><option>Pocas semanas</option><option>1 a 3 meses</option><option>3 a 6 meses</option><option>6 meses o más</option><option>Me da igual</option></select>
+            </div>
+            <div class="wiz-field"><label>Idiomas que manejas</label><input type="text" name="hostLanguages" placeholder="Ej.: Español, inglés"></div>
+            <div class="wiz-field"><label>¿Qué tipo de persona encaja en tu espacio?</label><textarea name="idealFit" placeholder="Cuéntanos cómo es la convivencia ideal…"></textarea></div>
+            <div class="wiz-field"><label>Comentarios</label><textarea name="comments" placeholder="Cualquier detalle que quieras que sepamos."></textarea></div>
+          </div>
+
+          <!-- STEP 8 — Revisión y envío -->
+          <div class="wiz-step" data-step="8">
+            <h3>Revisión y envío</h3>
+            <p class="wsub">Revisa el resumen de tu espacio antes de enviarlo.</p>
+            <div class="sumbox" id="summary"></div>
+            <label class="wiz-check" style="margin-top:16px;align-items:flex-start">
+              <input type="checkbox" id="consent" style="margin-top:2px">
+              <span>Acepto que House &amp; Flats revise esta información y me contacte para validar el alojamiento antes de mostrarlo a interesados.</span>
+            </label>
+          </div>
+
+          <div class="wiz-err" id="wizErr">Por favor completa los campos marcados con *.</div>
+          <div class="wiz-nav">
+            <button type="button" class="wiz-back" id="wizBack" hidden>← Atrás</button>
+            <button type="button" class="wiz-next" id="wizNext">Siguiente →</button>
+          </div>
+        </form>
+
+        <!-- THANK-YOU -->
+        <div class="wiz-done" id="wizDone">
+          <div class="wd-ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+          <p class="wd-brand">House &amp; Flats</p>
+          <h3>Solicitud recibida.</h3>
+          <p class="wd-lead">El equipo de House &amp; Flats revisará la información de tu espacio y te contactará para validar detalles antes de avanzar.</p>
+          <div class="wd-box">
+            Mientras tanto, te acompañamos: si quieres, <b>Sophi</b> puede ayudarte a completar fotos, precio o disponibilidad para que tu espacio quede listo más rápido. Tu próximo huésped puede estar a una solicitud de distancia.
+          </div>
+          <a class="btn-wa" href="https://wa.me/" target="_blank" rel="noopener">Hablar con House &amp; Flats</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ASÍ SE VERÁ TU ESPACIO ===== -->
+    <section class="sec" style="background:var(--cream);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+      <div class="wrap">
+        <div class="preview-wrap">
+          <div style="justify-self:center">
+            <div class="lcard">
+              <div class="lcard-img" style="background-image:url('https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=900&q=80')">
+                <span class="lcard-verif"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Verificado</span>
+                <span class="lcard-avail">Disponible desde agosto</span>
+              </div>
+              <div class="lcard-bd">
+                <p class="lc-name">Studio luminoso en el centro</p>
+                <p class="lc-loc">Madrid · zona Malasaña</p>
+                <p class="lc-type">Studio · amoblado · listo para vivir</p>
+                <p class="lc-price">680 € <small>/ mes</small></p>
+                <p class="lcard-min">Estancia mínima 1 mes</p>
+                <div class="lc-chips">
+                  <span class="lc-chip">WiFi</span><span class="lc-chip">Calefacción</span><span class="lc-chip">Cocina equipada</span><span class="lc-chip">Escritorio</span>
+                </div>
+                <div class="lc-actions">
+                  <button class="lc-b lc-b-primary" type="button">Ver alojamiento</button>
+                  <a class="lc-b lc-b-wa" href="https://wa.me/" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 32 32" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M16.04 3C9.4 3 4 8.4 4 15.04c0 2.12.56 4.18 1.62 6L4 29l8.16-1.58a12 12 0 0 0 3.88.64h.01C22.7 28.06 28.1 22.66 28.1 16.02 28.1 8.4 22.68 3 16.04 3zm0 21.9h-.01a9.9 9.9 0 0 1-3.46-.62l-.25-.1-4.84.94.97-4.72-.16-.25a9.86 9.86 0 0 1-1.51-5.24c0-5.46 4.45-9.9 9.92-9.9 2.65 0 5.14 1.03 7.01 2.9a9.86 9.86 0 0 1 2.9 7.01c0 5.47-4.45 9.92-9.92 9.92z"/></svg>
+                    WhatsApp
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="preview-tx">
+            <p class="sec-eyebrow">Así se verá tu espacio</p>
+            <h2>Así se verá tu espacio.</h2>
+            <p>Tu alojamiento no aparece como un anuncio frío. Se presenta como un espacio listo para llegar y vivir, con su disponibilidad clara: "Disponible desde agosto", "Estancia mínima 1 mes".</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== WIN-WIN ===== -->
+    <section class="sec">
+      <div class="wrap">
+        <div class="sec-head center">
+          <p class="sec-eyebrow">Una conexión donde todos ganan</p>
+          <h2>Una conexión donde todos ganan.</h2>
+          <p>House &amp; Flats existe para que la llegada sea buena para ambos lados.</p>
+        </div>
+        <div class="winwin">
+          <div class="wwcol">
+            <h3><span class="ww-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span>Para estudiantes y nómadas</h3>
+            <ul class="wwlist">
+              <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Encuentran un alojamiento real, listo para llegar y vivir.</li>
+              <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Ven fotos, servicios, reglas, zona y precio sin sorpresas.</li>
+              <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Llegan a espacios compatibles con su estancia y forma de vivir.</li>
+              <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Cuentan con el acompañamiento de House &amp; Flats hasta la llegada.</li>
+            </ul>
+          </div>
+          <div class="wwcol">
+            <h3><span class="ww-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg></span>Para anfitriones</h3>
+            <ul class="wwlist">
+              <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Reciben solicitudes más claras y personas compatibles.</li>
+              <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Pierden menos tiempo con conversaciones que no encajan.</li>
+              <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Presentan su espacio como un hogar, no como un anuncio frío.</li>
+              <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Tienen el acompañamiento de House &amp; Flats en todo el proceso.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SOPHI ===== -->
+    <section class="sec sophi-sec">
+      <div class="wrap">
+        <div class="sophi-wrap">
+          <div class="sophi-portrait">
+            <div class="sophi-frame"><img src="assets/sophi-face.jpg" alt="Sophi, la asistente de House & Flats" loading="lazy"></div>
+            <div class="sophi-bubble">
+              <p class="sname"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12 7.5L3 21l2-6a8.5 8.5 0 1 1 16-3.5Z"/></svg>Sophi</p>
+              Hola, soy Sophi. Te ayudo a preparar tu espacio para que House &amp; Flats pueda conectarlo con personas compatibles.
+            </div>
+          </div>
+          <div>
+            <p class="sec-eyebrow">Sophi para anfitriones</p>
+            <h2 style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:clamp(26px,3.4vw,40px);line-height:1.12;letter-spacing:-.015em;margin:0 0 14px">Sophi también ayuda al anfitrión.</h2>
+            <p style="font-size:16.5px;line-height:1.62;color:var(--mut);margin:0">Sophi es la asistente de House &amp; Flats. Te acompaña mientras preparas tu espacio para que quede claro, completo y listo para conectar.</p>
+            <ul class="sophi-fns">
+              <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>Te ayuda a completar la plantilla paso a paso.</li>
+              <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="m21 17-5-5-4 4-2-2-5 5"/></svg>Sugiere qué fotos subir para mostrar mejor el espacio.</li>
+              <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Revisa si falta precio, reglas o disponibilidad.</li>
+              <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Te ayuda a explicar mejor tu espacio.</li>
+              <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.7 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.7-3.8-9S9.5 5.6 12 3Z"/></svg>Responde en varios idiomas.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FINAL CTA ===== -->
+    <section class="wrap">
+      <div class="final">
+        <h2>Tu espacio puede ser el próximo hogar de alguien.</h2>
+        <p>Publícalo hoy y deja que House &amp; Flats lo conecte con estudiantes, nómadas digitales y viajeros que buscan llegar y sentirse en casa.</p>
+        <div class="final-actions">
+          <button class="btn-p" type="button" onclick="goForm()" style="background:var(--o)">Publicar mi espacio →</button>
+          <a class="btn-wa" href="https://wa.me/" target="_blank" rel="noopener">
+            <svg viewBox="0 0 32 32" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M16.04 3C9.4 3 4 8.4 4 15.04c0 2.12.56 4.18 1.62 6L4 29l8.16-1.58a12 12 0 0 0 3.88.64h.01C22.7 28.06 28.1 22.66 28.1 16.02 28.1 8.4 22.68 3 16.04 3zm0 21.9h-.01a9.9 9.9 0 0 1-3.46-.62l-.25-.1-4.84.94.97-4.72-.16-.25a9.86 9.86 0 0 1-1.51-5.24c0-5.46 4.45-9.9 9.92-9.9 2.65 0 5.14 1.03 7.01 2.9a9.86 9.86 0 0 1 2.9 7.01c0 5.47-4.45 9.92-9.92 9.92z"/></svg>
+            Hablar con House &amp; Flats
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="hf-ft">
+    <div class="hf-ft-in">
+      <a class="hf-lg" href="index.html"><span class="hf-mk">H&amp;F</span> House &amp; Flats</a>
+      <span>© 2026 House &amp; Flats · Tu próximo hogar, donde quieras.</span>
+      <a class="ig" href="https://instagram.com/houseandflats" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg>
+        @houseandflats
+      </a>
+    </div>
+  </footer>
+
+  <!-- ===== FLOATING SOPHI HELPER ===== -->
+  <button class="sophi-fab" type="button" onclick="goForm()" title="Sophi te ayuda a publicar tu espacio">
+    <img src="assets/sophi-face.jpg" alt="Sophi">
+    <span class="fab-tx"><b>Sophi</b><small>Te ayudo a publicar</small></span>
+  </button>
+
+  <script>
+  (function(){
+    'use strict';
+
+    // ---- Data: SAME 10 markets used across the project (Latinoamérica + Europa) ----
+    var MARKETS = {
+      "España": ["Madrid","Barcelona","Valencia","Sevilla","Málaga","Bilbao","San Sebastián","Granada"],
+      "Argentina": ["Buenos Aires","Córdoba","Mendoza","Bariloche","La Plata","Mar del Plata","Salta","Neuquén"],
+      "Chile": ["Santiago","Valparaíso","Viña del Mar","Concepción","Puerto Montt","Pucón","Villarrica"],
+      "Portugal": ["Lisboa","Coímbra","Oporto"],
+      "Reino Unido": ["Londres"],
+      "Alemania": ["Berlín","Fráncfort","Múnich","Düsseldorf","Stuttgart"],
+      "Francia": ["París","Lille","Burdeos","Toulouse"],
+      "Países Bajos": ["Ámsterdam","La Haya"],
+      "Austria": ["Viena","Graz"],
+      "Italia": ["Roma","Milán","Florencia","Turín","Bolonia"]
+    };
+    var MONTHS = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
+    var MONTHS_FULL = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+    var DOW = ["L","M","X","J","V","S","D"];
+
+    function $(s,r){return (r||document).querySelector(s);}
+    function $all(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));}
+
+    // ---- scroll to form ----
+    window.goForm = function(){
+      var f = document.getElementById('form');
+      if(f) f.scrollIntoView({behavior:'smooth',block:'start'});
+    };
+
+    // ---- populate country/city ----
+    var locCountry = $('#locCountry'), locCity = $('#locCity');
+    Object.keys(MARKETS).forEach(function(c){
+      var o = document.createElement('option'); o.value=c; o.textContent=c; locCountry.appendChild(o);
+    });
+    locCountry.addEventListener('change', function(){
+      var cities = MARKETS[locCountry.value] || [];
+      locCity.innerHTML = cities.length ? '<option value="">—</option>' : '<option value="">— Elige país primero —</option>';
+      cities.forEach(function(ci){ var o=document.createElement('option'); o.value=ci; o.textContent=ci; locCity.appendChild(o); });
+    });
+
+    // ---- month chips ----
+    var monthChips = $('#monthChips');
+    MONTHS.forEach(function(m,i){
+      var sp = document.createElement('span'); sp.className='wiz-pill'; sp.setAttribute('data-v', MONTHS_FULL[i]); sp.textContent=m;
+      monthChips.appendChild(sp);
+    });
+
+    // ---- single-select pill groups ----
+    var singleState = {};
+    $all('[data-single]').forEach(function(group){
+      var key = group.getAttribute('data-single');
+      group.addEventListener('click', function(e){
+        var pill = e.target.closest('.wiz-pill'); if(!pill) return;
+        $all('.wiz-pill', group).forEach(function(p){p.classList.remove('sel');});
+        pill.classList.add('sel'); singleState[key] = pill.getAttribute('data-v');
+        if(key==='recurrent'){ $('#monthsWrap').style.display = (singleState[key]==='Sí') ? 'block':'none'; }
+      });
+    });
+
+    // ---- multi-select pill groups ----
+    function getMultiPills(key){
+      var g = document.querySelector('[data-multi="'+key+'"]'); if(!g) return [];
+      return $all('.wiz-pill.sel', g).map(function(p){return p.getAttribute('data-v');});
+    }
+    $all('[data-multi]').forEach(function(group){
+      // only attach pill toggling if it has pills (chips); checkbox groups handled separately
+      if(group.querySelector('.wiz-pill')){
+        group.addEventListener('click', function(e){
+          var pill = e.target.closest('.wiz-pill'); if(!pill) return;
+          pill.classList.toggle('sel');
+        });
+      }
+    });
+
+    // ---- checkbox visual state + collection ----
+    $all('.wiz-check input[type=checkbox]').forEach(function(cb){
+      cb.addEventListener('change', function(){ cb.closest('.wiz-check').classList.toggle('on', cb.checked); });
+    });
+    function getChecks(key){
+      var g = document.querySelector('[data-multi="'+key+'"]'); if(!g) return [];
+      return $all('input[type=checkbox]:checked', g).map(function(cb){return cb.value;});
+    }
+
+    // ============================================================
+    //  CALENDAR
+    // ============================================================
+    var calState = {};         // 'YYYY-MM-DD' -> 'disponible'|'ocupado'|'bloqueado'|'pendiente'
+    var calCur = new Date(); calCur.setDate(1);
+    var rangeMode = false, rangeAnchor = null;
+    var CYCLE = ['disponible','ocupado','bloqueado','pendiente'];
+
+    function ymd(d){ var m=(d.getMonth()+1), day=d.getDate(); return d.getFullYear()+'-'+(m<10?'0'+m:m)+'-'+(day<10?'0'+day:day); }
+
+    function renderDow(){
+      var dow = $('#calDow'); dow.innerHTML='';
+      DOW.forEach(function(d){ var c=document.createElement('div'); c.className='cal-dow'; c.textContent=d; dow.appendChild(c); });
+    }
+    function renderCal(){
+      $('#calTitle').textContent = MONTHS_FULL[calCur.getMonth()] + ' ' + calCur.getFullYear();
+      var days = $('#calDays'); days.innerHTML='';
+      var first = new Date(calCur.getFullYear(), calCur.getMonth(), 1);
+      var startDow = (first.getDay()+6)%7; // Monday=0
+      var total = new Date(calCur.getFullYear(), calCur.getMonth()+1, 0).getDate();
+      for(var i=0;i<startDow;i++){ var e=document.createElement('div'); e.className='cal-day empty'; days.appendChild(e); }
+      for(var d=1; d<=total; d++){
+        var dt = new Date(calCur.getFullYear(), calCur.getMonth(), d);
+        var key = ymd(dt);
+        var cell = document.createElement('div');
+        cell.className = 'cal-day' + (calState[key] ? ' '+calState[key] : '');
+        cell.textContent = d;
+        cell.setAttribute('data-key', key);
+        days.appendChild(cell);
+      }
+    }
+    $('#calDays').addEventListener('click', function(e){
+      var cell = e.target.closest('.cal-day'); if(!cell || cell.classList.contains('empty')) return;
+      var key = cell.getAttribute('data-key');
+      if(rangeMode){
+        if(!rangeAnchor){ rangeAnchor = key; cell.classList.add('rangestart'); }
+        else {
+          var a = rangeAnchor < key ? rangeAnchor : key;
+          var b = rangeAnchor < key ? key : rangeAnchor;
+          var da = new Date(a), db = new Date(b);
+          for(var t=new Date(da); t<=db; t.setDate(t.getDate()+1)){ calState[ymd(t)] = 'bloqueado'; }
+          rangeAnchor = null; renderCal();
+        }
+      } else {
+        var cur = calState[key];
+        var idx = cur ? (CYCLE.indexOf(cur)+1) : 0;
+        if(idx >= CYCLE.length){ delete calState[key]; }
+        else { calState[key] = CYCLE[idx]; }
+        renderCal();
+      }
+    });
+    $('#calPrev').addEventListener('click', function(){ calCur.setMonth(calCur.getMonth()-1); renderCal(); });
+    $('#calNext').addEventListener('click', function(){ calCur.setMonth(calCur.getMonth()+1); renderCal(); });
+    $('#toolCycle').addEventListener('click', function(){ rangeMode=false; rangeAnchor=null; this.classList.add('on'); $('#toolRange').classList.remove('on'); renderCal(); });
+    $('#toolRange').addEventListener('click', function(){ rangeMode=true; rangeAnchor=null; this.classList.add('on'); $('#toolCycle').classList.remove('on'); });
+    $('#toolClear').addEventListener('click', function(){
+      var y=calCur.getFullYear(), m=calCur.getMonth();
+      Object.keys(calState).forEach(function(k){ var d=new Date(k); if(d.getFullYear()===y && d.getMonth()===m) delete calState[k]; });
+      rangeAnchor=null; renderCal();
+    });
+    renderDow(); renderCal();
+
+    function blockedDates(){
+      return Object.keys(calState).filter(function(k){ return calState[k]==='bloqueado'; }).sort();
+    }
+
+    // ============================================================
+    //  WIZARD NAVIGATION
+    // ============================================================
+    var TOTAL = 8, cur = 1;
+    var form = $('#hostWiz');
+    var bar = $('#wizBar'), curLbl = $('#wizCur');
+    var backBtn = $('#wizBack'), nextBtn = $('#wizNext'), err = $('#wizErr');
+
+    function val(name){ var el = form.elements[name]; return el ? (el.value||'').trim() : ''; }
+
+    function showStep(n){
+      $all('.wiz-step').forEach(function(s){ s.classList.toggle('active', +s.getAttribute('data-step')===n); });
+      bar.style.width = (n/TOTAL*100)+'%';
+      curLbl.textContent = n;
+      backBtn.hidden = (n===1);
+      nextBtn.textContent = (n===TOTAL) ? 'Enviar mi espacio' : 'Siguiente →';
+      err.classList.remove('show');
+      if(n===TOTAL) buildSummary();
+    }
+
+    function validate(n){
+      // light required validation per step
+      if(n===1){ if(!val('hostName') || !val('hostPhone') || !val('hostEmail')) return false; }
+      if(n===2){ if(!val('locCountry') || !val('locCity')) return false; }
+      if(n===3){ if(!val('spaceName') || !singleState['spaceType']) return false; }
+      if(n===4){ if(!val('price')) return false; }
+      if(n===8){ if(!$('#consent').checked){ err.textContent='Por favor acepta la revisión de House & Flats para continuar.'; return false; } }
+      return true;
+    }
+
+    backBtn.addEventListener('click', function(){ if(cur>1){ cur--; showStep(cur); window.scrollTo({top: form.getBoundingClientRect().top+window.scrollY-90, behavior:'smooth'}); } });
+    nextBtn.addEventListener('click', function(){
+      if(!validate(cur)){ err.textContent = (cur===8) ? err.textContent : 'Por favor completa los campos marcados con *.'; err.classList.add('show'); return; }
+      if(cur < TOTAL){ cur++; showStep(cur); window.scrollTo({top: form.getBoundingClientRect().top+window.scrollY-90, behavior:'smooth'}); }
+      else { submitForm(); }
+    });
+
+    // ---- summary ----
+    function row(k,v){ return '<div class="sumrow"><span class="k">'+k+'</span><span class="v">'+(v||'—')+'</span></div>'; }
+    function photoCount(){ return $all('.photo-in').filter(function(f){return f.files && f.files.length;}).length; }
+    function buildSummary(){
+      var avail = singleState['availabilityType'] || '—';
+      var dates = [val('availableFrom'), val('availableTo')].filter(Boolean).join(' → ') || '—';
+      var zone = [val('locCity'), val('locZone')].filter(Boolean).join(' · ');
+      var services = getChecks('services'); var rules = getChecks('rules');
+      $('#summary').innerHTML =
+        row('Anfitrión', (val('hostName')||'—') + (singleState['hostType']? ' · '+singleState['hostType'] : '')) +
+        row('Ubicación', (val('locCountry')||'—') + (zone? ' · '+zone : '')) +
+        row('Tipo', singleState['spaceType'] || '—') +
+        row('Precio', val('price') ? (val('price')+' '+val('currency')+' / mes') : '—') +
+        row('Disponibilidad', avail + (dates!=='—' ? ' · '+dates : '')) +
+        row('Servicios', services.length ? services.join(', ') : '—') +
+        row('Reglas', rules.length ? rules.join(', ') : '—') +
+        row('Fotos', photoCount() + ' subida(s)') +
+        row('Perfil ideal', getMultiPills('idealGuest').join(', ') || '—');
+    }
+
+    // ---- submit ----
+    function submitForm(){
+      var space = {
+        host: {
+          name: val('hostName'), dial: val('hostDial'), phone: val('hostPhone'),
+          email: val('hostEmail'), country: val('hostCountry'), language: val('hostLang'),
+          type: singleState['hostType']||'', multipleSpaces: singleState['hostMulti']||''
+        },
+        location: {
+          country: val('locCountry'), city: val('locCity'), zone: val('locZone'),
+          address: val('locAddress'), references: val('locRefs'), tags: getChecks('locTags')
+        },
+        space: {
+          name: val('spaceName'), type: singleState['spaceType']||'',
+          rooms: val('rooms'), baths: val('baths'), capacity: val('capacity'),
+          accepts: getChecks('accepts'), furnished: singleState['furnished']||'',
+          moveReady: singleState['moveReady']||''
+        },
+        terms: {
+          price: val('price'), currency: val('currency'), deposit: val('deposit'),
+          commission: val('commission'), services: getChecks('services'),
+          rules: getChecks('rules'), minStayText: val('condMin'), maxStayText: val('condMax')
+        },
+        availability: {
+          availabilityType: singleState['availabilityType']||'',
+          availableFrom: val('availableFrom'), availableTo: val('availableTo'),
+          minStay: val('minStay'), maxStay: val('maxStay'),
+          blockedDates: blockedDates(),
+          availableMonths: (singleState['recurrent']==='Sí') ? getMultiPills('availableMonths') : [],
+          noticeRequired: val('noticeRequired'),
+          preferredStayLength: val('preferredStayLength'),
+          status: 'pending_review'
+        },
+        media: {
+          photoCount: photoCount(), videoLink: val('videoLink'), tourLink: val('tourLink')
+        },
+        idealGuest: {
+          types: getMultiPills('idealGuest'), duration: val('idealDuration'),
+          languages: val('hostLanguages'), fit: val('idealFit'), comments: val('comments')
+        },
+        consent: true,
+        submittedAt: new Date().toISOString()
+      };
+      try {
+        var KEY = 'hf_host_spaces';
+        var list = JSON.parse(localStorage.getItem(KEY) || '[]');
+        if(!Array.isArray(list)) list = [];
+        list.push(space);
+        localStorage.setItem(KEY, JSON.stringify(list));
+      } catch(e){ /* demo only — silenciar errores de almacenamiento */ }
+
+      form.style.display = 'none';
+      var done = $('#wizDone'); done.classList.add('show');
+      window.scrollTo({top: done.getBoundingClientRect().top+window.scrollY-100, behavior:'smooth'});
+    }
+
+    showStep(1);
+  })();
+  </script>
+</body>
+</html>
