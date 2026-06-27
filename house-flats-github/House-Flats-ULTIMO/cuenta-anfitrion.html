@@ -1,0 +1,961 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Mi cuenta de anfitrión · House &amp; Flats</title>
+<link rel="stylesheet" href="styles.css" />
+<style>
+/* ===== Cuenta del anfitrión — estilos premium (naranja de marca) ===== */
+:root{
+  --hf-orange:#e8642a; --hf-orange-2:#ff8a3d; --hf-green:#15a85f; --wa:#25D366;
+  --hf-ink:#17110f; --hf-mut:#6f625e; --hf-line:#eadbd1; --hf-paper:#fffaf6;
+  --hf-cream:#fff1e8; --ok:#15a85f; --warn:#e8a02a; --bad:#d8442f;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--hf-ink);background:linear-gradient(180deg,#fffaf6 0,#fff 55%,#fff7f0 100%)}
+a{color:inherit;text-decoration:none}
+.hf-hidden{display:none!important}
+img{max-width:100%}
+
+/* Header */
+.ha-head{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;padding:22px clamp(16px,4vw,46px) 6px}
+.ha-brand{display:flex;align-items:center;gap:12px}
+.ha-mark{background:var(--hf-orange);color:#fff;font-weight:900;border-radius:14px;padding:10px 11px;letter-spacing:-.02em}
+.ha-brand h1{font-size:clamp(22px,3vw,30px);margin:0;letter-spacing:-.02em}
+.ha-brand p{margin:2px 0 0;color:var(--hf-mut);font-size:13.5px;font-weight:600}
+.ha-head-actions{display:flex;gap:10px;flex-wrap:wrap}
+
+/* Nav por anclas */
+.ha-nav{position:sticky;top:0;z-index:40;display:flex;gap:8px;flex-wrap:wrap;padding:12px clamp(16px,4vw,46px);background:rgba(255,250,246,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--hf-line)}
+.ha-nav a{font-size:13px;font-weight:800;color:var(--hf-mut);border:1px solid var(--hf-line);background:#fff;border-radius:999px;padding:9px 14px;transition:.18s}
+.ha-nav a:hover{color:var(--hf-orange);border-color:var(--hf-orange)}
+
+.ha-wrap{padding:18px clamp(16px,4vw,46px) 90px;max-width:1180px;margin:0 auto}
+.ha-section{margin:34px 0 0;scroll-margin-top:74px}
+.ha-section-head{margin-bottom:14px}
+.ha-section-head h2{font-size:clamp(20px,2.4vw,26px);margin:0;letter-spacing:-.01em}
+.ha-eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:11px;font-weight:900;color:var(--hf-orange);margin:0 0 4px}
+.ha-sub{margin:6px 0 0;color:var(--hf-mut);font-size:14px;max-width:680px}
+
+/* KPI */
+.ha-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.kpi{background:#fff;border:1px solid var(--hf-line);border-radius:20px;padding:18px;box-shadow:0 14px 40px rgba(65,38,24,.07);position:relative;overflow:hidden}
+.kpi:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--hf-orange)}
+.kpi.k-green:before{background:var(--hf-green)} .kpi.k-warn:before{background:var(--warn)} .kpi.k-ink:before{background:#17110f}
+.kpi .kpi-label{font-size:12.5px;color:var(--hf-mut);font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+.kpi .kpi-num{font-size:30px;font-weight:950;line-height:1.05;margin:8px 0 2px;letter-spacing:-.02em}
+.kpi .kpi-foot{font-size:12.5px;color:var(--hf-mut);font-weight:600}
+.kpi .kpi-foot b{color:var(--hf-ink)}
+
+/* Paneles */
+.ha-panel{background:#fff;border:1px solid var(--hf-line);border-radius:22px;box-shadow:0 14px 44px rgba(65,38,24,.06);overflow:hidden}
+.ha-panel-pad{padding:16px}
+.ha-grid2{display:grid;grid-template-columns:1.2fr .9fr;gap:16px}
+.ha-card{background:#fff;border:1px solid var(--hf-line);border-radius:18px;padding:16px}
+
+/* Botones */
+.ha-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border-radius:999px;font-weight:800;font-size:13px;padding:10px 15px;border:1px solid transparent;cursor:pointer;transition:.18s;font-family:inherit}
+.ha-btn:hover{transform:translateY(-1px)}
+.ha-btn-primary{background:var(--hf-orange);color:#fff;box-shadow:0 10px 26px rgba(232,100,42,.25)}
+.ha-btn-ghost{background:#fff;color:var(--hf-ink);border-color:var(--hf-line)}
+.ha-btn-ok{background:var(--hf-green);color:#fff}
+.ha-btn-bad{background:#fff;color:var(--bad);border-color:#f0c4ba}
+.ha-btn-bad:hover{background:var(--bad);color:#fff}
+.ha-btn-wa{background:var(--wa)!important;color:#fff!important;border-color:var(--wa)!important}
+.ha-btn-wa:hover{background:#1ebe5d!important}
+.ha-btn-sm{padding:7px 11px;font-size:12px}
+
+/* Badges */
+.tag{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:900;border-radius:999px;padding:5px 10px;white-space:nowrap}
+.tag-pend{background:#fff3e0;color:#b9740d} .tag-appr{background:#e6f6ee;color:#0f7a44} .tag-rej{background:#fbe7e3;color:#bb3320}
+.tag-dot{width:7px;height:7px;border-radius:50%;background:currentColor;display:inline-block}
+
+/* Listas / filas */
+.ha-list{display:flex;flex-direction:column}
+.ha-row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:11px 4px;border-bottom:1px solid #f3ece8;font-size:14px}
+.ha-row:last-child{border-bottom:0}
+.ha-row .sub{color:var(--hf-mut);font-size:12.5px;margin-top:2px}
+.row-actions{display:flex;gap:6px;flex-wrap:wrap}
+
+/* Espacios */
+.space-card{display:flex;gap:14px;align-items:flex-start;padding:14px;border:1px solid var(--hf-line);border-radius:18px;background:#fff;margin-bottom:12px}
+.space-thumb{width:120px;height:96px;border-radius:14px;background:#f0e6df center/cover no-repeat;flex:none;border:1px solid var(--hf-line);display:grid;place-items:center;color:var(--hf-mut);font-size:11px;font-weight:800}
+.space-body{flex:1;min-width:0}
+.space-body h3{margin:0 0 3px;font-size:16px}
+.space-meta{color:var(--hf-mut);font-size:13px}
+
+/* Empty state */
+.ha-empty{padding:30px 18px;text-align:center;color:var(--hf-mut);border:1px dashed var(--hf-line);border-radius:16px;background:#fffdfb}
+.ha-empty strong{display:block;color:var(--hf-ink);font-size:15px;margin-bottom:6px}
+
+/* Inputs */
+.ha-field label{font-weight:800;font-size:13px;display:block;margin:0 0 6px}
+.ha-input{width:100%;border:1px solid var(--hf-line);border-radius:14px;padding:11px 13px;font:inherit;outline:none;background:#fff}
+.ha-input:focus{border-color:var(--hf-orange);box-shadow:0 0 0 4px rgba(232,100,42,.12)}
+
+/* ===== Herramienta de fotos ===== */
+.photo-tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.uploader{border:2px dashed var(--hf-line);border-radius:18px;padding:22px;text-align:center;background:#fffdfb;transition:.18s;cursor:pointer}
+.uploader:hover,.uploader.drag{border-color:var(--hf-orange);background:#fff6ef}
+.uploader b{display:block;font-size:15px;margin-bottom:4px}
+.uploader span{color:var(--hf-mut);font-size:13px}
+.thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:10px;margin-top:14px}
+.thumb{position:relative;border:1px solid var(--hf-line);border-radius:12px;overflow:hidden;aspect-ratio:1/1;background:#f0e6df}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb.cover{outline:3px solid var(--hf-orange);outline-offset:-3px}
+.thumb .badge{position:absolute;top:4px;left:4px;background:var(--hf-orange);color:#fff;font-size:9px;font-weight:900;border-radius:6px;padding:2px 6px;letter-spacing:.03em}
+.thumb .ctrls{position:absolute;bottom:0;left:0;right:0;display:flex;justify-content:center;gap:3px;padding:3px;background:linear-gradient(transparent,rgba(0,0,0,.55))}
+.thumb .ctrls button{border:0;background:rgba(255,255,255,.92);border-radius:6px;width:22px;height:22px;font-size:12px;line-height:1;cursor:pointer;font-weight:900;color:#17110f}
+.thumb .ctrls button:hover{background:#fff}
+
+.preview-col h4{margin:0 0 10px;font-size:14px;font-weight:850}
+.ratio-row{display:flex;gap:14px;flex-wrap:wrap}
+.ratio-box{flex:1;min-width:140px;text-align:center}
+.ratio-box canvas{width:100%;border-radius:14px;border:1px solid var(--hf-line);background:#f0e6df;display:block}
+.ratio-box .cap{font-size:11.5px;color:var(--hf-mut);font-weight:800;margin-top:6px;text-transform:uppercase;letter-spacing:.05em}
+
+/* ===== Calendario ===== */
+.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.cal-head b{font-size:15px}
+.cal-nav button{border:1px solid var(--hf-line);background:#fff;border-radius:10px;width:32px;height:32px;cursor:pointer;font-weight:900;font-size:15px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.cal-dow{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--hf-mut);font-weight:800;text-align:center;padding:4px 0}
+.cal-cell{aspect-ratio:1/1;border:1px solid var(--hf-line);border-radius:10px;display:grid;place-items:center;font-size:13px;font-weight:700;cursor:pointer;background:#fff;transition:.12s}
+.cal-cell:hover{border-color:var(--hf-orange)}
+.cal-cell.empty{border:0;cursor:default;background:transparent}
+.cal-cell.past{color:#c9bcb4;background:#faf6f2;cursor:not-allowed;border-color:#f0e6df}
+.cal-cell.blocked{background:var(--bad);color:#fff;border-color:var(--bad)}
+.cal-legend{display:flex;gap:16px;margin-top:10px;font-size:12px;color:var(--hf-mut);font-weight:700}
+.cal-legend i{width:11px;height:11px;border-radius:4px;display:inline-block;margin-right:5px;vertical-align:middle;border:1px solid var(--hf-line)}
+.cal-legend i.free{background:#fff} .cal-legend i.blk{background:var(--bad);border-color:var(--bad)}
+
+/* Toast + modal */
+.ha-toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:#17110f;color:#fff;padding:13px 20px;border-radius:14px;font-weight:700;font-size:14px;box-shadow:0 18px 50px rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:.25s;z-index:150}
+.ha-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.ha-banner{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:#17110f;color:#fff;padding:11px clamp(16px,4vw,46px);font-size:13.5px;font-weight:700}
+.ha-banner .dot{width:9px;height:9px;border-radius:50%;background:var(--hf-orange);box-shadow:0 0 0 4px rgba(232,100,42,.25)}
+.ha-banner small{color:#d8c9c0;font-weight:600}
+
+.ha-foot{padding:28px clamp(16px,4vw,46px);border-top:1px solid var(--hf-line);color:var(--hf-mut);font-size:13px;text-align:center}
+
+@media(max-width:1024px){.ha-kpis{grid-template-columns:repeat(2,1fr)}.ha-grid2{grid-template-columns:1fr}.photo-tool-grid{grid-template-columns:1fr}}
+@media(max-width:560px){.ha-kpis{grid-template-columns:1fr}.space-card{flex-direction:column}.space-thumb{width:100%;height:160px}
+  /* Photo preview: stack the two ratio previews so neither is squeezed/overflows */
+  .ratio-row{flex-direction:column}
+  .ratio-box{min-width:0;width:100%}
+  /* Booking/list rows: let the row + its actions wrap instead of squeezing */
+  .ha-row{flex-wrap:wrap}
+  .row-actions{width:100%}
+  .row-actions .ha-btn{flex:1 1 auto}
+  /* Calendar: tighten the 7-col grid so it never overflows the card (grid intact) */
+  .cal-grid{gap:3px}
+  .cal-cell{font-size:12px}
+  .cal-dow{font-size:10px}}
+@media(max-width:1024px){.ha-head{align-items:center}.ha-head-actions{display:none}.ha-nav{display:none}.ha-head .hf-burger{margin-left:auto}}
+</style>
+</head>
+<body>
+
+<div class="ha-banner">
+  <span class="dot"></span>
+  <span>Tu cuenta de anfitrión · House &amp; Flats</span>
+  <small>· Demo sin backend. Tus cambios se guardan en este navegador y los revisa el equipo antes de publicarse.</small>
+</div>
+
+<header class="ha-head">
+  <div class="ha-brand">
+    <span class="ha-mark">H&amp;F</span>
+    <div>
+      <h1>Hola, <span id="hostNameLbl">anfitrión</span></h1>
+      <p>Administra tu espacio, mira tu estado de aprobación y tus ganancias.</p>
+    </div>
+  </div>
+  <div class="ha-head-actions">
+    <a class="ha-btn ha-btn-ghost" href="anfitrion.html">Publicar otro espacio</a>
+    <a class="ha-btn ha-btn-ghost" href="index.html">Volver al sitio</a>
+  </div>
+  <button class="hf-burger" type="button" data-mnav="mnavHa" aria-label="Abrir menú" aria-expanded="false" aria-controls="mnavHa">
+    <svg class="hf-burger-bars" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    <svg class="hf-burger-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+</header>
+
+<!-- MOBILE MENU -->
+<div class="hf-mnav" id="mnavHa" role="dialog" aria-modal="true" aria-label="Menú de navegación">
+  <div class="hf-mnav-backdrop" data-mnav-close></div>
+  <div class="hf-mnav-panel">
+    <div class="hf-mnav-top">
+      <span class="hf-mnav-brand"><span class="hf-mnav-mk">H&amp;F</span> Mi cuenta</span>
+      <button class="hf-mnav-close" type="button" data-mnav-close aria-label="Cerrar menú">&times;</button>
+    </div>
+    <nav class="hf-mnav-links">
+      <a href="#ganancias">Ganancias</a>
+      <a href="#espacios">Mis espacios</a>
+      <a href="#fotos">Herramienta de fotos</a>
+      <a href="#disponibilidad">Disponibilidad y precio</a>
+      <a href="#cambios">Cambios en revisión</a>
+      <a href="#cuenta">Mi cuenta</a>
+    </nav>
+    <div class="hf-mnav-cta">
+      <a class="hf-mnav-ghost" href="anfitrion.html">Publicar otro espacio</a>
+      <a class="hf-mnav-ghost" href="index.html">Volver al sitio</a>
+    </div>
+  </div>
+</div>
+
+<nav class="ha-nav">
+  <a href="#ganancias">Ganancias</a>
+  <a href="#espacios">Mis espacios</a>
+  <a href="#fotos">Herramienta de fotos</a>
+  <a href="#disponibilidad">Disponibilidad y precio</a>
+  <a href="#cambios">Cambios en revisión</a>
+  <a href="#cuenta">Mi cuenta</a>
+</nav>
+
+<main class="ha-wrap">
+
+  <!-- 1) GANANCIAS -->
+  <section class="ha-section" id="ganancias">
+    <div class="ha-section-head">
+      <p class="ha-eyebrow">Tus números</p>
+      <h2>Tus ganancias</h2>
+      <p class="ha-sub">Un resumen claro de lo que generas con House &amp; Flats. Cifras de demostración basadas en tus espacios y reservas.</p>
+    </div>
+    <div class="ha-kpis" id="earnKpis"></div>
+    <div class="ha-panel ha-panel-pad" style="margin-top:14px">
+      <h3 style="margin:4px 0 10px;font-size:15px">Historial de pagos recibidos</h3>
+      <div class="ha-list" id="earnHistory"></div>
+    </div>
+  </section>
+
+  <!-- 2) MIS ESPACIOS + ESTADO -->
+  <section class="ha-section" id="espacios">
+    <div class="ha-section-head">
+      <p class="ha-eyebrow">Tus publicaciones</p>
+      <h2>Mis espacios y su estado de aprobación</h2>
+      <p class="ha-sub">Aquí ves cada espacio que publicaste y si House &amp; Flats ya lo aprobó para mostrarlo a personas compatibles.</p>
+    </div>
+    <div id="spacesList"></div>
+  </section>
+
+  <!-- 3) HERRAMIENTA DE FOTOS -->
+  <section class="ha-section" id="fotos">
+    <div class="ha-section-head">
+      <p class="ha-eyebrow">Que tu espacio se vea increíble</p>
+      <h2>Herramienta de fotos</h2>
+      <p class="ha-sub">Sube tus fotos y mira en vivo cómo se verán en la tarjeta y en la ficha. Rellenamos los bordes con un fondo difuminado de tu propia foto, para que cualquier proporción se vea bien — sin recortes feos.</p>
+    </div>
+    <div class="ha-panel ha-panel-pad">
+      <div class="ha-field" style="margin-bottom:12px">
+        <label for="photoSpaceSel">Elige el espacio al que pertenecen estas fotos</label>
+        <select id="photoSpaceSel" class="ha-input"></select>
+      </div>
+      <div class="photo-tool-grid">
+        <div>
+          <div class="uploader" id="uploader">
+            <b>Arrastra tus fotos aquí o toca para elegir</b>
+            <span>Puedes subir varias a la vez. JPG o PNG.</span>
+            <input type="file" id="photoInput" accept="image/*" multiple class="hf-hidden">
+          </div>
+          <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+            <button class="ha-btn ha-btn-ghost ha-btn-sm" id="addMoreBtn">+ Añadir más fotos</button>
+            <button class="ha-btn ha-btn-primary ha-btn-sm" id="savePhotosBtn">Guardar fotos (enviar a revisión)</button>
+          </div>
+          <div class="thumbs" id="thumbs"></div>
+          <p class="ha-sub" style="font-size:12.5px;margin-top:10px">Toca una foto para verla en la vista previa. Usa los botones para mover, hacerla <b>portada</b> o quitarla.</p>
+        </div>
+        <div class="preview-col">
+          <h4>Vista previa: así se verá en la web</h4>
+          <div class="ratio-row">
+            <div class="ratio-box">
+              <canvas id="prev45" width="320" height="400"></canvas>
+              <div class="cap">Tarjeta · 4/5</div>
+            </div>
+            <div class="ratio-box">
+              <canvas id="prev169" width="384" height="216"></canvas>
+              <div class="cap">Ficha · 16/9</div>
+            </div>
+          </div>
+          <p class="ha-sub" style="font-size:12.5px;margin-top:10px">Tu foto se muestra completa (nunca recortada). El espacio sobrante se rellena con una versión ampliada y difuminada de la misma foto.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4) DISPONIBILIDAD + PRECIO -->
+  <section class="ha-section" id="disponibilidad">
+    <div class="ha-section-head">
+      <p class="ha-eyebrow">Cuándo y a cuánto</p>
+      <h2>Disponibilidad y precio</h2>
+      <p class="ha-sub">Bloquea los días que no quieres recibir a nadie y ajusta el precio de tu habitación. Cada cambio pasa por una revisión rápida del equipo.</p>
+    </div>
+    <div class="ha-field" style="margin-bottom:12px">
+      <label for="availSpaceSel">Espacio que estás editando</label>
+      <select id="availSpaceSel" class="ha-input"></select>
+    </div>
+    <div class="ha-grid2">
+      <div class="ha-card">
+        <div class="cal-head">
+          <button class="ha-btn ha-btn-ghost ha-btn-sm" id="calToday" style="visibility:hidden">Hoy</button>
+          <b id="calLabel">—</b>
+          <span class="cal-nav"><button id="calPrev">‹</button> <button id="calNext">›</button></span>
+        </div>
+        <div class="cal-grid" id="calDow"></div>
+        <div class="cal-grid" id="calGrid" style="margin-top:5px"></div>
+        <div class="cal-legend"><span><i class="free"></i>Disponible</span><span><i class="blk"></i>Bloqueado</span></div>
+        <div style="margin-top:12px">
+          <button class="ha-btn ha-btn-primary ha-btn-sm" id="saveDaysBtn">Guardar días (enviar a revisión)</button>
+        </div>
+      </div>
+      <div class="ha-card">
+        <div class="ha-field" style="margin-bottom:12px">
+          <label for="priceInput">Precio mensual de la habitación</label>
+          <div style="display:flex;gap:8px">
+            <input id="priceInput" class="ha-input" type="number" min="0" step="10" placeholder="Ej.: 650" style="flex:1">
+            <select id="curInput" class="ha-input" style="width:96px">
+              <option>USD</option><option>EUR</option><option>GBP</option><option>CLP</option><option>ARS</option>
+            </select>
+          </div>
+        </div>
+        <button class="ha-btn ha-btn-primary ha-btn-sm" id="savePriceBtn">Guardar precio (enviar a revisión)</button>
+        <p class="ha-sub" style="font-size:12.5px;margin-top:14px">Un precio claro y una disponibilidad realista mejoran tu match: te conectamos con personas que encajan con tus fechas y tu forma de vivir.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5) CAMBIOS EN REVISIÓN -->
+  <section class="ha-section" id="cambios">
+    <div class="ha-section-head">
+      <p class="ha-eyebrow">Transparencia total</p>
+      <h2>Tus cambios en revisión</h2>
+      <p class="ha-sub">Cada cambio que envías (precio, días bloqueados o fotos) lo revisa el equipo antes de que se vea en la web. Aquí sigues el estado de cada uno.</p>
+    </div>
+    <div class="ha-panel ha-panel-pad">
+      <div class="ha-list" id="changesList"></div>
+    </div>
+  </section>
+
+  <!-- 6) MI CUENTA -->
+  <section class="ha-section" id="cuenta">
+    <div class="ha-section-head">
+      <p class="ha-eyebrow">Todo lo que puedes hacer</p>
+      <h2>Mi cuenta y mis reservas</h2>
+      <p class="ha-sub">Gestiona tus estancias activas, mira tu próximo día de pago, revisa tu historial y administra tu cuenta.</p>
+    </div>
+    <div class="ha-kpis" id="acctKpis" style="margin-bottom:14px"></div>
+    <div class="ha-panel ha-panel-pad" style="margin-bottom:14px">
+      <h3 style="margin:4px 0 10px;font-size:15px">Estancias y contratos</h3>
+      <div class="ha-list" id="bookingsList"></div>
+    </div>
+    <div class="ha-card" style="border-color:#f0c4ba;background:#fff8f6">
+      <h3 style="margin:0 0 6px;font-size:15px;color:var(--bad)">Zona delicada</h3>
+      <p class="ha-sub" style="margin:0 0 12px">Borrar tu cuenta elimina tus espacios, cambios y reservas guardados en este navegador. Esta acción no se puede deshacer.</p>
+      <button class="ha-btn ha-btn-bad ha-btn-sm" id="deleteAcctBtn">Borrar mi cuenta</button>
+    </div>
+  </section>
+
+</main>
+
+<footer class="ha-foot">
+  House &amp; Flats · Acompañamos cada match entre quien busca un lugar y quien lo ofrece. · <a href="index.html" style="color:var(--hf-orange);font-weight:800">Inicio</a>
+</footer>
+
+<div class="ha-toast" id="haToast"></div>
+
+<script src="app.js"></script>
+<script>
+/* ============================================================================
+   CUENTA DEL ANFITRIÓN — House & Flats (demo sin backend)
+   Estado en localStorage. Claves compartidas con el Panel del Director:
+     hf_role, hf_host_spaces, hf_host_changes, hf_bookings
+   Todas las lecturas van envueltas en try/catch.
+   ============================================================================ */
+(function(){
+  "use strict";
+
+  /* ---------- localStorage seguro ---------- */
+  function lsGet(key, fallback){
+    try{ var raw = localStorage.getItem(key); if(raw==null) return fallback;
+      var v = JSON.parse(raw); return v==null ? fallback : v; }
+    catch(e){ return fallback; }
+  }
+  function lsSet(key, value){
+    try{ localStorage.setItem(key, JSON.stringify(value)); return true; }catch(e){ return false; }
+  }
+  function arr(key){ var v = lsGet(key, []); return Array.isArray(v) ? v : []; }
+
+  /* ---------- utilidades ---------- */
+  var $ = function(s){ return document.querySelector(s); };
+  var $$ = function(s){ return Array.prototype.slice.call(document.querySelectorAll(s)); };
+  function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(c){return ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c];}); }
+  function pad(n){ return n<10 ? "0"+n : ""+n; }
+  function fmtDate(d){ return d ? d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate()) : ""; }
+  function parseDate(s){ if(!s) return null; var d=new Date(s); return isNaN(d)?null:d; }
+  function daysBetween(a,b){ return Math.round((a-b)/86400000); }
+  var TODAY = new Date(); TODAY.setHours(0,0,0,0);
+  var CUR_SYMBOL = { USD:"$", EUR:"€", GBP:"£", CLP:"$", ARS:"$" };
+  function money(amount, cur){ var s = CUR_SYMBOL[cur]||""; return s + Number(amount||0).toLocaleString("es-ES"); }
+  function uid(p){ return (p||"id")+"_"+Date.now().toString(36)+"_"+Math.random().toString(36).slice(2,7); }
+  function toast(msg){
+    var t = $("#haToast"); if(!t) return;
+    t.textContent = msg; t.classList.add("show");
+    clearTimeout(toast._t); toast._t = setTimeout(function(){ t.classList.remove("show"); }, 2600);
+  }
+  function MONTHS(){ return ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"]; }
+
+  /* ---------- normalizar espacios (acepta forma plana y la anidada del wizard) ---------- */
+  function normalizeSpace(sp, idx){
+    if(!sp || typeof sp!=="object") sp = {};
+    // forma anidada del wizard de anfitrion.html
+    var nested = sp.space || sp.location || sp.terms;
+    if(nested){
+      var h = sp.host||{}, loc = sp.location||{}, spc = sp.space||{}, terms = sp.terms||{}, av = sp.availability||{};
+      return {
+        id: sp.id || ("space_w_"+idx),
+        host: h.name || "Anfitrión",
+        title: spc.name || ((spc.type||"Espacio")+" en "+(loc.zone||loc.city||"")),
+        city: loc.city||"", country: loc.country||"", neighborhood: loc.zone||"",
+        type: spc.type||"—",
+        price: Number(terms.price)||0, currency: terms.currency||"USD",
+        photos: Array.isArray(sp.photos)? sp.photos : [],
+        availability: { blocked: Array.isArray(av.blockedDates)? av.blockedDates.slice() : [], price: Number(terms.price)||0 },
+        status: sp.status || "pendiente",
+        _raw: sp
+      };
+    }
+    // forma plana del esquema compartido
+    return {
+      id: sp.id || ("space_"+idx),
+      host: sp.host || "Anfitrión",
+      title: sp.title || "Espacio",
+      city: sp.city||"", country: sp.country||"", neighborhood: sp.neighborhood||"",
+      type: sp.type||"—",
+      price: Number(sp.price)||0, currency: sp.currency||"USD",
+      photos: Array.isArray(sp.photos)? sp.photos : [],
+      availability: (sp.availability && typeof sp.availability==="object")
+        ? { blocked: Array.isArray(sp.availability.blocked)? sp.availability.blocked.slice() : [], price: Number(sp.availability.price)||Number(sp.price)||0 }
+        : { blocked: [], price: Number(sp.price)||0 },
+      status: sp.status || "pendiente",
+      _raw: sp
+    };
+  }
+  function getSpaces(){ return arr("hf_host_spaces").map(normalizeSpace); }
+
+  /* ---------- datos demo deterministas si está vacío ---------- */
+  function seedIfEmpty(){
+    var spaces = arr("hf_host_spaces");
+    var seeded = false;
+    if(!spaces.length){
+      var sample = {
+        id: "space_demo_1",
+        host: "María",
+        title: "Studio luminoso cerca del centro",
+        city: "Madrid", country: "España", neighborhood: "Malasaña",
+        type: "Studio amoblado",
+        price: 690, currency: "EUR",
+        photos: [],
+        availability: { blocked: [], price: 690 },
+        status: "aprobado"
+      };
+      lsSet("hf_host_spaces", [sample]);
+      seeded = true;
+    }
+    var bookings = arr("hf_bookings");
+    var hostBookings = bookings.filter(function(b){ return b && b.role==="anfitrion"; });
+    if(!hostBookings.length){
+      function plus(days){ var d=new Date(TODAY); d.setDate(d.getDate()+days); return fmtDate(d); }
+      function minus(days){ var d=new Date(TODAY); d.setDate(d.getDate()-days); return fmtDate(d); }
+      var demoBookings = [
+        { id:"bk_demo_1", role:"anfitrion", title:"Studio luminoso cerca del centro", city:"Madrid", country:"España",
+          checkIn:minus(45), checkOut:plus(75), monthlyPrice:690, currency:"EUR", payDay:5, status:"activa" },
+        { id:"bk_demo_2", role:"anfitrion", title:"Studio luminoso cerca del centro", city:"Madrid", country:"España",
+          checkIn:minus(220), checkOut:minus(40), monthlyPrice:660, currency:"EUR", payDay:5, status:"finalizada" }
+      ];
+      lsSet("hf_bookings", bookings.concat(demoBookings));
+      seeded = true;
+    }
+    if(!localStorage.getItem("hf_role")){ lsSet("hf_role", "anfitrion"); }
+    return seeded;
+  }
+
+  /* ---------- registrar un cambio pendiente (clave compartida) ---------- */
+  function pushChange(spaceId, spaceTitle, type, payload){
+    var changes = arr("hf_host_changes");
+    changes.push({
+      id: uid("chg"), spaceId: spaceId, spaceTitle: spaceTitle,
+      type: type, payload: payload, status: "pendiente", date: new Date().toISOString()
+    });
+    lsSet("hf_host_changes", changes);
+  }
+
+  /* ============================================================================
+     1) GANANCIAS
+     ============================================================================ */
+  function hostBookings(){ return arr("hf_bookings").filter(function(b){ return b && b.role==="anfitrion"; }); }
+
+  function renderEarnings(){
+    var bk = hostBookings();
+    var active = bk.filter(function(b){ return b.status==="activa"; });
+    // ingreso mensual estimado: suma de las rentas activas por moneda
+    var byCur = {};
+    active.forEach(function(b){ byCur[b.currency] = (byCur[b.currency]||0) + Number(b.monthlyPrice||0); });
+    var monthlyStr = Object.keys(byCur).length ? Object.keys(byCur).map(function(c){ return money(byCur[c],c); }).join(" · ") : "—";
+
+    // total acumulado (demo): meses transcurridos de cada estancia × precio
+    var accumByCur = {};
+    bk.forEach(function(b){
+      var ci = parseDate(b.checkIn); if(!ci) return;
+      var end = (b.status==="activa") ? TODAY : (parseDate(b.checkOut)||TODAY);
+      var months = Math.max(0, Math.round(daysBetween(end, ci)/30));
+      accumByCur[b.currency] = (accumByCur[b.currency]||0) + months*Number(b.monthlyPrice||0);
+    });
+    var accumStr = Object.keys(accumByCur).length ? Object.keys(accumByCur).map(function(c){ return money(accumByCur[c],c); }).join(" · ") : "—";
+
+    // próximo pago: la estancia activa con día de pago más cercano
+    var next = null;
+    active.forEach(function(b){
+      var day = Number(b.payDay)||1;
+      var nd = new Date(TODAY.getFullYear(), TODAY.getMonth(), day);
+      if(nd < TODAY){ nd = new Date(TODAY.getFullYear(), TODAY.getMonth()+1, day); }
+      if(!next || nd < next.when){ next = { when:nd, b:b }; }
+    });
+    var nextStr = next ? (money(next.b.monthlyPrice,next.b.currency)+" · "+pad(next.when.getDate())+" "+MONTHS()[next.when.getMonth()]) : "Sin pagos próximos";
+
+    var kpis = [
+      { label:"Ingreso mensual estimado", num:monthlyStr, foot:active.length+" estancia(s) activa(s)", cls:"k-green" },
+      { label:"Total acumulado (demo)", num:accumStr, foot:"desde que publicaste", cls:"k-ink" },
+      { label:"Próximo pago", num:next?money(next.b.monthlyPrice,next.b.currency):"—", foot:next?("día "+pad(next.when.getDate())+" de "+MONTHS()[next.when.getMonth()]):"sin pagos próximos", cls:"k-warn" },
+      { label:"Tus espacios", num:getSpaces().length, foot:getSpaces().filter(function(s){return s.status==="aprobado";}).length+" aprobado(s)", cls:"" }
+    ];
+    $("#earnKpis").innerHTML = kpis.map(function(k){
+      return '<div class="kpi '+k.cls+'"><div class="kpi-label">'+esc(k.label)+'</div>'+
+        '<div class="kpi-num">'+(typeof k.num==="number"?k.num:esc(k.num))+'</div>'+
+        '<div class="kpi-foot">'+esc(k.foot)+'</div></div>';
+    }).join("");
+
+    // historial de pagos (demo): por cada estancia, los meses ya cobrados
+    var rows = [];
+    bk.forEach(function(b){
+      var ci = parseDate(b.checkIn); if(!ci) return;
+      var end = (b.status==="activa") ? TODAY : (parseDate(b.checkOut)||TODAY);
+      var months = Math.max(0, Math.min(8, Math.round(daysBetween(end, ci)/30)));
+      for(var m=months-1;m>=0 && rows.length<10;m--){
+        var when = new Date(ci.getFullYear(), ci.getMonth()+m, Number(b.payDay)||1);
+        if(when>TODAY) continue;
+        rows.push({ when:when, b:b });
+      }
+    });
+    rows.sort(function(a,c){ return c.when-a.when; });
+    if(!rows.length){
+      $("#earnHistory").innerHTML = '<div class="ha-empty">Aún no hay pagos registrados. Cuando recibas a tu primer huésped, verás aquí cada pago.</div>';
+    } else {
+      $("#earnHistory").innerHTML = rows.slice(0,8).map(function(r){
+        return '<div class="ha-row"><div><b>'+money(r.b.monthlyPrice,r.b.currency)+'</b><div class="sub">'+esc(r.b.title)+' · '+esc(r.b.city)+'</div></div>'+
+          '<div style="text-align:right"><span class="tag tag-appr"><span class="tag-dot"></span>Recibido</span><div class="sub">'+pad(r.when.getDate())+" "+MONTHS()[r.when.getMonth()]+" "+r.when.getFullYear()+'</div></div></div>';
+      }).join("");
+    }
+  }
+
+  /* ============================================================================
+     2) MIS ESPACIOS + ESTADO
+     ============================================================================ */
+  function statusTag(st){
+    var map = { aprobado:["tag-appr","Aprobado"], rechazado:["tag-rej","Rechazado"], pendiente:["tag-pend","Pendiente"] };
+    var v = map[st] || map.pendiente;
+    return '<span class="tag '+v[0]+'"><span class="tag-dot"></span>'+v[1]+'</span>';
+  }
+  function renderSpaces(){
+    var spaces = getSpaces();
+    var box = $("#spacesList");
+    if(!spaces.length){
+      box.innerHTML = '<div class="ha-empty"><strong>Todavía no tienes espacios</strong>Publica tu primer espacio para empezar a recibir solicitudes compatibles. <br><br><a class="ha-btn ha-btn-primary ha-btn-sm" href="anfitrion.html">Publicar mi espacio</a></div>';
+      return;
+    }
+    box.innerHTML = spaces.map(function(s){
+      var cover = (s.photos && s.photos.length) ? s.photos[0] : "";
+      var thumb = cover ? '<div class="space-thumb" style="background-image:url('+JSON.stringify(cover)+')"></div>'
+                        : '<div class="space-thumb">Sin foto</div>';
+      var loc = [s.neighborhood, s.city, s.country].filter(Boolean).join(" · ");
+      var blocked = (s.availability.blocked||[]).length;
+      return '<div class="space-card">'+thumb+
+        '<div class="space-body">'+
+          '<div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap">'+
+            '<h3>'+esc(s.title)+'</h3>'+statusTag(s.status)+'</div>'+
+          '<div class="space-meta">'+esc(loc||"Ubicación por definir")+'</div>'+
+          '<div class="space-meta">'+esc(s.type)+' · <b>'+money(s.availability.price||s.price, s.currency)+'</b>/mes · '+(s.photos?s.photos.length:0)+' foto(s) · '+blocked+' día(s) bloqueado(s)</div>'+
+          (s.status==="pendiente" ? '<div class="sub" style="color:var(--warn);font-weight:700;margin-top:6px">En revisión por House &amp; Flats.</div>' : '')+
+          (s.status==="rechazado" ? '<div class="sub" style="color:var(--bad);font-weight:700;margin-top:6px">No aprobado. El equipo te contactará para ajustarlo.</div>' : '')+
+        '</div></div>';
+    }).join("");
+  }
+
+  /* ============================================================================
+     3) HERRAMIENTA DE FOTOS — multi-upload + vista previa con relleno difuminado
+     ============================================================================ */
+  var workingPhotos = [];     // dataURLs de la sesión actual (foto en preview es la portada = índice 0)
+  var coverIndex = 0;
+  var previewIndex = 0;
+  var MAX_DIM = 1280;         // downscale para no saturar localStorage
+
+  // Carga un File como dataURL ya redimensionado
+  function fileToScaledDataURL(file){
+    return new Promise(function(resolve){
+      var reader = new FileReader();
+      reader.onload = function(){
+        var img = new Image();
+        img.onload = function(){
+          var w = img.width, h = img.height;
+          var scale = Math.min(1, MAX_DIM/Math.max(w,h));
+          var cw = Math.round(w*scale), ch = Math.round(h*scale);
+          var c = document.createElement("canvas"); c.width = cw; c.height = ch;
+          var ctx = c.getContext("2d");
+          ctx.drawImage(img, 0, 0, cw, ch);
+          try{ resolve(c.toDataURL("image/jpeg", 0.82)); }catch(e){ resolve(reader.result); }
+        };
+        img.onerror = function(){ resolve(reader.result); };
+        img.src = reader.result;
+      };
+      reader.onerror = function(){ resolve(null); };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // ===== Dibuja una foto en un frame con RELLENO DIFUMINADO =====
+  // 1) Pinta el fondo: la MISMA foto escalada a "cover" (llena todo el frame) y difuminada.
+  // 2) Pinta la foto encima a "contain" (entera, sin recortar), centrada.
+  // El resultado: bordes rellenos con colores muestreados de la propia foto, sin texto.
+  function drawBlurredFill(canvas, img){
+    var ctx = canvas.getContext("2d");
+    var W = canvas.width, H = canvas.height;
+    ctx.clearRect(0,0,W,H);
+    if(!img){
+      ctx.fillStyle = "#f0e6df"; ctx.fillRect(0,0,W,H);
+      ctx.fillStyle = "#b6a89f"; ctx.font = "bold 13px Inter, sans-serif";
+      ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      ctx.fillText("Tu foto aquí", W/2, H/2);
+      return;
+    }
+    var iw = img.width, ih = img.height;
+    // --- (1) FONDO: cover + blur (la misma foto ampliada para llenar todo el frame) ---
+    var coverScale = Math.max(W/iw, H/ih);
+    var cw = iw*coverScale, ch = ih*coverScale;
+    var cx = (W-cw)/2, cy = (H-ch)/2;
+    ctx.save();
+    try{ ctx.filter = "blur(18px) brightness(0.96)"; }catch(e){}
+    // dibujar ligeramente sobreescalado para que el blur no muestre bordes transparentes
+    var over = 1.12;
+    ctx.drawImage(img, cx-(cw*(over-1))/2, cy-(ch*(over-1))/2, cw*over, ch*over);
+    ctx.restore();
+    // velo suave para dar profundidad y que la foto nítida resalte
+    ctx.save();
+    ctx.fillStyle = "rgba(20,14,10,0.10)";
+    ctx.fillRect(0,0,W,H);
+    ctx.restore();
+    // --- (2) FOTO NÍTIDA: contain (entera, centrada, sin recortes) ---
+    var containScale = Math.min(W/iw, H/ih);
+    var dw = iw*containScale, dh = ih*containScale;
+    var dx = (W-dw)/2, dy = (H-dh)/2;
+    ctx.save();
+    try{ ctx.filter = "none"; }catch(e){}
+    // sombra sutil para separar la foto del fondo difuminado
+    ctx.shadowColor = "rgba(0,0,0,0.25)"; ctx.shadowBlur = 14; ctx.shadowOffsetY = 4;
+    ctx.drawImage(img, dx, dy, dw, dh);
+    ctx.restore();
+  }
+
+  function renderPreview(){
+    var dataURL = workingPhotos.length ? workingPhotos[Math.min(previewIndex, workingPhotos.length-1)] : null;
+    var c45 = $("#prev45"), c169 = $("#prev169");
+    if(!dataURL){ drawBlurredFill(c45, null); drawBlurredFill(c169, null); return; }
+    var img = new Image();
+    img.onload = function(){ drawBlurredFill(c45, img); drawBlurredFill(c169, img); };
+    img.onerror = function(){ drawBlurredFill(c45, null); drawBlurredFill(c169, null); };
+    img.src = dataURL;
+  }
+
+  function renderThumbs(){
+    var box = $("#thumbs");
+    if(!workingPhotos.length){ box.innerHTML = ""; return; }
+    box.innerHTML = workingPhotos.map(function(src, i){
+      var isCover = (i===coverIndex);
+      return '<div class="thumb'+(isCover?" cover":"")+'" data-i="'+i+'">'+
+        (isCover?'<span class="badge">Portada</span>':'')+
+        '<img src="'+esc(src)+'" alt="">'+
+        '<div class="ctrls">'+
+          '<button data-act="left" title="Mover izquierda">‹</button>'+
+          '<button data-act="cover" title="Hacer portada">★</button>'+
+          '<button data-act="right" title="Mover derecha">›</button>'+
+          '<button data-act="del" title="Quitar">✕</button>'+
+        '</div></div>';
+    }).join("");
+  }
+
+  function loadWorkingFromSpace(){
+    var sel = $("#photoSpaceSel");
+    var sp = getSpaces().filter(function(s){ return s.id===sel.value; })[0];
+    workingPhotos = (sp && sp.photos) ? sp.photos.slice() : [];
+    coverIndex = 0; previewIndex = 0;
+    renderThumbs(); renderPreview();
+  }
+
+  function wirePhotoTool(){
+    var input = $("#photoInput");
+    var up = $("#uploader");
+    up.addEventListener("click", function(){ input.click(); });
+    $("#addMoreBtn").addEventListener("click", function(){ input.click(); });
+    ["dragenter","dragover"].forEach(function(ev){ up.addEventListener(ev, function(e){ e.preventDefault(); up.classList.add("drag"); }); });
+    ["dragleave","drop"].forEach(function(ev){ up.addEventListener(ev, function(e){ e.preventDefault(); up.classList.remove("drag"); }); });
+    up.addEventListener("drop", function(e){ if(e.dataTransfer && e.dataTransfer.files) handleFiles(e.dataTransfer.files); });
+    input.addEventListener("change", function(e){ handleFiles(e.target.files); input.value=""; });
+
+    function handleFiles(files){
+      var list = Array.prototype.slice.call(files).filter(function(f){ return /^image\//.test(f.type); });
+      if(!list.length) return;
+      Promise.all(list.map(fileToScaledDataURL)).then(function(urls){
+        urls.filter(Boolean).forEach(function(u){ workingPhotos.push(u); });
+        if(workingPhotos.length){ previewIndex = workingPhotos.length-1; }
+        renderThumbs(); renderPreview();
+        toast(list.length+" foto(s) añadida(s) a la vista previa");
+      });
+    }
+
+    $("#thumbs").addEventListener("click", function(e){
+      var btn = e.target.closest("button[data-act]");
+      var thumb = e.target.closest(".thumb"); if(!thumb) return;
+      var i = +thumb.getAttribute("data-i");
+      if(!btn){ previewIndex = i; renderPreview(); highlightPreview(i); return; }
+      var act = btn.getAttribute("data-act");
+      if(act==="del"){
+        workingPhotos.splice(i,1);
+        if(coverIndex>=workingPhotos.length) coverIndex = 0;
+        if(previewIndex>=workingPhotos.length) previewIndex = Math.max(0, workingPhotos.length-1);
+      } else if(act==="cover"){ coverIndex = i; previewIndex = i; }
+      else if(act==="left" && i>0){ var t=workingPhotos[i]; workingPhotos[i]=workingPhotos[i-1]; workingPhotos[i-1]=t; previewIndex=i-1; if(coverIndex===i)coverIndex=i-1; }
+      else if(act==="right" && i<workingPhotos.length-1){ var u=workingPhotos[i]; workingPhotos[i]=workingPhotos[i+1]; workingPhotos[i+1]=u; previewIndex=i+1; if(coverIndex===i)coverIndex=i+1; }
+      renderThumbs(); renderPreview();
+    });
+
+    function highlightPreview(i){ /* visual nicety: preview reflects clicked photo */ }
+
+    $("#photoSpaceSel").addEventListener("change", loadWorkingFromSpace);
+
+    $("#savePhotosBtn").addEventListener("click", function(){
+      var sel = $("#photoSpaceSel");
+      if(!sel.value){ toast("Primero elige un espacio"); return; }
+      if(!workingPhotos.length){ toast("Añade al menos una foto"); return; }
+      // ordenar con la portada al frente
+      var ordered = workingPhotos.slice();
+      if(coverIndex>0 && coverIndex<ordered.length){ var cv = ordered.splice(coverIndex,1)[0]; ordered.unshift(cv); coverIndex=0; }
+      var sp = getSpaces().filter(function(s){ return s.id===sel.value; })[0];
+      pushChange(sel.value, sp?sp.title:"Espacio", "fotos", { photos: ordered });
+      toast("Fotos enviadas a revisión");
+      renderChanges();
+    });
+  }
+
+  function fillSpaceSelectors(){
+    var spaces = getSpaces();
+    var opts = spaces.map(function(s){ return '<option value="'+esc(s.id)+'">'+esc(s.title)+'</option>'; }).join("");
+    if(!opts) opts = '<option value="">— Publica un espacio primero —</option>';
+    $("#photoSpaceSel").innerHTML = opts;
+    $("#availSpaceSel").innerHTML = opts;
+  }
+
+  /* ============================================================================
+     4) DISPONIBILIDAD + PRECIO — calendario para bloquear días
+     ============================================================================ */
+  var calCur = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1);
+  var calBlocked = {};   // 'YYYY-MM-DD' -> true (para el espacio seleccionado)
+
+  function loadAvailFromSpace(){
+    var sp = getSpaces().filter(function(s){ return s.id===$("#availSpaceSel").value; })[0];
+    calBlocked = {};
+    if(sp){ (sp.availability.blocked||[]).forEach(function(d){ calBlocked[d]=true; });
+      $("#priceInput").value = sp.availability.price || sp.price || "";
+      $("#curInput").value = sp.currency || "USD";
+    }
+    renderCal();
+  }
+  function renderDow(){
+    var dows = ["Lun","Mar","Mié","Jue","Vie","Sáb","Dom"];
+    $("#calDow").innerHTML = dows.map(function(d){ return '<div class="cal-dow">'+d+'</div>'; }).join("");
+  }
+  function renderCal(){
+    var y = calCur.getFullYear(), m = calCur.getMonth();
+    $("#calLabel").textContent = MONTHS()[m].charAt(0).toUpperCase()+MONTHS()[m].slice(1)+" "+y;
+    var first = new Date(y,m,1);
+    var startDow = (first.getDay()+6)%7; // lunes=0
+    var dim = new Date(y,m+1,0).getDate();
+    var cells = [];
+    for(var i=0;i<startDow;i++){ cells.push('<div class="cal-cell empty"></div>'); }
+    for(var d=1;d<=dim;d++){
+      var dd = new Date(y,m,d); dd.setHours(0,0,0,0);
+      var key = fmtDate(dd);
+      var cls = "cal-cell";
+      if(dd<TODAY){ cls += " past"; }
+      else if(calBlocked[key]){ cls += " blocked"; }
+      cells.push('<div class="'+cls+'" data-key="'+key+'">'+d+'</div>');
+    }
+    $("#calGrid").innerHTML = cells.join("");
+  }
+  function wireAvailability(){
+    renderDow();
+    $("#availSpaceSel").addEventListener("change", function(){ loadAvailFromSpace(); });
+    $("#calPrev").addEventListener("click", function(){ calCur.setMonth(calCur.getMonth()-1); renderCal(); });
+    $("#calNext").addEventListener("click", function(){ calCur.setMonth(calCur.getMonth()+1); renderCal(); });
+    $("#calGrid").addEventListener("click", function(e){
+      var cell = e.target.closest(".cal-cell"); if(!cell) return;
+      if(cell.classList.contains("empty")||cell.classList.contains("past")) return;
+      var key = cell.getAttribute("data-key");
+      if(calBlocked[key]) delete calBlocked[key]; else calBlocked[key]=true;
+      renderCal();
+    });
+    $("#saveDaysBtn").addEventListener("click", function(){
+      var sel = $("#availSpaceSel"); if(!sel.value){ toast("Elige un espacio"); return; }
+      var blocked = Object.keys(calBlocked).filter(function(k){return calBlocked[k];}).sort();
+      var sp = getSpaces().filter(function(s){ return s.id===sel.value; })[0];
+      pushChange(sel.value, sp?sp.title:"Espacio", "dias", { blocked: blocked });
+      toast("Días bloqueados enviados a revisión ("+blocked.length+")");
+      renderChanges();
+    });
+    $("#savePriceBtn").addEventListener("click", function(){
+      var sel = $("#availSpaceSel"); if(!sel.value){ toast("Elige un espacio"); return; }
+      var price = Number($("#priceInput").value);
+      if(!price || price<=0){ toast("Escribe un precio válido"); return; }
+      var cur = $("#curInput").value;
+      var sp = getSpaces().filter(function(s){ return s.id===sel.value; })[0];
+      pushChange(sel.value, sp?sp.title:"Espacio", "precio", { price: price, currency: cur });
+      toast("Precio enviado a revisión: "+money(price,cur));
+      renderChanges();
+    });
+  }
+
+  /* ============================================================================
+     5) CAMBIOS EN REVISIÓN
+     ============================================================================ */
+  function changeLabel(c){
+    if(c.type==="precio") return "Nuevo precio: "+money(c.payload&&c.payload.price, c.payload&&c.payload.currency);
+    if(c.type==="dias") return (c.payload&&c.payload.blocked?c.payload.blocked.length:0)+" día(s) bloqueado(s)";
+    if(c.type==="fotos") return (c.payload&&c.payload.photos?c.payload.photos.length:0)+" foto(s) nuevas";
+    return "Cambio";
+  }
+  function typeName(t){ return t==="precio"?"Precio":t==="dias"?"Días bloqueados":t==="fotos"?"Fotos":"Cambio"; }
+  function renderChanges(){
+    var changes = arr("hf_host_changes").slice().reverse();
+    var box = $("#changesList");
+    if(!changes.length){
+      box.innerHTML = '<div class="ha-empty"><strong>No tienes cambios pendientes</strong>Cuando edites tu precio, tus días o tus fotos, aquí verás el estado de cada cambio.</div>';
+      return;
+    }
+    box.innerHTML = changes.map(function(c){
+      var st = c.status==="aprobado"?["tag-appr","Aprobado"]:c.status==="rechazado"?["tag-rej","Rechazado"]:["tag-pend","En revisión"];
+      var dt = parseDate(c.date);
+      var dstr = dt ? pad(dt.getDate())+" "+MONTHS()[dt.getMonth()]+" "+dt.getFullYear() : "";
+      return '<div class="ha-row"><div><b>'+esc(typeName(c.type))+' · '+esc(c.spaceTitle||"Espacio")+'</b>'+
+        '<div class="sub">'+esc(changeLabel(c))+' · enviado '+dstr+'</div></div>'+
+        '<span class="tag '+st[0]+'"><span class="tag-dot"></span>'+st[1]+'</span></div>';
+    }).join("");
+  }
+
+  /* ============================================================================
+     6) MI CUENTA / OPERACIÓN
+     ============================================================================ */
+  function payStateFor(b){
+    if(b.status!=="activa") return null;
+    var day = Number(b.payDay)||1;
+    var nd = new Date(TODAY.getFullYear(), TODAY.getMonth(), day);
+    if(nd < TODAY){ nd = new Date(TODAY.getFullYear(), TODAY.getMonth()+1, day); }
+    return nd;
+  }
+  function renderAccount(){
+    var bk = hostBookings();
+    var active = bk.filter(function(b){ return b.status==="activa"; });
+    var kpis = [
+      { label:"Estancias activas", num:active.length, foot:bk.filter(function(b){return b.status==="finalizada";}).length+" finalizada(s)", cls:"k-green" },
+      { label:"Espacios publicados", num:getSpaces().length, foot:getSpaces().filter(function(s){return s.status==="aprobado";}).length+" aprobado(s)", cls:"k-ink" },
+      { label:"Cambios en revisión", num:arr("hf_host_changes").filter(function(c){return c.status==="pendiente";}).length, foot:"esperando aprobación", cls:"k-warn" }
+    ];
+    $("#acctKpis").innerHTML = kpis.map(function(k){
+      return '<div class="kpi '+k.cls+'"><div class="kpi-label">'+esc(k.label)+'</div><div class="kpi-num">'+k.num+'</div><div class="kpi-foot">'+esc(k.foot)+'</div></div>';
+    }).join("");
+
+    var box = $("#bookingsList");
+    if(!bk.length){
+      box.innerHTML = '<div class="ha-empty">Aún no tienes estancias. Cuando alguien reserve tu espacio, aparecerá aquí con sus fechas y pagos.</div>';
+      return;
+    }
+    box.innerHTML = bk.map(function(b){
+      var stTag = b.status==="activa"?'<span class="tag tag-appr"><span class="tag-dot"></span>Activa</span>'
+        : b.status==="cancelada"?'<span class="tag tag-rej"><span class="tag-dot"></span>Cancelada</span>'
+        : '<span class="tag tag-pend"><span class="tag-dot"></span>Finalizada</span>';
+      var pay = payStateFor(b);
+      var paystr = pay ? ('Próximo pago: '+money(b.monthlyPrice,b.currency)+' · día '+pad(pay.getDate())+' '+MONTHS()[pay.getMonth()]) : '—';
+      var actions = "";
+      if(b.status==="activa"){
+        actions += '<button class="ha-btn ha-btn-ghost ha-btn-sm" data-extend="'+esc(b.id)+'">Extender estancia</button>';
+        actions += '<button class="ha-btn ha-btn-bad ha-btn-sm" data-cancel="'+esc(b.id)+'">Cancelar</button>';
+      }
+      return '<div class="ha-row"><div><b>'+esc(b.title)+'</b> '+stTag+
+        '<div class="sub">'+esc([b.city,b.country].filter(Boolean).join(", "))+' · '+esc(b.checkIn)+' → '+esc(b.checkOut)+'</div>'+
+        '<div class="sub">'+esc(paystr)+'</div></div>'+
+        '<div class="row-actions">'+actions+'</div></div>';
+    }).join("");
+  }
+  function wireAccount(){
+    $("#bookingsList").addEventListener("click", function(e){
+      var ext = e.target.closest("[data-extend]"), can = e.target.closest("[data-cancel]");
+      if(ext){
+        var id = ext.getAttribute("data-extend");
+        var list = arr("hf_bookings");
+        list.forEach(function(b){ if(b.id===id){ var co=parseDate(b.checkOut)||new Date(TODAY); co.setMonth(co.getMonth()+1); b.checkOut=fmtDate(co); } });
+        lsSet("hf_bookings", list);
+        toast("Estancia extendida un mes más"); renderAll();
+      } else if(can){
+        var cid = can.getAttribute("data-cancel");
+        if(!window.confirm("¿Cancelar esta estancia? Esta acción es solo para el demo.")) return;
+        var list2 = arr("hf_bookings");
+        list2.forEach(function(b){ if(b.id===cid){ b.status="cancelada"; } });
+        lsSet("hf_bookings", list2);
+        toast("Estancia cancelada"); renderAll();
+      }
+    });
+    $("#deleteAcctBtn").addEventListener("click", function(){
+      if(!window.confirm("¿Seguro que quieres borrar tu cuenta? Se eliminarán tus espacios, cambios y reservas de este navegador.")) return;
+      ["hf_role","hf_host_spaces","hf_host_changes","hf_bookings"].forEach(function(k){ try{ localStorage.removeItem(k); }catch(e){} });
+      toast("Tu cuenta fue borrada");
+      setTimeout(function(){ window.location.href = "index.html"; }, 900);
+    });
+  }
+
+  /* ============================================================================
+     RENDER GLOBAL + INIT
+     ============================================================================ */
+  function renderAll(){
+    fillSpaceSelectors();
+    renderEarnings();
+    renderSpaces();
+    renderChanges();
+    renderAccount();
+    loadWorkingFromSpace();
+    loadAvailFromSpace();
+  }
+
+  function init(){
+    try{ seedIfEmpty(); }catch(e){}
+    // saludo con el nombre del primer espacio/host si existe
+    try{
+      var sp = getSpaces()[0];
+      if(sp && sp.host) $("#hostNameLbl").textContent = sp.host;
+    }catch(e){}
+    try{ wirePhotoTool(); }catch(e){ console.error(e); }
+    try{ wireAvailability(); }catch(e){ console.error(e); }
+    try{ wireAccount(); }catch(e){ console.error(e); }
+    try{ renderAll(); }catch(e){ console.error("Cuenta anfitrión:", e); }
+  }
+  document.addEventListener("DOMContentLoaded", init);
+})();
+</script>
+</body>
+</html>

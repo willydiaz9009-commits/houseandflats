@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blog · Turismo | House & Flats</title>
+  <meta name="description" content="Historias para viajar mejor: guías, tendencias y experiencias para estudiantes y nómadas. Directo desde el blog de House & Flats." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ---- Blog · estilos específicos de la página ---- */
+    /* Alias de variables para reutilizar las tarjetas del estilo de la home */
+    :root{--o:#e8642a;--o2:#ff8a4c;--mut:var(--muted)}
+    h1,h2,h3,h4,.brand{font-family:"Plus Jakarta Sans",Inter,ui-sans-serif,system-ui,sans-serif}
+    body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,sans-serif}
+
+    .nav a.active{color:var(--orange);font-weight:800}
+    .brand-mark{border-radius:999px;width:38px;height:38px;display:inline-flex;align-items:center;justify-content:center;padding:0;font-weight:900;letter-spacing:-.02em}
+
+    .blog-wrap{max-width:1180px;margin:0 auto;padding:clamp(40px,6vw,72px) clamp(20px,5vw,80px) clamp(48px,6vw,80px)}
+    .blog-eyebrow{font-family:'Plus Jakarta Sans';font-weight:800;font-size:11.5px;color:var(--o);text-transform:uppercase;letter-spacing:.08em;margin:0 0 8px}
+    .blog-wrap h1{font-size:clamp(30px,4vw,44px);letter-spacing:-.015em;margin:0 0 10px;color:var(--ink)}
+    .blog-lead{color:var(--muted);font-size:17px;line-height:1.6;max-width:64ch;margin:0 0 26px}
+
+    /* Tabs + sub-chips (igual que en la home) */
+    .blog-tabs{display:flex;gap:10px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px;margin:0 0 10px;scrollbar-width:none}
+    .blog-tabs::-webkit-scrollbar{display:none}
+    .blog-subcats{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 28px}
+
+    /* Grid de artículos */
+    .blog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+    .article-card{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;text-decoration:none;color:inherit;box-shadow:0 12px 36px rgba(77,43,28,.07);transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+    .article-card:hover{transform:translateY(-4px);box-shadow:0 22px 50px rgba(60,40,25,.15);border-color:var(--o2)}
+    .article-cover{position:relative;height:150px;background:linear-gradient(135deg,#e8642a,#ff8a4c);display:grid;place-items:center;overflow:hidden}
+    .article-cover::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 78% 18%,rgba(255,255,255,.22),transparent 55%)}
+    .article-cover svg{width:54px;height:54px;color:#fff;opacity:.95;position:relative;z-index:1;filter:drop-shadow(0 4px 10px rgba(120,45,12,.28))}
+    .article-tag{position:absolute;top:12px;left:12px;z-index:2;font-family:'Plus Jakarta Sans';font-weight:800;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--o);background:rgba(255,255,255,.95);border-radius:100px;padding:5px 12px;box-shadow:0 6px 16px rgba(60,40,25,.16)}
+    .article-bd{padding:18px 20px 20px;display:flex;flex-direction:column;flex:1}
+    .article-meta{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+    .article-date{font-size:12.5px;color:var(--muted);font-weight:600}
+    .article-card h2{font-weight:700;font-size:17px;line-height:1.3;margin:0 0 14px;color:var(--ink)}
+    .article-read{margin-top:auto;font-family:'Plus Jakarta Sans';font-weight:700;font-size:14px;color:var(--o)}
+
+    .blog-all{text-align:center;margin-top:36px}
+
+    /* ---- Mobile (phones 360–414px) ---- */
+    @media(max-width:560px){
+      .blog-grid{grid-template-columns:1fr;gap:16px}
+      .article-card h2{overflow-wrap:anywhere}
+      .blog-wrap h1{overflow-wrap:anywhere}
+      .blog-all .btn{display:block;width:100%}
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html"><span class="brand-mark">H&F</span><span>House &amp; Flats</span></a>
+    <nav class="nav">
+      <a href="index.html">Inicio</a>
+      <a href="alojamientos.html">Alojamientos</a>
+      <a href="index.html#como">Cómo funciona</a>
+      <a href="para-estudiantes.html">Para estudiantes</a>
+      <a href="nomadas-digitales.html">Nómadas digitales</a>
+      <a href="anfitrion.html">Sé anfitrión</a>
+      <a href="blog.html" class="active" aria-current="page">Blog</a>
+      <a href="ayuda.html">Ayuda</a>
+    </nav>
+    <a class="btn btn-primary" href="index.html#buscador">Completar solicitud</a>
+    <button class="hf-burger" type="button" data-mnav="mnavBlog" aria-label="Abrir menú" aria-expanded="false" aria-controls="mnavBlog">
+      <svg class="hf-burger-bars" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      <svg class="hf-burger-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </header>
+
+  <!-- MOBILE MENU -->
+  <div class="hf-mnav" id="mnavBlog" role="dialog" aria-modal="true" aria-label="Menú de navegación">
+    <div class="hf-mnav-backdrop" data-mnav-close></div>
+    <div class="hf-mnav-panel">
+      <div class="hf-mnav-top">
+        <span class="hf-mnav-brand"><span class="hf-mnav-mk">H&amp;F</span> House &amp; Flats</span>
+        <button class="hf-mnav-close" type="button" data-mnav-close aria-label="Cerrar menú">&times;</button>
+      </div>
+      <nav class="hf-mnav-links">
+        <a href="index.html">Inicio</a>
+        <a href="alojamientos.html">Alojamientos</a>
+        <a href="index.html#como">Cómo funciona</a>
+        <a href="para-estudiantes.html">Para estudiantes</a>
+        <a href="nomadas-digitales.html">Nómadas digitales</a>
+        <a href="anfitrion.html">Sé anfitrión</a>
+        <a href="blog.html" class="active" aria-current="page">Blog</a>
+        <a href="ayuda.html">Ayuda</a>
+      </nav>
+      <div class="hf-mnav-cta">
+        <a class="hf-mnav-primary" href="index.html#buscador">Completar solicitud</a>
+      </div>
+    </div>
+  </div>
+
+  <main id="top">
+    <section class="blog-wrap">
+      <p class="blog-eyebrow">BLOG · TURISMO</p>
+      <h1>Historias para viajar mejor</h1>
+      <p class="blog-lead">Guías, tendencias y experiencias para estudiantes y nómadas. Directo desde nuestro blog.</p>
+
+      <!-- BLOG CATEGORY TABS -->
+      <div class="blog-tabs" role="tablist" aria-label="Categorías del blog">
+        <span role="tab" aria-selected="true" style="display:inline-flex;align-items:center;gap:7px;flex:0 0 auto;font-family:'Plus Jakarta Sans';font-weight:700;font-size:13.5px;color:#fff;background:#e8642a;border:1.5px solid #e8642a;border-radius:100px;padding:9px 16px;cursor:default;white-space:nowrap;box-shadow:0 6px 16px rgba(232,100,42,.25)">Turismo<span style="font-size:11px;font-weight:800;background:rgba(255,255,255,.22);border-radius:100px;padding:1px 7px">40</span></span>
+        <a role="tab" href="https://blog.houseandflats.com/category/tips/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:7px;flex:0 0 auto;font-family:'Plus Jakarta Sans';font-weight:700;font-size:13.5px;color:var(--ink);background:#fff;border:1.5px solid #e7dccd;border-radius:100px;padding:9px 16px;text-decoration:none;white-space:nowrap;transition:.18s" onmouseover="this.style.borderColor='#e8642a';this.style.color='#e8642a'" onmouseout="this.style.borderColor='#e7dccd';this.style.color='var(--ink)'">Tips<span style="font-size:11px;font-weight:800;color:var(--mut)">21</span></a>
+        <a role="tab" href="https://blog.houseandflats.com/category/universidades/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:7px;flex:0 0 auto;font-family:'Plus Jakarta Sans';font-weight:700;font-size:13.5px;color:var(--ink);background:#fff;border:1.5px solid #e7dccd;border-radius:100px;padding:9px 16px;text-decoration:none;white-space:nowrap;transition:.18s" onmouseover="this.style.borderColor='#e8642a';this.style.color='#e8642a'" onmouseout="this.style.borderColor='#e7dccd';this.style.color='var(--ink)'">Universidades<span style="font-size:11px;font-weight:800;color:var(--mut)">9</span></a>
+        <a role="tab" href="https://blog.houseandflats.com/category/vida-nomade/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:7px;flex:0 0 auto;font-family:'Plus Jakarta Sans';font-weight:700;font-size:13.5px;color:var(--ink);background:#fff;border:1.5px solid #e7dccd;border-radius:100px;padding:9px 16px;text-decoration:none;white-space:nowrap;transition:.18s" onmouseover="this.style.borderColor='#e8642a';this.style.color='#e8642a'" onmouseout="this.style.borderColor='#e7dccd';this.style.color='var(--ink)'">Vida Nómade<span style="font-size:11px;font-weight:800;color:var(--mut)">15</span></a>
+      </div>
+
+      <!-- TURISMO SUB-CATEGORIES -->
+      <div class="blog-subcats">
+        <span style="font-family:'Plus Jakarta Sans';font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--mut)">Turismo por país:</span>
+        <a href="https://blog.houseandflats.com/category/turismo/argentina/" target="_blank" rel="noopener" style="font-family:'Plus Jakarta Sans';font-weight:600;font-size:12px;color:var(--mut);background:#fff7f1;border:1px solid #f0e2d4;border-radius:100px;padding:4px 11px;text-decoration:none;transition:.18s" onmouseover="this.style.color='#e8642a';this.style.borderColor='#f3c9af'" onmouseout="this.style.color='var(--mut)';this.style.borderColor='#f0e2d4'">Argentina</a>
+        <a href="https://blog.houseandflats.com/category/turismo/chile/" target="_blank" rel="noopener" style="font-family:'Plus Jakarta Sans';font-weight:600;font-size:12px;color:var(--mut);background:#fff7f1;border:1px solid #f0e2d4;border-radius:100px;padding:4px 11px;text-decoration:none;transition:.18s" onmouseover="this.style.color='#e8642a';this.style.borderColor='#f3c9af'" onmouseout="this.style.color='var(--mut)';this.style.borderColor='#f0e2d4'">Chile</a>
+        <a href="https://blog.houseandflats.com/category/turismo/espana/" target="_blank" rel="noopener" style="font-family:'Plus Jakarta Sans';font-weight:600;font-size:12px;color:var(--mut);background:#fff7f1;border:1px solid #f0e2d4;border-radius:100px;padding:4px 11px;text-decoration:none;transition:.18s" onmouseover="this.style.color='#e8642a';this.style.borderColor='#f3c9af'" onmouseout="this.style.color='var(--mut)';this.style.borderColor='#f0e2d4'">España</a>
+      </div>
+
+      <div class="blog-grid">
+
+        <!-- Artículo 1 · map-pin -->
+        <a class="article-card" href="https://blog.houseandflats.com/aventuras-y-experiencias-unicas-para-viajeros-intrepidos-en-argentina/" target="_blank" rel="noopener">
+          <div class="article-cover">
+            <span class="article-tag">Turismo</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="article-bd">
+            <div class="article-meta">
+              <span style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--o);background:#fff3ea;border-radius:100px;padding:4px 11px">Turismo</span>
+              <span class="article-date">15 ago 2025</span>
+            </div>
+            <h2>Aventuras y experiencias únicas para viajeros intrépidos en Argentina</h2>
+            <span class="article-read">Leer artículo →</span>
+          </div>
+        </a>
+
+        <!-- Artículo 2 · landmark -->
+        <a class="article-card" href="https://blog.houseandflats.com/si-eres-fan-de-la-arquitectura-no-puedes-perderte-estos-sitios-en-buenos-aires/" target="_blank" rel="noopener">
+          <div class="article-cover">
+            <span class="article-tag">Turismo</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"/><path d="M5 21V10l7-5 7 5v11"/><path d="M9 21v-6h6v6"/><path d="M9 11h.01M15 11h.01"/></svg>
+          </div>
+          <div class="article-bd">
+            <div class="article-meta">
+              <span style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--o);background:#fff3ea;border-radius:100px;padding:4px 11px">Turismo</span>
+              <span class="article-date">15 ago 2025</span>
+            </div>
+            <h2>Si eres fan de la arquitectura, no puedes perderte estos sitios en Buenos Aires</h2>
+            <span class="article-read">Leer artículo →</span>
+          </div>
+        </a>
+
+        <!-- Artículo 3 · compass -->
+        <a class="article-card" href="https://blog.houseandflats.com/mejores-epocas-para-visitar-argentina-desglosa-las-estaciones-del-ano-y-las-actividades-ideales-para-cada-una-considerando-destinos-como-el-norte-centro-y-sur-del-pais/" target="_blank" rel="noopener">
+          <div class="article-cover">
+            <span class="article-tag">Turismo</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><polygon points="16.2 7.8 13.4 13.4 7.8 16.2 10.6 10.6 16.2 7.8"/></svg>
+          </div>
+          <div class="article-bd">
+            <div class="article-meta">
+              <span style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--o);background:#fff3ea;border-radius:100px;padding:4px 11px">Turismo</span>
+              <span class="article-date">7 jul 2025</span>
+            </div>
+            <h2>Mejores épocas para visitar Argentina: estaciones del año y actividades ideales para cada una</h2>
+            <span class="article-read">Leer artículo →</span>
+          </div>
+        </a>
+
+        <!-- Artículo 4 · plane -->
+        <a class="article-card" href="https://blog.houseandflats.com/festividades-en-espana-2025-turismo-que-no-puedes-perderte/" target="_blank" rel="noopener">
+          <div class="article-cover">
+            <span class="article-tag">Turismo</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.8 19.2 16 11l3.5-3.5a2.12 2.12 0 0 0-3-3L13 8 4.8 6.2a.5.5 0 0 0-.5.8L8 11l-3 3-2-.5a.5.5 0 0 0-.5.8L5 16l1.7 2.5a.5.5 0 0 0 .8-.5L7 16l3-3 3.4 3.7a.5.5 0 0 0 .8-.5z"/></svg>
+          </div>
+          <div class="article-bd">
+            <div class="article-meta">
+              <span style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--o);background:#fff3ea;border-radius:100px;padding:4px 11px">Turismo</span>
+              <span class="article-date">9 may 2025</span>
+            </div>
+            <h2>Festividades en España 2025. Turismo que no puedes perderte</h2>
+            <span class="article-read">Leer artículo →</span>
+          </div>
+        </a>
+
+        <!-- Artículo 5 · globe -->
+        <a class="article-card" href="https://blog.houseandflats.com/noticias-y-tendencias-del-sector-del-turismo-y-los-alquileres-vacacionales-para-este-2025/" target="_blank" rel="noopener">
+          <div class="article-cover">
+            <span class="article-tag">Turismo</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18z"/></svg>
+          </div>
+          <div class="article-bd">
+            <div class="article-meta">
+              <span style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--o);background:#fff3ea;border-radius:100px;padding:4px 11px">Turismo</span>
+              <span class="article-date">2025</span>
+            </div>
+            <h2>Noticias y tendencias del sector del turismo y los alquileres vacacionales para este 2025</h2>
+            <span class="article-read">Leer artículo →</span>
+          </div>
+        </a>
+
+      </div>
+
+      <div class="blog-all"><a class="btn btn-primary" href="https://blog.houseandflats.com/category/turismo/" target="_blank" rel="noopener">Ver todo el blog →</a></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>© 2026 House &amp; Flats · Tu hogar lejos de casa</span>
+    <span><a href="https://instagram.com/houseandflats" target="_blank" rel="noopener">Instagram · @houseandflats</a></span>
+  </footer>
+
+  <!-- SHARED MOBILE NAV TOGGLE -->
+  <script>
+  (function(){
+    if(window.__hfMnavInit) return; window.__hfMnavInit = true;
+    function closeMenu(p,b){ if(!p) return; p.classList.remove('open'); document.body.classList.remove('hf-mnav-lock'); if(b) b.setAttribute('aria-expanded','false'); }
+    function openMenu(p,b){ if(!p) return; p.classList.add('open'); document.body.classList.add('hf-mnav-lock'); if(b) b.setAttribute('aria-expanded','true'); var f=p.querySelector('a,button'); if(f){ try{f.focus({preventScroll:true});}catch(e){f.focus();} } }
+    function bind(){
+      document.querySelectorAll('.hf-burger[data-mnav]').forEach(function(b){
+        if(b.__hfBound) return; b.__hfBound=true;
+        var p=document.getElementById(b.getAttribute('data-mnav')); if(!p) return;
+        b.setAttribute('aria-expanded','false');
+        b.addEventListener('click',function(){ p.classList.contains('open')?closeMenu(p,b):openMenu(p,b); });
+        p.addEventListener('click',function(ev){ var t=ev.target; if(t.closest('.hf-mnav-backdrop')||t.closest('[data-mnav-close]')||t.closest('a')) closeMenu(p,b); });
+      });
+    }
+    document.addEventListener('keydown',function(ev){ if(ev.key!=='Escape') return; document.querySelectorAll('.hf-mnav.open').forEach(function(p){ var b=document.querySelector('.hf-burger[data-mnav="'+p.id+'"]'); p.classList.remove('open'); document.body.classList.remove('hf-mnav-lock'); if(b){b.setAttribute('aria-expanded','false');b.focus();} }); });
+    window.addEventListener('resize',function(){ if(window.innerWidth>1024){ document.querySelectorAll('.hf-mnav.open').forEach(function(p){ var b=document.querySelector('.hf-burger[data-mnav="'+p.id+'"]'); p.classList.remove('open'); document.body.classList.remove('hf-mnav-lock'); if(b) b.setAttribute('aria-expanded','false'); }); } });
+    if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',bind); else bind();
+    window.HFMnav={bind:bind};
+  })();
+  </script>
+
+</body>
+</html>

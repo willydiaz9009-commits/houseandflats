@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>House &amp; Flats | Nómadas digitales — Trabaja desde cualquier ciudad, siéntete en casa</title>
+  <meta name="description" content="Espacios amueblados y listos para vivir, con WiFi rápido, estancias flexibles y barrios con vida. House & Flats acompaña a los nómadas digitales desde la búsqueda hasta la llegada." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── Página: Nómadas digitales (estilos específicos) ───────────── */
+    :root{--o:#e8642a;--o2:#ff8a3d;--ink:#1a1714;--mut:#6f655e;--line:#efe6dd;--cream:#fff8f1;--card:#fff}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--ink);background:#fff;line-height:1.55}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .dsp{font-family:'Plus Jakarta Sans',sans-serif}
+    .x{max-width:1240px;margin:0 auto;padding:0 26px}
+
+    /* Header */
+    .hdr{position:sticky;top:0;z-index:1300;background:rgba(255,255,255,.97);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+    .hdr-in{display:flex;align-items:center;gap:22px;height:72px}
+    .lg{display:flex;align-items:center;gap:10px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:19px}
+    .lg .mk{width:38px;height:38px;border-radius:50%;background:var(--o);color:#fff;display:grid;place-items:center;font-size:13px;font-weight:800}
+    .hnav{display:flex;gap:24px;margin-left:8px}
+    .hnav a{font-size:14.5px;font-weight:600;color:#4a423c;transition:.18s}
+    .hnav a:hover,.hnav a.active{color:var(--o)}
+    .hnav a.active{font-weight:700}
+    .hr{margin-left:auto;display:flex;align-items:center;gap:12px}
+    .btnp{display:inline-flex;align-items:center;gap:8px;background:var(--o);color:#fff;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;border-radius:13px;padding:12px 20px;font-size:14.5px;box-shadow:0 12px 30px rgba(232,100,42,.26);transition:.2s;border:0;cursor:pointer}
+    .btnp:hover{transform:translateY(-2px);box-shadow:0 16px 38px rgba(232,100,42,.32)}
+    .btno{display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--ink);font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;border:1px solid var(--line);border-radius:13px;padding:12px 20px;font-size:14.5px;transition:.2s}
+    .btno:hover{border-color:var(--o);color:var(--o);transform:translateY(-2px)}
+    .btnw{display:inline-flex;align-items:center;gap:9px;background:#1faf54;color:#fff;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;border-radius:13px;padding:12px 20px;font-size:14.5px;transition:.2s;box-shadow:0 12px 30px rgba(31,175,84,.24)}
+    .btnw:hover{transform:translateY(-2px);background:#1a9c4a}
+    @media(max-width:1024px){.hnav{display:none}}
+    @media(max-width:900px){.hdr-in{height:64px;gap:10px}.hr{margin-left:auto}}
+    @media(max-width:560px){.hr .btnp{display:none}.lg{font-size:16px}}
+
+    /* Hero */
+    .hero{position:relative;overflow:hidden;background:
+      radial-gradient(60% 90% at 88% 8%,rgba(232,100,42,.13),transparent 60%),
+      radial-gradient(50% 70% at 6% 92%,rgba(255,170,92,.16),transparent 55%),
+      var(--cream)}
+    .hero-grid{display:grid;grid-template-columns:1.04fr .96fr;gap:54px;align-items:center;padding:clamp(54px,7vw,96px) 0}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;text-transform:uppercase;letter-spacing:.12em;font-size:12px;font-weight:800;color:var(--o);background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 14px;margin:0 0 20px}
+    h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(38px,5vw,60px);line-height:1.05;letter-spacing:-.02em;margin:0 0 20px;font-weight:800}
+    h1 .o{color:var(--o)}
+    .hero-sub{font-size:18.5px;color:var(--mut);max-width:54ch;margin:0 0 30px}
+    .hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:24px}
+    .hero-trust{display:flex;gap:9px;flex-wrap:wrap}
+    .pill{background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 14px;font-size:13px;font-weight:700;color:#4a423c}
+    .hero-visual{position:relative;min-height:480px}
+    .hv-photo{position:absolute;inset:24px 0 70px 24px;border-radius:32px;overflow:hidden;box-shadow:0 30px 80px rgba(77,43,28,.18);background:#1a1714}
+    .hv-photo svg{width:100%;height:100%}
+    .hv-card{position:absolute;background:#fff;border:1px solid var(--line);border-radius:20px;padding:15px 17px;box-shadow:0 20px 50px rgba(40,22,12,.16);display:flex;align-items:center;gap:12px}
+    .hv-card .ico{width:42px;height:42px;border-radius:13px;background:var(--cream);color:var(--o);display:grid;place-items:center;flex:0 0 auto}
+    .hv-card strong{display:block;font-family:'Plus Jakarta Sans',sans-serif;font-size:15px}
+    .hv-card span{font-size:12.5px;color:var(--mut);font-weight:600}
+    .hv-1{top:8px;right:6px}
+    .hv-2{bottom:18px;left:0}
+
+    /* Secciones */
+    .sec{padding:clamp(56px,7vw,92px) 0}
+    .sec-cream{background:var(--cream)}
+    .sec-head{max-width:720px;margin:0 auto 44px;text-align:center}
+    .sec-head .eyebrow{margin-bottom:16px}
+    h2{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(28px,3.6vw,42px);line-height:1.12;letter-spacing:-.015em;margin:0 0 14px;font-weight:800}
+    .sec-head p{font-size:17.5px;color:var(--mut);margin:0}
+
+    /* Beneficios */
+    .benefits{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+    .bcard{background:#fff;border:1px solid var(--line);border-radius:24px;padding:28px 24px;box-shadow:0 14px 44px rgba(89,54,35,.06);transition:.2s}
+    .bcard:hover{transform:translateY(-4px);box-shadow:0 22px 56px rgba(89,54,35,.1);border-color:#f3d9c8}
+    .bcard .ico{width:52px;height:52px;border-radius:16px;background:var(--cream);color:var(--o);display:grid;place-items:center;margin-bottom:18px}
+    .bcard h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:19px;margin:0 0 9px;font-weight:700}
+    .bcard p{font-size:15px;color:var(--mut);margin:0;line-height:1.6}
+
+    /* Cómo funciona */
+    .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;counter-reset:step}
+    .step{background:#fff;border:1px solid var(--line);border-radius:24px;padding:28px 24px;position:relative}
+    .step .num{width:40px;height:40px;border-radius:12px;background:var(--o);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:18px;display:grid;place-items:center;margin-bottom:16px}
+    .step h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;margin:0 0 8px;font-weight:700}
+    .step p{font-size:14.5px;color:var(--mut);margin:0;line-height:1.6}
+
+    /* Destinos */
+    .chips{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;max-width:840px;margin:0 auto}
+    .chip{display:inline-flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:13px 20px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:15.5px;color:var(--ink);transition:.18s}
+    .chip:hover{border-color:var(--o);color:var(--o);transform:translateY(-2px);box-shadow:0 14px 34px rgba(232,100,42,.16)}
+    .chip svg{color:var(--o)}
+
+    /* CTA band */
+    .cta-band{margin:clamp(36px,5vw,64px) 0 0;padding:clamp(44px,6vw,80px) 26px;border-radius:36px;text-align:center;color:#fff;
+      background:radial-gradient(circle at 14% 18%,rgba(255,255,255,.14),transparent 34%),#1a1714}
+    .cta-band h2{color:#fff;max-width:760px;margin:0 auto 14px}
+    .cta-band p{max-width:600px;margin:0 auto 28px;color:#e9ddd6;font-size:17.5px}
+    .cta-band .row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+
+    /* Footer */
+    .ft{border-top:1px solid var(--line);padding:34px 0;background:#fff}
+    .ft-in{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+    .ft .lg{font-size:17px}
+    .ft-links{display:flex;align-items:center;gap:22px;font-size:14px;color:var(--mut);font-weight:600;flex-wrap:wrap}
+    .ft-links a:hover{color:var(--o)}
+    .ft-ig{display:inline-flex;align-items:center;gap:8px;color:var(--o);font-weight:700}
+
+    @media(max-width:980px){
+      .hero-grid{grid-template-columns:1fr;gap:34px}
+      .hero-visual{min-height:380px}
+      .benefits{grid-template-columns:1fr 1fr}
+      .steps{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:560px){
+      .benefits,.steps{grid-template-columns:1fr}
+      .hr .btnp{display:none}
+      .hero-visual{min-height:320px}
+      .hv-2{display:none}
+      /* Destinos chips: scroll horizontal en vez de envolver en filas altas */
+      .chips{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;white-space:nowrap;padding-bottom:4px;margin-left:-26px;margin-right:-26px;padding-left:26px;padding-right:26px}
+      .chips::-webkit-scrollbar{display:none}
+      .chip{flex:0 0 auto}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="hdr">
+    <div class="x hdr-in">
+      <a class="lg" href="index.html"><span class="mk">H&amp;F</span> House &amp; Flats</a>
+      <nav class="hnav">
+        <a href="index.html">Inicio</a>
+        <a href="para-estudiantes.html">Para estudiantes</a>
+        <a href="nomadas-digitales.html" class="active">Nómadas digitales</a>
+        <a href="anfitrion.html">Sé anfitrión</a>
+        <a href="blog.html">Blog</a>
+        <a href="ayuda.html">Ayuda</a>
+      </nav>
+      <div class="hr">
+        <a class="btnp" href="index.html#buscador">Completar solicitud</a>
+      </div>
+      <button class="hf-burger" type="button" data-mnav="mnavNom" aria-label="Abrir menú" aria-expanded="false" aria-controls="mnavNom">
+        <svg class="hf-burger-bars" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        <svg class="hf-burger-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- MOBILE MENU -->
+  <div class="hf-mnav" id="mnavNom" role="dialog" aria-modal="true" aria-label="Menú de navegación">
+    <div class="hf-mnav-backdrop" data-mnav-close></div>
+    <div class="hf-mnav-panel">
+      <div class="hf-mnav-top">
+        <span class="hf-mnav-brand"><span class="hf-mnav-mk">H&amp;F</span> House &amp; Flats</span>
+        <button class="hf-mnav-close" type="button" data-mnav-close aria-label="Cerrar menú">&times;</button>
+      </div>
+      <nav class="hf-mnav-links">
+        <a href="index.html">Inicio</a>
+        <a href="para-estudiantes.html">Para estudiantes</a>
+        <a href="nomadas-digitales.html" class="active">Nómadas digitales</a>
+        <a href="anfitrion.html">Sé anfitrión</a>
+        <a href="blog.html">Blog</a>
+        <a href="ayuda.html">Ayuda</a>
+      </nav>
+      <div class="hf-mnav-cta">
+        <a class="hf-mnav-primary" href="index.html#buscador">Completar solicitud</a>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="x hero-grid">
+        <div>
+          <span class="eyebrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/><circle cx="12" cy="12" r="9"/></svg>
+            Para nómadas digitales
+          </span>
+          <h1>Trabaja desde cualquier ciudad, <span class="o">siéntete en casa.</span></h1>
+          <p class="hero-sub">Espacios amueblados y listos para vivir, con WiFi rápido, estancias flexibles y barrios con vida. Tú eliges la ciudad; nosotros nos encargamos de que llegues, te instales y trabajes sin fricción desde el primer día.</p>
+          <div class="hero-cta">
+            <a class="btnp" href="index.html#buscador">Haz match con tu alojamiento →</a>
+            <a class="btnw" href="https://wa.me/13055100028" target="_blank" rel="noopener">
+              <svg viewBox="0 0 32 32" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M16.04 3C9.4 3 4 8.4 4 15.04c0 2.12.56 4.18 1.62 6L4 29l8.16-1.58a12 12 0 0 0 3.88.64h.01C22.7 28.06 28.1 22.66 28.1 16.02 28.1 8.4 22.68 3 16.04 3zm0 21.9h-.01a9.9 9.9 0 0 1-3.46-.62l-.25-.1-4.84.94.97-4.72-.16-.25a9.86 9.86 0 0 1-1.51-5.24c0-5.46 4.45-9.9 9.92-9.9 2.65 0 5.14 1.03 7.01 2.9a9.86 9.86 0 0 1 2.9 7.01c0 5.47-4.45 9.92-9.92 9.92zm5.44-7.42c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.8.37-.27.3-1.05 1.02-1.05 2.49 0 1.47 1.07 2.89 1.22 3.09.15.2 2.1 3.2 5.09 4.49.71.31 1.27.49 1.7.63.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35z"/></svg>
+              Hablar por WhatsApp
+            </a>
+          </div>
+          <div class="hero-trust">
+            <span class="pill">WiFi medido y verificado</span>
+            <span class="pill">Sin permanencia rígida</span>
+            <span class="pill">Acompañamiento humano</span>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="hv-photo">
+            <!-- Ilustración de un escritorio luminoso junto a una ventana de ciudad -->
+            <svg viewBox="0 0 520 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Estudio luminoso con escritorio y vistas a la ciudad">
+              <defs>
+                <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#ffe0c4"/><stop offset="1" stop-color="#fff1e3"/>
+                </linearGradient>
+                <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#2a211c"/><stop offset="1" stop-color="#1a1714"/>
+                </linearGradient>
+              </defs>
+              <rect width="520" height="480" fill="url(#wall)"/>
+              <!-- ventana -->
+              <rect x="46" y="42" width="428" height="250" rx="16" fill="url(#sky)"/>
+              <g fill="#e8642a" opacity=".82">
+                <rect x="70" y="150" width="46" height="120" rx="3"/>
+                <rect x="128" y="118" width="58" height="152" rx="3" opacity=".7"/>
+                <rect x="200" y="170" width="40" height="100" rx="3" opacity=".55"/>
+                <rect x="252" y="100" width="64" height="170" rx="3" opacity=".75"/>
+                <rect x="330" y="142" width="48" height="128" rx="3" opacity=".6"/>
+                <rect x="390" y="168" width="56" height="102" rx="3" opacity=".5"/>
+              </g>
+              <line x1="260" y1="42" x2="260" y2="292" stroke="#1a1714" stroke-width="6"/>
+              <line x1="46" y1="167" x2="474" y2="167" stroke="#1a1714" stroke-width="6"/>
+              <!-- escritorio -->
+              <rect x="0" y="330" width="520" height="22" fill="#3a2c24"/>
+              <rect x="0" y="352" width="520" height="128" fill="#241c17"/>
+              <!-- laptop -->
+              <g>
+                <rect x="186" y="250" width="148" height="92" rx="6" fill="#15110e"/>
+                <rect x="194" y="258" width="132" height="76" rx="3" fill="#fff8f1"/>
+                <rect x="204" y="270" width="80" height="9" rx="4" fill="#e8642a"/>
+                <rect x="204" y="288" width="112" height="6" rx="3" fill="#d8ccc2"/>
+                <rect x="204" y="302" width="96" height="6" rx="3" fill="#d8ccc2"/>
+                <rect x="204" y="316" width="64" height="6" rx="3" fill="#d8ccc2"/>
+                <rect x="172" y="342" width="176" height="12" rx="4" fill="#0f0c0a"/>
+              </g>
+              <!-- planta -->
+              <g>
+                <rect x="402" y="300" width="40" height="44" rx="6" fill="#e8642a"/>
+                <path d="M422 300c-10-26 4-44 4-44s-2 22 6 30c-12-4-10 14-10 14Zm0 0c14-22 34-22 34-22s-16 8-18 22c-8-10-16 0-16 0Z" fill="#1faf54"/>
+              </g>
+              <!-- taza -->
+              <g>
+                <rect x="116" y="312" width="34" height="28" rx="5" fill="#fff8f1"/>
+                <path d="M150 318h8a7 7 0 0 1 0 14h-8" fill="none" stroke="#fff8f1" stroke-width="5"/>
+                <path d="M126 304c0-6 4-6 4-12M136 304c0-6 4-6 4-12" stroke="#cbbdb2" stroke-width="3" fill="none" stroke-linecap="round"/>
+              </g>
+            </svg>
+          </div>
+          <div class="hv-card hv-1">
+            <span class="ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><path d="M5 12.55a11 11 0 0 1 14.08 0M1.42 9a16 16 0 0 1 21.16 0M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+            </span>
+            <div><strong>300 Mbps</strong><span>WiFi medido en cada espacio</span></div>
+          </div>
+          <div class="hv-card hv-2">
+            <span class="ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </span>
+            <div><strong>Desde 1 mes</strong><span>Estancias flexibles, sin ataduras</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BENEFICIOS -->
+    <section class="sec">
+      <div class="x">
+        <div class="sec-head">
+          <span class="eyebrow">Pensado para trabajar en remoto</span>
+          <h2>Todo lo que necesitas para vivir y producir lejos de casa</h2>
+          <p>Cada alojamiento se elige con la mirada de quien trabaja desde donde quiere. Nada de sorpresas: lo verificamos antes de que llegues.</p>
+        </div>
+        <div class="benefits">
+          <article class="bcard">
+            <span class="ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><path d="M5 12.55a11 11 0 0 1 14.08 0M1.42 9a16 16 0 0 1 21.16 0M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+            </span>
+            <h3>WiFi rápido y espacio para trabajar</h3>
+            <p>Conexión medida y verificada, escritorio cómodo y buena luz. Tus videollamadas y tus entregas, sin cortes.</p>
+          </article>
+          <article class="bcard">
+            <span class="ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M9 16l2 2 4-4"/></svg>
+            </span>
+            <h3>Estancias flexibles</h3>
+            <p>Desde un mes hasta el tiempo que necesites. Amplía o cambia de ciudad cuando tu ritmo lo pida, sin letra pequeña.</p>
+          </article>
+          <article class="bcard">
+            <span class="ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            </span>
+            <h3>Barrios con vida y bien conectados</h3>
+            <p>Cafés para teclear, transporte a un paso y comunidad alrededor. Zonas elegidas para que enchufes y empieces a vivir.</p>
+          </article>
+          <article class="bcard">
+            <span class="ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><path d="M3 9.5 12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1Z"/></svg>
+            </span>
+            <h3>Amueblado y listo para llegar</h3>
+            <p>Cama hecha, cocina equipada y todo en su sitio. Llegas con la maleta y la casa ya te está esperando.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CÓMO FUNCIONA -->
+    <section class="sec sec-cream">
+      <div class="x">
+        <div class="sec-head">
+          <span class="eyebrow">Cómo funciona</span>
+          <h2>De la idea de viajar a trabajar desde tu nuevo hogar</h2>
+          <p>Un proceso sencillo y acompañado. Tú nos cuentas, nosotros hacemos match y tú solo te preocupas de aterrizar.</p>
+        </div>
+        <div class="steps">
+          <article class="step">
+            <span class="num">1</span>
+            <h3>Cuéntanos tu plan</h3>
+            <p>Ciudad, fechas y cómo trabajas. Rellenas la solicitud en minutos y nos das tu lista de imprescindibles.</p>
+          </article>
+          <article class="step">
+            <span class="num">2</span>
+            <h3>Recibe tu match</h3>
+            <p>Te proponemos espacios verificados que encajan con tu presupuesto, tu ritmo y tu manera de vivir.</p>
+          </article>
+          <article class="step">
+            <span class="num">3</span>
+            <h3>Reserva sin fricción</h3>
+            <p>Resolvemos dudas por WhatsApp, confirmamos condiciones claras y dejamos todo listo para tu llegada.</p>
+          </article>
+          <article class="step">
+            <span class="num">4</span>
+            <h3>Llega y enchúfate</h3>
+            <p>Recibes las llaves, abres el portátil y empiezas a trabajar. Seguimos contigo durante toda la estancia.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- DESTINOS -->
+    <section class="sec">
+      <div class="x">
+        <div class="sec-head">
+          <span class="eyebrow">Destinos para nómadas</span>
+          <h2>Ciudades hechas para vivir y trabajar</h2>
+          <p>Comunidad activa, buen clima de trabajo y vida más allá del escritorio. Elige dónde quieres tu próximo capítulo.</p>
+        </div>
+        <div class="chips">
+          <a class="chip" href="index.html#alojamientos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="2.5"/></svg> Lisboa</a>
+          <a class="chip" href="index.html#alojamientos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="2.5"/></svg> Madrid</a>
+          <a class="chip" href="index.html#alojamientos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="2.5"/></svg> Barcelona</a>
+          <a class="chip" href="index.html#alojamientos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="2.5"/></svg> Berlín</a>
+          <a class="chip" href="index.html#alojamientos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="2.5"/></svg> Buenos Aires</a>
+          <a class="chip" href="index.html#alojamientos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="2.5"/></svg> Santiago</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA FINAL -->
+    <section class="x">
+      <div class="cta-band">
+        <span class="eyebrow" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18);color:#ffd9c2">Tu próxima parada</span>
+        <h2>Tu próximo hogar te está esperando.</h2>
+        <p>Dinos a qué ciudad quieres llevar tu trabajo y hacemos match con el espacio donde de verdad te sentirás en casa.</p>
+        <div class="row">
+          <a class="btnp" href="index.html#buscador">Completar solicitud →</a>
+          <a class="btnw" href="https://wa.me/13055100028" target="_blank" rel="noopener">
+            <svg viewBox="0 0 32 32" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M16.04 3C9.4 3 4 8.4 4 15.04c0 2.12.56 4.18 1.62 6L4 29l8.16-1.58a12 12 0 0 0 3.88.64h.01C22.7 28.06 28.1 22.66 28.1 16.02 28.1 8.4 22.68 3 16.04 3zm0 21.9h-.01a9.9 9.9 0 0 1-3.46-.62l-.25-.1-4.84.94.97-4.72-.16-.25a9.86 9.86 0 0 1-1.51-5.24c0-5.46 4.45-9.9 9.92-9.9 2.65 0 5.14 1.03 7.01 2.9a9.86 9.86 0 0 1 2.9 7.01c0 5.47-4.45 9.92-9.92 9.92zm5.44-7.42c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.8.37-.27.3-1.05 1.02-1.05 2.49 0 1.47 1.07 2.89 1.22 3.09.15.2 2.1 3.2 5.09 4.49.71.31 1.27.49 1.7.63.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35z"/></svg>
+            Hablar por WhatsApp
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="ft">
+    <div class="x ft-in">
+      <a class="lg" href="index.html"><span class="mk">H&amp;F</span> House &amp; Flats</a>
+      <div class="ft-links">
+        <span>© 2026 House &amp; Flats — Vive donde quieras, siéntete en casa.</span>
+        <a class="ft-ig" href="https://instagram.com/houseandflats" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg>
+          @houseandflats
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SHARED MOBILE NAV TOGGLE -->
+  <script>
+  (function(){
+    if(window.__hfMnavInit) return; window.__hfMnavInit = true;
+    function closeMenu(p,b){ if(!p) return; p.classList.remove('open'); document.body.classList.remove('hf-mnav-lock'); if(b) b.setAttribute('aria-expanded','false'); }
+    function openMenu(p,b){ if(!p) return; p.classList.add('open'); document.body.classList.add('hf-mnav-lock'); if(b) b.setAttribute('aria-expanded','true'); var f=p.querySelector('a,button'); if(f){ try{f.focus({preventScroll:true});}catch(e){f.focus();} } }
+    function bind(){
+      document.querySelectorAll('.hf-burger[data-mnav]').forEach(function(b){
+        if(b.__hfBound) return; b.__hfBound=true;
+        var p=document.getElementById(b.getAttribute('data-mnav')); if(!p) return;
+        b.setAttribute('aria-expanded','false');
+        b.addEventListener('click',function(){ p.classList.contains('open')?closeMenu(p,b):openMenu(p,b); });
+        p.addEventListener('click',function(ev){ var t=ev.target; if(t.closest('.hf-mnav-backdrop')||t.closest('[data-mnav-close]')||t.closest('a')) closeMenu(p,b); });
+      });
+    }
+    document.addEventListener('keydown',function(ev){ if(ev.key!=='Escape') return; document.querySelectorAll('.hf-mnav.open').forEach(function(p){ var b=document.querySelector('.hf-burger[data-mnav="'+p.id+'"]'); p.classList.remove('open'); document.body.classList.remove('hf-mnav-lock'); if(b){b.setAttribute('aria-expanded','false');b.focus();} }); });
+    window.addEventListener('resize',function(){ if(window.innerWidth>1024){ document.querySelectorAll('.hf-mnav.open').forEach(function(p){ var b=document.querySelector('.hf-burger[data-mnav="'+p.id+'"]'); p.classList.remove('open'); document.body.classList.remove('hf-mnav-lock'); if(b) b.setAttribute('aria-expanded','false'); }); } });
+    if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',bind); else bind();
+    window.HFMnav={bind:bind};
+  })();
+  </script>
+</body>
+</html>
